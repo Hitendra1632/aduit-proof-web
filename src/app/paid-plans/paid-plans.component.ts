@@ -20,7 +20,7 @@ export class PaidPlansComponent implements OnInit {
   }
 
   public getUserDetails(){
-    this.userService.getUserDetails({}).subscribe(userResult => {
+    this.userService.getUserDetails().subscribe(userResult => {
           console.log(userResult);
         })
   }
