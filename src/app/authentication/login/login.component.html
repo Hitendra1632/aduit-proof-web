@@ -15,7 +15,7 @@
                 </label>
                 <input class="shadow appearance-none border rounded w-full py-2 px-3 
                 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" email="true" id="username"
-                    [(ngModel)]="signInForm.username" #username="ngModel"
+                    [(ngModel)]="signInForm.user" #username="ngModel"
                     [ngClass]="{ 'border-red-500': loginForm.submitted && (username.touched && username.invalid) }"
                     name="username" required type="text" placeholder="Enter Email">
                 <div *ngIf="loginForm.submitted || ( username.touched  && username.invalid)">
@@ -36,7 +36,7 @@
                 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="password"
                     name="password" required type="password" placeholder="Enter Password"
                     [ngClass]="{'border-red-500': loginForm.submitted && (password.touched && password.invalid) } "
-                    [(ngModel)]="signInForm.password" #password="ngModel">
+                    [(ngModel)]="signInForm.passwd" #password="ngModel">
                 <div *ngIf="loginForm.submitted || (password.touched && password.invalid)">
                     <p class="text-red-500 text-xs italic" *ngIf="password.errors?.required">
                         Password is required
