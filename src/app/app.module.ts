@@ -11,13 +11,15 @@ import { StoreModule } from '@ngrx/store';
 import { reducers, metaReducers } from './reducers';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
+import { PaidPlansComponent } from './paid-plans/paid-plans.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeScreenComponent,
     PageNotFoundComponent,
-    HeaderComponent
+    HeaderComponent,
+    PaidPlansComponent
   ],
   imports: [
     BrowserModule,

@@ -22,5 +22,6 @@ module.exports = (config, options) => {
             }
         ]
     });
+    // config.module.node.push({ global: true, fs: 'empty' });
     return config;
 };

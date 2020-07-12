@@ -20,7 +20,7 @@ export class ApiEndPointService {
 
   // User Registration
   registerUser(){
-    return environment.apiBaseURL + '/signup'
+    return environment.apiBaseURL + '/v1/signup'
   }
 
   // Fetch User Details

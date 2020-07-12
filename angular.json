@@ -135,6 +135,7 @@
   },
   "defaultProject": "tailwind-app",
   "cli": {
-    "defaultCollection": "@ngrx/schematics"
+    "defaultCollection": "@ngrx/schematics",
+    "analytics": false
   }
 }
