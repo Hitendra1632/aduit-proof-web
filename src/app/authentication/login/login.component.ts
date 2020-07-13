@@ -20,7 +20,6 @@ export class LoginComponent implements OnInit {
     hasError: false,
   };
   private cookieTokenValue: string;
-
   constructor(
     private authService: AuthService,
     private router: Router,
@@ -36,7 +35,16 @@ export class LoginComponent implements OnInit {
 
   // Login Action
   onLogin(form: NgForm) {
+    this.loginStatus = {
+      message: null,
+      hasError: false,
+    };
+
     if (!form.submitted || !form.valid) {
+      this.loginStatus = {
+        message: 'Invalid Action',
+        hasError: true,
+      };
       return;
     }
     // https://itnext.io/angular-8-how-to-use-cookies-14ab3f2e93fc
@@ -45,11 +53,11 @@ export class LoginComponent implements OnInit {
         this.loginStatus = {
           message: 'Login Successfull.',
           hasError: false,
-        }
+        };
         // this.userService.getUserDetails({}).subscribe(userResult => {
         //   console.log(userResult);
         // })
-        this.router.navigate(['/dashboard/']);
+       this.router.navigate(['/dashboard/']);
       },
         error => {
           this.loginStatus = {

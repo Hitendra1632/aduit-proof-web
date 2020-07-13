@@ -68,7 +68,7 @@
             </p>
 
             <!-- Error Message -->
-            <div class="bg-red-100 mt-3 border border-red-400 text-red-700 px-4 py-3 rounded relative" *ngIf="loginStatus && loginStatus.hasError"
+            <div class="bg-red-100 mt-3 border border-red-400 text-red-700 px-4 py-3 rounded relative" *ngIf="loginForm.submitted && loginStatus && loginStatus.hasError"
                 role="alert">
                 <span class="absolute top-0 bottom-0 right-0 px-4 py-3 text-red-500">
                     <i class="fa  fa-exclamation-circle  fa-2x"></i>
@@ -78,7 +78,7 @@
             <!-- Error Message -->
 
             <!-- Success Message -->
-            <div class="bg-green-100 mt-3 border border-green-400 text-green-700 px-4 py-3 rounded relative" *ngIf="loginStatus && !loginStatus.hasError"
+            <div class="bg-green-100 mt-3 border border-green-400 text-green-700 px-4 py-3 rounded relative" *ngIf="loginForm.submitted && !loginStatus.hasError && loginStatus.message.length"
                 role="alert">
                 <span class="absolute top-0 bottom-0 right-0 px-4 py-3 text-green-500">
                     <i class="fa  fa-check-circle  fa-2x"></i>
