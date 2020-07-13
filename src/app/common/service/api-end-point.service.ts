@@ -25,7 +25,7 @@ export class ApiEndPointService {
 
   // Fetch User Details
   getUserDetails(){
-    return environment.apiBaseURL + '/user'
+    return environment.apiBaseURL + '/v1/user'
   }
 
   // Update User Record
