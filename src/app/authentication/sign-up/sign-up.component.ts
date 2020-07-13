@@ -79,6 +79,9 @@ export class SignUpComponent implements OnInit {
     this.authService.registerUser(this.registerForm.value, this.sigImgFile, this.uploadDocFile)
       .subscribe(response => {
         console.log(response);
+        if(response.status === 'success'){
+          this.step = 5;
+        }
       },
         error => {
 
@@ -127,8 +130,8 @@ export class SignUpComponent implements OnInit {
 
   }
 
-  navigateToDashboard() {
-    this.router.navigate(['/dashboard/']);
+  navigateToLogin() {
+    this.router.navigate(['/authentication/login']);
   }
 
   docUploadChange(event) {
