@@ -1,0 +1,81 @@
+<div class="w-full m-auto my-8 max-w-md" id="PLAN" >
+    <!-- <a class="text-blue-500 hover:text-blue-800" href="javascript:void(0);" title="Step {{step - 1 }}" (click)="previousStep(step)">Back</a> -->
+    <!-- PLAN Section-->
+    <p class="mt-1 text-lg leading-tight font-light">Choose your plan.</p>
+
+    <p class="mt-3 text-lg leading-tight font-light text-blue-500">Subscribe to get your signatures</p>
+    <p class="mt-1 text-lg leading-tight font-light text-blue-500">and choose your mode of payment.</p>
+
+    <div class="flex flex-wrap -mx-3 mt-3 mb-3">
+        <div class="w-full px-3">
+            <div class="flex mb-4">
+                <div class="w-1/3 pr-2">
+                    <div class="w-full border-2 border-blue-500 cursor-pointer hover:border-green-500 rounded overflow-hidden shadow-sm">
+                        <div class="px-5 py-4">
+                            <div class="font-bold text-xl text-center  text=gray-800 mb-2">$100</div>
+                            <p class="font-bold text-sm text-blue-500  text-center mb-1">for 5 signatures</p>
+                          
+                        </div>
+                        <div class="w-full">
+                            <button type="button" class="w-full uppercase  focus:outline-none border-transparent  bg-blue-500 
+                            hover:bg-green-400 text-white-800  
+                            text-center text-white font-bold py-2 px-4 "  >
+                                Choose
+                              </button>
+                            </div>
+                    </div>
+                </div>
+
+                <div class="w-1/3 pr-2">
+                    <div class="w-full  cursor-pointer border-2 border-blue-500 hover:border-green-500 rounded overflow-hidden shadow-sm">
+                        <div class="px-5 py-4">
+                          <div class="font-bold text-xl text-center  text=gray-800 mb-2">$150</div>
+                          <p class="font-bold text-sm text-blue-500  text-center mb-1">for 10 signatures</p>
+                        </div>
+                        <div class="w-full">
+                            <button type="button" class="w-full uppercase   bg-blue-500 hover:bg-green-400 text-white-800  focus:outline-none border-transparent   
+                            text-center text-white font-bold py-2 px-4  "  >
+                                Choose
+                              </button>
+                            </div>
+                    </div>
+                </div>
+
+                <div class="w-1/3">
+                    <div class="w-full  cursor-pointer border-2 border-blue-500 hover:border-green-500 rounded overflow-hidden shadow-sm">
+                        <div class="px-5 py-4">
+                            <div class="font-bold text-xl text-center  text=gray-800 mb-2">$200</div>
+                            <p class="font-bold text-sm text-blue-500  text-center mb-1">for 15 signatures</p>
+                          
+                        </div>
+                        <div class="w-full">
+                            <button type="button" class="w-full  uppercase focus:outline-none border-transparent bg-blue-500 hover:bg-green-400 text-white-800 
+                            text-center text-white font-bold py-2 px-4  "  >
+                                Choose
+                              </button>
+                            </div>
+                    </div>
+                </div>
+
+              </div>
+
+            <label class="flex w-full items-center cursor-pointer">
+            <input type="radio" class="form-radio" name="accountType" value="personal" checked>
+            <span class="ml-2">Pay using Debit card</span>
+            </label>
+            
+            <label class="flex w-full items-center cursor-pointer">
+            <input type="radio" class="form-radio" name="accountType" value="personal">
+            <span class="ml-2">Pay using Crypto currency</span>
+            </label>
+
+            <div class="w-1/3 mt-3">
+                <button type="button" class="w-32 uppercase rounded focus:outline-none border-transparent bg-blue-500 hover:bg-green-400 text-white-800 
+                text-center text-white font-bold py-2 px-4  "  (click)="planPayment()" >
+                    Pay
+                </button>
+            </div>
+            
+        </div>
+    </div>
+</div>

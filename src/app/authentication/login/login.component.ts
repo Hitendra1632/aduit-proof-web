@@ -5,7 +5,6 @@ import { AuthService } from 'src/app/common/service/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpResponse } from '@angular/common/http';
 import { UserService } from '../../common/service/user.service';
-import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-login',
@@ -19,13 +18,11 @@ export class LoginComponent implements OnInit {
     message: null,
     hasError: false,
   };
-  private cookieTokenValue: string;
   constructor(
     private authService: AuthService,
     private router: Router,
     private route: ActivatedRoute,
     private userService: UserService,
-    private cookieService: CookieService
   ) { }
 
   ngOnInit(): void {
@@ -57,13 +54,12 @@ export class LoginComponent implements OnInit {
         // this.userService.getUserDetails({}).subscribe(userResult => {
         //   console.log(userResult);
         // })
-       this.router.navigate(['/dashboard/']);
+       this.router.navigate(['/plans/']);
       },
         error => {
           this.loginStatus = {
             message: error.error.error,
             hasError: true,
-
           }
         });
   }

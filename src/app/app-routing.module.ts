@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { HomeScreenComponent } from './home-screen/home-screen.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { AuthGuard } from './common/helpers/auth.guard';
+import { PaidPlansComponent } from './paid-plans/paid-plans.component';
 
 const routes: Routes = [
   {
@@ -25,7 +26,13 @@ const routes: Routes = [
   {
     path: 'dashboard',
     loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule),
-    canActivate:[AuthGuard]
+    canActivate: [AuthGuard]
+  },
+  // Payment Component
+  {
+    path: 'plans',
+    component: PaidPlansComponent,
+    canActivate: [AuthGuard]
   },
   { path: '**', component: PageNotFoundComponent },  // Wildcard route for a 404 page
 ];

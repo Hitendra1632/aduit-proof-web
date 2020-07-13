@@ -35,7 +35,7 @@ export class ApiEndPointService {
 
   // Get User Balance
   getUserBalance(){
-    return environment.apiBaseURL + '/userBalance'
+    return environment.apiBaseURL + '/v1/userBalance'
   }
 
 }
