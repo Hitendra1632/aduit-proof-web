@@ -12,6 +12,14 @@ import { reducers, metaReducers } from './reducers';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { PaidPlansComponent } from './paid-plans/paid-plans.component';
+// import { HTTP_INTERCEPTORS } from '@angular/common/http';
+// import { AuthInterceptor } from './common/helpers/auth.interceptor';
+import { AuthGuard } from './common/helpers/auth.guard';
+
+/** Http interceptor providers  */
+// export const httpInterceptorProviders = [
+//   { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+// ];
 
 @NgModule({
   declarations: [
@@ -28,7 +36,7 @@ import { PaidPlansComponent } from './paid-plans/paid-plans.component';
     HttpClientModule,
     AppRoutingModule,
     StoreModule.forRoot(reducers, {
-      metaReducers, 
+      metaReducers,
       runtimeChecks: {
         strictStateImmutability: true,
         strictActionImmutability: true,
@@ -36,7 +44,9 @@ import { PaidPlansComponent } from './paid-plans/paid-plans.component';
     }),
     !environment.production ? StoreDevtoolsModule.instrument() : []
   ],
-  providers: [],
+  providers: [
+    AuthGuard,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
