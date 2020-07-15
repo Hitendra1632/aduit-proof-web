@@ -22,6 +22,14 @@ module.exports = (config, options) => {
             }
         ]
     });
-    // config.module.node.push({ global: true, fs: 'empty' });
+    // config.devServer = {
+    //     proxy: {
+    //         '//116.202.19.228:7654': {
+    //             'target': '//localhost:7654',
+    //             'pathRewrite': { '^//116.202.19.228:7654': '' }
+    //         }
+    //     }
+    // }
+    // config.node.push({ global: true, fs: 'empty' });
     return config;
 };

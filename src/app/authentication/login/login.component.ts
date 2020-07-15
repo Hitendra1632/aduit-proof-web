@@ -13,7 +13,7 @@ import { UserService } from '../../common/service/user.service';
 })
 export class LoginComponent implements OnInit {
   returnUrl: string;
-  public signInForm = new LoginForm('shubham@gmail.com', 'pass');
+  public signInForm = new LoginForm('sachin10@yahoooo.com', '12345678');
   public loginStatus = {
     message: null,
     hasError: false,
@@ -51,6 +51,10 @@ export class LoginComponent implements OnInit {
           message: 'Login Successfull.',
           hasError: false,
         };
+        console.log(response.headers,'>>> ', response.headers.get('X-Token'));
+        console.log('>>> ', response.headers.keys());
+
+        console.log(document.cookie);
         // this.userService.getUserDetails({}).subscribe(userResult => {
         //   console.log(userResult);
         // })
@@ -58,7 +62,7 @@ export class LoginComponent implements OnInit {
       },
         error => {
           this.loginStatus = {
-            message: error.error.error,
+            message: (error.error.error) ? error.error.error : 'Something went wrong.',
             hasError: true,
           }
         });
@@ -70,6 +74,6 @@ export class LoginComponent implements OnInit {
       message: null,
       hasError: false,
     };
-    this.signInForm = new LoginForm('shubham@gmail.com', 'pass');
+    this.signInForm = new LoginForm('sachin10@yahoooo.com', '12345678');
   }
 }

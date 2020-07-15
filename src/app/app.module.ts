@@ -12,14 +12,14 @@ import { reducers, metaReducers } from './reducers';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { PaidPlansComponent } from './paid-plans/paid-plans.component';
-// import { HTTP_INTERCEPTORS } from '@angular/common/http';
-// import { AuthInterceptor } from './common/helpers/auth.interceptor';
+import { HTTP_INTERCEPTORS,HttpClientXsrfModule } from '@angular/common/http';
+import { AuthInterceptor } from './common/helpers/auth.interceptor';
 import { AuthGuard } from './common/helpers/auth.guard';
 
 /** Http interceptor providers  */
-// export const httpInterceptorProviders = [
-//   { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-// ];
+export const httpInterceptorProviders = [
+  { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+];
 
 @NgModule({
   declarations: [
@@ -34,6 +34,7 @@ import { AuthGuard } from './common/helpers/auth.guard';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    HttpClientXsrfModule, // Adds xsrf support
     AppRoutingModule,
     StoreModule.forRoot(reducers, {
       metaReducers,
@@ -46,6 +47,7 @@ import { AuthGuard } from './common/helpers/auth.guard';
   ],
   providers: [
     AuthGuard,
+    httpInterceptorProviders
   ],
   bootstrap: [AppComponent]
 })
