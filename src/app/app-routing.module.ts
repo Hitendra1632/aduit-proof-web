@@ -28,6 +28,18 @@ const routes: Routes = [
     loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule),
     canActivate: [AuthGuard]
   },
+  // Document Sign
+  {
+    path: 'sign-document',
+    loadChildren: () => import('./document-sign/document-sign.module').then(m => m.DocumentSignModule),
+    canActivate: [AuthGuard]
+  },
+  // Document Validation
+  {
+    path: 'validate-document',
+    loadChildren: () => import('./document-validation/document-validation.module').then(m => m.DocumentValidationModule),
+    canActivate: [AuthGuard]
+  },
   // Payment Component
   {
     path: 'plans',
