@@ -13,6 +13,8 @@ module.exports = {
       },
     },
   },
-  variants: {},
+  variants: {
+    tableLayout: ['responsive', 'hover', 'focus'],
+  },
   plugins: [],
 }
