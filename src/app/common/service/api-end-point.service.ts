@@ -10,7 +10,7 @@ export class ApiEndPointService {
   
   // User Login
   userLogin(){
-    return environment.apiBaseURL + '/auth/local/login'
+    return environment.apiBaseURL + '/v1/auth/local/login'
   }
 
    // User Logout
