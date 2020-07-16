@@ -51,13 +51,9 @@ export class LoginComponent implements OnInit {
           message: 'Login Successfull.',
           hasError: false,
         };
-        console.log(response.headers,'>>> ', response.headers.get('X-Token'));
-        console.log('>>> ', response.headers.keys());
-
-        console.log(document.cookie);
-        // this.userService.getUserDetails({}).subscribe(userResult => {
-        //   console.log(userResult);
-        // })
+        this.userService.getUserDetails({}).subscribe(userResult => {
+          console.log(userResult);
+        });
        this.router.navigate(['/plans/']);
       },
         error => {
