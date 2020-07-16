@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ApiEndPointService } from './api-end-point.service';
-import { tap } from 'rxjs/operators';
+import { tap, map } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
@@ -13,7 +13,7 @@ export class UserService {
     private http: HttpClient,
   ) { }
 
-  public getUserDetails(parameters) {
+  public getUserDetails() {
 
     const httpHeaders = new HttpHeaders();
 
@@ -21,11 +21,13 @@ export class UserService {
       headers: httpHeaders,
       withCredentials: true,
       observe: 'response' as 'response',
-      params: parameters
     };
 
     return this.http.get(this.apiEndPointService.getUserDetails(), httpOptions)
-      .pipe(tap((user) => { console.log(user) }));
+      .pipe(map((user) => {
+        localStorage.setItem('currentUserDetails', JSON.stringify(user.body));
+        return user.body;
+      }));
   }
 
 }
