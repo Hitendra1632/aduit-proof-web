@@ -32,6 +32,7 @@ export class LoginComponent implements OnInit {
 
   // Login Action
   onLogin(form: NgForm) {
+    const bypassAPI = true;
     this.loginStatus = {
       message: null,
       hasError: false,
@@ -44,26 +45,42 @@ export class LoginComponent implements OnInit {
       };
       return;
     }
-    // https://itnext.io/angular-8-how-to-use-cookies-14ab3f2e93fc
-    this.authService.authenticateUserLogin(this.signInForm)
-      .subscribe((response: HttpResponse<any>) => {
-        this.loginStatus = {
-          message: 'Login Successfull.',
-          hasError: false,
-        };
-        this.userService.getUserDetails({}).subscribe(userResult => {
-          console.log(userResult);
-        });
-       this.router.navigate(['/plans/']);
-      },
-        error => {
-          this.loginStatus = {
-            message: (error.error.error) ? error.error.error : 'Something went wrong.',
-            hasError: true,
-          }
-        });
-  }
 
+    if (bypassAPI) {
+      this.userService.getUserDetails().subscribe(userResult => {
+        if (localStorage.getItem('currentUserDetails')) {
+          const userData = JSON.parse(localStorage.getItem('currentUserDetails'));
+          if (userData.paymentStatus) {
+            // If Payment is Done... send user to dashboard
+            this.router.navigate(['/dashboard/']);
+          } else {
+            // Send user to selecting Plan 
+            this.router.navigate(['/plans/']);
+          }
+        }
+      });
+    } else {
+      // https://itnext.io/angular-8-how-to-use-cookies-14ab3f2e93fc
+      this.authService.authenticateUserLogin(this.signInForm)
+        .subscribe((response: HttpResponse<any>) => {
+          this.loginStatus = {
+            message: 'Login Successfull.',
+            hasError: false,
+          };
+          this.userService.getUserDetails().subscribe(userResult => {
+            console.log(userResult);
+          });
+          this.router.navigate(['/plans/']);
+        },
+          error => {
+            this.loginStatus = {
+              message: (error.error.error) ? error.error.error : 'Something went wrong.',
+              hasError: true,
+            }
+          });
+    }
+
+  }
   // Reset Action
   newLoginForm() {
     this.loginStatus = {
