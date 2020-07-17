@@ -12,9 +12,14 @@ export class PaidPlansComponent implements OnInit {
 
   public planSet = {};
   public isPlanSetLoading = false;
+
   public paymentGatewaySet = {};
+  public isGatewaysLoading = false;
+  public userSelectedPaymentGateway = null;
+  public userSelectedPlan = null;
+  public isPaymentSubmitted = false;
+
   public userPaymentData = {};
-  public userSelectedPlan = {};
 
   constructor(
     private router: Router,
@@ -42,10 +47,14 @@ export class PaidPlansComponent implements OnInit {
 
   //Fetch the avaiable payment Gateways
   public getAvailablePaymentGateways() {
+    this.isGatewaysLoading = true;
     this.paymentService.getGatewayList().subscribe(payGateway => {
-      // this.paymentGatewaySet = payGateway;
+      this.paymentGatewaySet = payGateway;
+      // Select first bydefault
+      this.userSelectedPaymentGateway = payGateway[0].paymentGatewayID;
+      this.isGatewaysLoading = false;
     }, error => {
-
+      this.isGatewaysLoading = false;
     });
   }
 
@@ -81,5 +90,29 @@ export class PaidPlansComponent implements OnInit {
         return 'bg-blue-500';
       }
     }
+  }
+
+  // Selected Gateway
+  public selectedGateway(pg) {
+    this.userSelectedPaymentGateway = pg.paymentGatewayID;
+  }
+
+  public getPaymentParams() {
+    return {
+      paymentGatewayID: this.userSelectedPaymentGateway,
+      planID: this.userSelectedPlan.planID
+    }
+  }
+
+  //Proceed for Payment
+  public planPayment() {
+    //@ToDO - uncomment after payment gateway integration
+    
+    // this.isPaymentSubmitted = true;
+    // this.paymentService.purchasePlan(this.getPaymentParams()).subscribe(response => {
+    //   this.isPaymentSubmitted = false;
+    // }, error => {
+    //   this.isPaymentSubmitted = false;
+    // })
   }
 }

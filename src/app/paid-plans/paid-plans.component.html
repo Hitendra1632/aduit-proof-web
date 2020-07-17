@@ -19,8 +19,7 @@
 
                         </div>
                         <div class="w-full">
-                            <button type="button" [ngClass]="highlightSelectedPlan(plan,'button')"  
-                                class="w-full uppercase  focus:outline-none border-transparent 
+                            <button type="button" [ngClass]="highlightSelectedPlan(plan,'button')" class="w-full uppercase  focus:outline-none border-transparent 
                             hover:bg-green-400 text-white-800  
                             text-center text-white font-bold py-2 px-4">
                                 Choose
@@ -31,20 +30,20 @@
 
             </div>
 
-            <label class="flex w-full items-center cursor-pointer">
-                <input type="radio" class="form-radio" name="accountType" value="personal" checked>
-                <span class="ml-2">Pay using Debit card</span>
-            </label>
+            <ng-container *ngIf="!isGatewaysLoading">
+                <label class="flex w-full items-center cursor-pointer" *ngFor="let gateway of paymentGatewaySet;">
+                    <input type="radio" class="form-radio" name="selectedGatewayType_{{gateway.paymentGatewayID}}" id="selectedGatewayType_{{gateway.paymentGatewayID}}"
+                        [value]="gateway.paymentGatewayID" [(ngModel)]="userSelectedPaymentGateway" (change)='selectedGateway(gateway)'>
+                    <label for="selectedGatewayType_{{gateway.paymentGatewayID}}" class="ml-2">{{gateway.name}}</label>
+                </label>
+            </ng-container>
 
-            <label class="flex w-full items-center cursor-pointer">
-                <input type="radio" class="form-radio" name="accountType" value="personal">
-                <span class="ml-2">Pay using Crypto currency</span>
-            </label>
 
             <div class="w-1/3 mt-3">
-                <button type="button" class="w-32 uppercase rounded focus:outline-none border-transparent bg-blue-500 hover:bg-green-400 text-white-800 
-                text-center text-white font-bold py-2 px-4  ">
-                    <!-- (click)="planPayment()" -->
+                <button type="button" class="w-32 uppercase rounded focus:outline-none border-transparent hover:bg-green-400 text-white-800 
+                text-center text-white font-bold py-2 px-4"
+                [ngClass]="{'bg-gray-400' : !(userSelectedPaymentGateway && userSelectedPlan),'bg-blue-500' : userSelectedPaymentGateway && userSelectedPlan}"
+                    [disabled]="!userSelectedPaymentGateway && !userSelectedPlan" (click)="planPayment()">
                     Pay
                 </button>
             </div>

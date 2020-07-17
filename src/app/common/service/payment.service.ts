@@ -41,7 +41,7 @@ export class PaymentService {
       }));
   }
 
-  
+
   // Get User Payment History 
   public getUserPaymentHistoryList() {
     const httpHeaders = new HttpHeaders();
@@ -53,6 +53,22 @@ export class PaymentService {
     return this.http.get(this.apiEndPointService.getUserPaymentDetails(), httpOptions)
       .pipe(map((payHistory) => {
         return payHistory.body;
+      }));
+  }
+
+  // Buy Plan
+  public purchasePlan(paymentDetails) {
+    const httpHeaders = new HttpHeaders()
+
+    const httpOptions = {
+      headers: httpHeaders,
+      withCredentials: true,
+      observe: 'response' as 'response'
+    };
+
+    return this.http.post<any>(this.apiEndPointService.postBuyPlan(), paymentDetails, httpOptions)
+      .pipe(map((response) => {
+        return response;
       }));
   }
 }
