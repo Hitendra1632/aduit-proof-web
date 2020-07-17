@@ -106,11 +106,13 @@ export class PaidPlansComponent implements OnInit {
 
   //Proceed for Payment
   public planPayment() {
+    this.router.navigate(['/dashboard/']);
     //@ToDO - uncomment after payment gateway integration
-    
+
     // this.isPaymentSubmitted = true;
     // this.paymentService.purchasePlan(this.getPaymentParams()).subscribe(response => {
     //   this.isPaymentSubmitted = false;
+    // this.router.navigate(['/dashboard/'])
     // }, error => {
     //   this.isPaymentSubmitted = false;
     // })
