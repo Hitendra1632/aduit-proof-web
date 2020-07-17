@@ -11,6 +11,7 @@ const routes: Routes = [
     redirectTo: 'welcome',
     pathMatch: 'full'
   },
+  // Welcome Module
   {
     path: 'welcome',
     component: HomeScreenComponent
