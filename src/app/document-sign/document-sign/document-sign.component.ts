@@ -16,14 +16,17 @@ export class DocumentSignComponent implements OnInit {
   ) docUploadEle: ElementRef | null = null;
   public step = 1;
   public uploadDocFile: File;
-  public documentHash: any;
-
+  public documentHash: any; // initial document hash
+  public privateKeyHex = '';
   public initiatedDocumentResponse = {};
   public signImage: any;
   public docURL = '';
   public docID = '';
   public isSigningInitialized = false;
   public isInitiatedAPI = false;
+
+  public signedDocumentHash: any;
+  public isFinalSubmit = false;
 
   constructor(
     private router: Router,
@@ -39,6 +42,7 @@ export class DocumentSignComponent implements OnInit {
     const fileList: FileList = event.target.files;
     this.uploadDocFile = fileList[0];
     this.documentHash = hash256(this.uploadDocFile).toString();
+    this.signedDocumentHash = this.documentHash; // temporary assigned initial doc has
     if (this.uploadDocFile) {
       this.isInitiatedAPI = true;
       this.documentService.startDocumentSigning({
@@ -75,8 +79,24 @@ export class DocumentSignComponent implements OnInit {
   }
 
 
+  // Final Submit
+  public getFinalSubmitParams() {
+    return {
+      documentHash: this.signedDocumentHash,
+      documentID: this.docID,
+      pubKeyHex: this.privateKeyHex,
+      signatureHex: this.initiatedDocumentResponse['sigBase64Image']
+    }
+  }
+
   public submitSignatureDoc() {
-    this.step = 5;
+    this.isFinalSubmit = true;
+    this.documentService.submitSignedDocument(this.getFinalSubmitParams()).subscribe(response => {
+      this.step = 5;
+      this.isFinalSubmit = false;
+    }, error => {
+      this.isFinalSubmit = false;
+    })
   }
 
 

@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ApiEndPointService } from './api-end-point.service';
 import { tap, map } from 'rxjs/operators';
+import { DocumentDetails } from '../models/document.model';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -57,6 +59,22 @@ export class DocumentService {
     };
 
     return this.http.post<any>(this.apiEndPointService.postInitialDocSigning(), documentDetails, httpOptions)
+      .pipe(map((response) => {
+        return response.body;
+      }));
+  }
+
+  // Initiate Doc Signing process
+  public submitSignedDocument(documentDetails): Observable<DocumentDetails> {
+    const httpHeaders = new HttpHeaders();
+
+    const httpOptions = {
+      headers: httpHeaders,
+      withCredentials: true,
+      observe: 'response' as 'response'
+    };
+
+    return this.http.post<DocumentDetails>(this.apiEndPointService.postFinalDocSignature(), documentDetails, httpOptions)
       .pipe(map((response) => {
         return response.body;
       }));
