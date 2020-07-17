@@ -4,6 +4,7 @@ import { DocumentService } from '../../common/service/document.service';
 import { DomSanitizer } from '@angular/platform-browser';
 
 const hash256 = require('crypto-js/sha256');
+const CryptoJS = require('crypto-js');
 
 @Component({
   selector: 'app-document-sign',
@@ -42,6 +43,13 @@ export class DocumentSignComponent implements OnInit {
     const fileList: FileList = event.target.files;
     this.uploadDocFile = fileList[0];
     this.documentHash = hash256(this.uploadDocFile).toString();
+    
+    // let hexhash = hash256(this.uploadDocFile).toString(CryptoJS.enc.hex).toUpperCase();
+    // hexhash = hexhash.replace(/(\S{2})/g, "$1-");
+    // hexhash = hexhash.replace(/-$/, "");
+    // console.log(hexhash);
+    // console.log(this.documentHash);
+
     this.signedDocumentHash = this.documentHash; // temporary assigned initial doc has
     if (this.uploadDocFile) {
       this.isInitiatedAPI = true;
