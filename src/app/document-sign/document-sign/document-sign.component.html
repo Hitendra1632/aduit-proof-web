@@ -12,42 +12,63 @@
 
         <ng-container *ngIf="step === 1" id="UploadDocument">
             <p class="mt-2 text-lg  leading-tight font-light px-6">Ready to sign a document.</p>
-            <div class="w-full px-3 mt-4">
+            <div class="w-full px-3 mt-4" *ngIf="!isInitiatedAPI">
                 <div class="flex px-3 mt-2">
                     <div class="w-full md:w-1/2">
-                        <label class="block  tracking-wide text-blue-700 text-xs font-bold mb-2" for="signDocUpload">
+                        <label class="block  tracking-wide text-blue-700 text-xs font-bold mb-2" for="documentUpload">
                             Upload the document<span class="text-red-500 font-bold"> *</span>
                         </label>
 
                         <label class="flex flex-col w-full items-center px-2 py-2 bg-white text-blue rounded-lg
                                          shadow-lg tracking-wide  border border-blue cursor-pointer 
-                                         hover:bg-blue hover:text-blue-500">
+                                         hover:bg-blue hover:text-blue-500"
+                            (change)="onUploadDocChange($event)">
                             <div class="flex w-full text-blue-500">
                                 <i class="fa fa-upload  m-auto fa-2x"></i>
                             </div>
                             <span class="text-base leading-normal">Select a file</span>
-                            <input type='file' class="hidden" id="signDocUpload" name="signDocUpload" />
+                            <input type='file' class="hidden" #docUploadEle required id="documentUpload" name="documentUpload" />
                         </label>
 
+                        <ng-container class="block mt-1" *ngIf="uploadDocFile">
+                            <p class="text-xs inline leading-normal font-light">
+                                Name: {{uploadDocFile.name}}
+                            </p>
+                            <p class="text-xs inline leading-normal font-light px-3">
+                                Size: {{uploadDocFile.size}}
+                            </p>
+                        </ng-container>
                     </div>
+
                 </div>
 
                 <div class="flex px-3 mt-2">
                     <div class="w-full md:w-1/2">
                         <button type="button" class="w-32 uppercase bg-transparent rounded focus:outline-none
-                                border border-blue-300  hover:bg-gray-100  text-blue-500 
-                                hover:text-black text-center text-white font-semibold py-2 px-4  "
-                            (click)="nextStep(2)">
+                                border    text-center text-white font-semibold py-2 px-4  "
+                            [ngClass]="{'text-gray-400 border-gray-300': !isSigningInitialized,
+                                'text-blue-500 border-blue-300 hover:bg-gray-100 hover:text-black':isSigningInitialized}"
+                            [disabled]="!isSigningInitialized" (click)="nextStep(2)">
                             Next
                         </button>
                     </div>
+                </div>
+            </div>
+            <div *ngIf="isInitiatedAPI">
+                <div class="w-full md:w-1/2 h-full fixed  top-0 left-0 bg-white opacity-75 z-50">
+                    <span class="text-green-500 opacity-75 top-1/2 my-0 mx-auto block relative w-0 h-0" style="
+                              top: 50%;
+                          ">
+                        <i class="fa fa-spinner fa-2x"></i>
+                    </span>
                 </div>
             </div>
         </ng-container>
 
         <ng-container *ngIf="step === 2" id="SignPlugin">
             <div class="w-full  md:w-1/2 px-3 mt-4">
-				<a class="text-blue-500 hover:text-blue-800" href="javascript:void(0);" title="Step {{step - 1 }}" (click)="previousStep(step)">Back</a>
+                <a class="text-blue-500 hover:text-blue-800" href="javascript:void(0);" title="Step {{step - 1 }}"
+                    (click)="previousStep(step)">Back</a>
 
                 <p class="mt-2 text-lg leading-tight font-light">Verify the document and sign.</p>
 
@@ -58,7 +79,9 @@
                 <div class="flex mt-2">
                     <div class="w-full text-sm ">
                         <div class="block text-blue-500">Signature</div>
-                        <div class="block h-10 border border-gray-200 "> &nbsp;</div>
+                        <div class="block border border-gray-200 ">
+                            <img alt="Signature Image" [src]="signImage" />
+                        </div>
                     </div>
                 </div>
 
@@ -92,7 +115,8 @@
 
             <div class="w-full  md:w-1/2 px-3 mt-4">
                 <!-- Private Key -->
-				<a class="text-blue-500 hover:text-blue-800" href="javascript:void(0);" title="Step {{step - 1 }}" (click)="previousStep(step)">Back</a>
+                <a class="text-blue-500 hover:text-blue-800" href="javascript:void(0);" title="Step {{step - 1 }}"
+                    (click)="previousStep(step)">Back</a>
 
                 <p class="mt-1 text-lg leading-tight font-light">Enter your private key to sign the document.</p>
                 <div class="flex flex-wrap -mx-3 mt-3 mb-3">
@@ -122,7 +146,8 @@
 
         <ng-container *ngIf="step === 4" id="Confirmation">
             <div class="w-full px-3 mt-4">
-				<a class="text-blue-500 hover:text-blue-800" href="javascript:void(0);" title="Step {{step - 1 }}" (click)="previousStep(step)">Back</a>
+                <a class="text-blue-500 hover:text-blue-800" href="javascript:void(0);" title="Step {{step - 1 }}"
+                    (click)="previousStep(step)">Back</a>
 
                 <p class="mt-1 text-lg leading-tight font-light">Almost there...</p>
 
@@ -155,14 +180,14 @@
                     Download
                 </button>
 
-                 <button type="button" class="w-32 uppercase bg-transparent rounded focus:outline-none border
+                <button type="button" class="w-32 uppercase bg-transparent rounded focus:outline-none border
                 border-blue-300 hover:bg-gray-100  text-blue-500 
                 hover:text-black text-center text-white font-semibold py-2 px-4 ml-2   "
                     (click)="navigateToDashboard()">
                     Dashboard
                 </button>
             </div>
-            
+
         </ng-container>
 
 

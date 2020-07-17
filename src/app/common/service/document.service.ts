@@ -45,4 +45,20 @@ export class DocumentService {
         return document.body;
       }));
   }
+
+  // Initiate Doc Signing process
+  public startDocumentSigning(documentDetails) {
+    const httpHeaders = new HttpHeaders();
+
+    const httpOptions = {
+      headers: httpHeaders,
+      withCredentials: true,
+      observe: 'response' as 'response'
+    };
+
+    return this.http.post<any>(this.apiEndPointService.postInitialDocSigning(), documentDetails, httpOptions)
+      .pipe(map((response) => {
+        return response.body;
+      }));
+  }
 }
