@@ -7,7 +7,7 @@ import { tap, map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class DocumentService {
-  
+
   constructor(
     private apiEndPointService: ApiEndPointService,
     private http: HttpClient,
@@ -26,6 +26,23 @@ export class DocumentService {
     return this.http.get(this.apiEndPointService.getDocumentList(), httpOptions)
       .pipe(map((user) => {
         return user.body;
+      }));
+  }
+
+
+  public getPartialDocument(parameters) {
+    const httpHeaders = new HttpHeaders();
+
+    const httpOptions = {
+      headers: httpHeaders,
+      withCredentials: true,
+      observe: 'response' as 'response',
+      params: parameters
+    };
+
+    return this.http.get<any>(this.apiEndPointService.getPartialDocSign(), httpOptions)
+      .pipe(map((document) => {
+        return document.body;
       }));
   }
 }
