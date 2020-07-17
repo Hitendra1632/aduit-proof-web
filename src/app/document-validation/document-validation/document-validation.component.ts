@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 
 @Component({
   selector: 'app-document-validation',
@@ -9,12 +9,17 @@ import { Router } from '@angular/router';
 export class DocumentValidationComponent implements OnInit {
 
   public showValidationPlugin = false;
+  public documentID = null;
 
   constructor(
     private router: Router,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
+    this.route.params.subscribe((params: Params) => {
+      this.documentID = params['document-id'];
+    });
   }
 
   // Navigate to DAshoard

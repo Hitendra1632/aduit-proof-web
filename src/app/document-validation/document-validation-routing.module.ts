@@ -7,6 +7,10 @@ import { PageNotFoundComponent } from '../page-not-found/page-not-found.componen
 const routes: Routes = [
   {
     path: '',
+    component: DocumentValidationComponent,
+  },
+  {
+    path: ':document-id',
     component: DocumentValidationComponent
   },
   // Wildcard route for a 404 page

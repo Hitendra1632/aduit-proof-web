@@ -34,7 +34,13 @@ export class DashboardComponent implements OnInit {
   }
 
   // Navigate to Validate Doc
-  public navigateToValidateDoc() {
-    this.router.navigate(['/validate-document/']);
+  public navigateToValidateDoc(document = null) {
+    if (document === null) {
+      // New Document
+      this.router.navigate(['/validate-document/']);
+    } else {
+      // Existing document 
+      this.router.navigate(['/validate-document/', document['documentID']]);
+    }
   }
 }
