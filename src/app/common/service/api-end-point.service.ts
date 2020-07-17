@@ -31,7 +31,7 @@ export class ApiEndPointService {
 
   // Fetch User Details
   getUserDetails() {
-    return environment.apiBaseURL + '/v1/user';
+    return environment.apiBaseURL + '/user';
   }
 
   // Update User Record
@@ -41,7 +41,7 @@ export class ApiEndPointService {
 
   // Get User Balance
   getUserBalance() {
-    return environment.apiBaseURL + '/v1/userBalance';
+    return environment.apiBaseURL + '/userBalance';
   }
 
   /***************************  User Information  **************************/
@@ -54,22 +54,22 @@ export class ApiEndPointService {
     return environment.apiBaseURL + '/v1/documents';
   }
 
-  // POST Initialise Doc Sign 
+  // POST Initialise Doc Sign
   postInitialDocSigning() {
     return environment.apiBaseURL + '/v1/document/signInit';
   }
 
-  // Get Partial Doc Sign 
+  // Get Partial Doc Sign
   getPartialDocSign() {
     return environment.apiBaseURL + '/v1/document/validation';
   }
 
-  // POST Full Doc Sign 
+  // POST Full Doc Sign
   postFullDocSigning() {
     return environment.apiBaseURL + '/v1/document/validation';
   }
 
-  // POST Final Doc Sign 
+  // POST Final Doc Sign
   postFinalDocSignature() {
     return environment.apiBaseURL + '/v1/document/signFinalize';
   }
@@ -104,7 +104,7 @@ export class ApiEndPointService {
     return environment.apiBaseURL + '/v1/pay0k/statusUpdate';
   }
 
-  // Buy Plan 
+  // Buy Plan
   postBuyPlan() {
     return environment.apiBaseURL + '/v1/plan/buy';
   }

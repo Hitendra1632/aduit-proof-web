@@ -13,7 +13,7 @@ import { UserService } from '../../common/service/user.service';
 })
 export class LoginComponent implements OnInit {
   returnUrl: string;
-  public signInForm = new LoginForm('sachin10@yahoooo.com', '12345678');
+  public signInForm = new LoginForm('test@example.com', '12345678');
   public loginStatus = {
     message: null,
     hasError: false,
@@ -54,7 +54,7 @@ export class LoginComponent implements OnInit {
             // If Payment is Done... send user to dashboard
             this.router.navigate(['/dashboard/']);
           } else {
-            // Send user to selecting Plan 
+            // Send user to selecting Plan
             this.router.navigate(['/plans/']);
           }
         }
@@ -87,6 +87,6 @@ export class LoginComponent implements OnInit {
       message: null,
       hasError: false,
     };
-    this.signInForm = new LoginForm('sachin10@yahoooo.com', '12345678');
+    this.signInForm = new LoginForm('test@example.com', '12345678');
   }
 }
