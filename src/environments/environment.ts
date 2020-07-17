@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiBaseURL:'http://116.202.19.228:7655'
+  apiBaseURL:'https://testnet.ddidentity.com/v1'
 
 };
 

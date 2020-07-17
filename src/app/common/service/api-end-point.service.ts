@@ -11,7 +11,7 @@ export class ApiEndPointService {
 
   // User Login
   userLogin() {
-    return environment.apiBaseURL + '/v1/auth/local/login';
+    return environment.apiBaseURL + '/auth/local/login';
   }
 
   // User Logout
@@ -21,7 +21,7 @@ export class ApiEndPointService {
 
   // User Registration
   registerUser() {
-    return environment.apiBaseURL + '/v1/signup';
+    return environment.apiBaseURL + '/signup';
   }
 
   /***************************  Authentication - Authorization  ************************* */
@@ -51,27 +51,27 @@ export class ApiEndPointService {
 
   // Get Document List
   getDocumentList() {
-    return environment.apiBaseURL + '/v1/documents';
+    return environment.apiBaseURL + '/documents';
   }
 
   // POST Initialise Doc Sign
   postInitialDocSigning() {
-    return environment.apiBaseURL + '/v1/document/signInit';
+    return environment.apiBaseURL + '/document/signInit';
   }
 
   // Get Partial Doc Sign
   getPartialDocSign() {
-    return environment.apiBaseURL + '/v1/document/validation';
+    return environment.apiBaseURL + '/document/validation';
   }
 
   // POST Full Doc Sign
   postFullDocSigning() {
-    return environment.apiBaseURL + '/v1/document/validation';
+    return environment.apiBaseURL + '/document/validation';
   }
 
   // POST Final Doc Sign
   postFinalDocSignature() {
-    return environment.apiBaseURL + '/v1/document/signFinalize';
+    return environment.apiBaseURL + '/document/signFinalize';
   }
 
   /**************************  Documents   ************************* */
@@ -81,32 +81,32 @@ export class ApiEndPointService {
 
   // Get User Payment history
   getUserPaymentDetails() {
-    return environment.apiBaseURL + '/v1/payments';
+    return environment.apiBaseURL + '/payments';
   }
 
   // Get Plans
   getPlansList() {
-    return environment.apiBaseURL + '/v1/plans';
+    return environment.apiBaseURL + '/plans';
   }
 
   // Get PAyment Gateway
   getPaymentGateWayList() {
-    return environment.apiBaseURL + '/v1/paymentGateway';
+    return environment.apiBaseURL + '/paymentGateway';
   }
 
   // Gateway Callback link
   postGateWayCallback() {
-    return environment.apiBaseURL + '/v1/pay0k/callback';
+    return environment.apiBaseURL + '/pay0k/callback';
   }
 
   // Gateway Status
   postGateWayStatus() {
-    return environment.apiBaseURL + '/v1/pay0k/statusUpdate';
+    return environment.apiBaseURL + '/pay0k/statusUpdate';
   }
 
   // Buy Plan
   postBuyPlan() {
-    return environment.apiBaseURL + '/v1/plan/buy';
+    return environment.apiBaseURL + '/plan/buy';
   }
 
   /***************************  Plans n Payments   **************************/
