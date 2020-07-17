@@ -28,14 +28,14 @@ export class DocumentValidationComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
       this.documentID = params['document-id'];
-      this.fetchPartialDocument();
+      if (!this.documentID) {
+        // New Record  attempt .. so user will land on first screen
+        this.isLoadingDocument = false;
+        this.step = 1;
+      } else {
+        this.fetchPartialDocument();
+      }
     });
-
-    if (!this.documentID) {
-      // New Record  attempt .. so user will land on first screen
-      this.isLoadingDocument = false;
-      this.step = 1;
-    }
   }
 
   // Function to fetch the partially completed document and land the user to plugin screen
@@ -47,7 +47,7 @@ export class DocumentValidationComponent implements OnInit {
         userID: this.userService.currentUserValue.email
       }).subscribe(doc => {
         this.isLoadingDocument = false;
-        this.signImage =  this.sanitizer.bypassSecurityTrustResourceUrl('data:image/png;base64,' + doc.sigBase64Image);
+        this.signImage = this.sanitizer.bypassSecurityTrustResourceUrl('data:image/png;base64,' + doc.sigBase64Image);
         this.signerName = doc.signerName;
         this.step = 2; // Directly load the plugin
       }, error => {
