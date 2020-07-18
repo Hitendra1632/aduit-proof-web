@@ -28,6 +28,7 @@ export class DocumentSignComponent implements OnInit {
 
   public signedDocumentHash: any;
   public isFinalSubmit = false;
+  public uploadedFileSize = '';
 
   constructor(
     private router: Router,
@@ -43,6 +44,14 @@ export class DocumentSignComponent implements OnInit {
     const fileList: FileList = event.target.files;
     this.uploadDocFile = fileList[0];
     this.documentHash = hash256(this.uploadDocFile).toString();
+    // this.uploadedFileSize = (fileList[0].size / (1024 * 1024)).toFixed(2);
+    if (fileList[0].size >= 20 * 1024 * 1024) {
+      return;
+    }
+
+    if (fileList[0].type !== 'application/pdf') {
+      return;
+    }
 
     // let hexhash = hash256(this.uploadDocFile).toString(CryptoJS.enc.hex).toUpperCase();
     // hexhash = hexhash.replace(/(\S{2})/g, "$1-");
