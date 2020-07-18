@@ -12,10 +12,10 @@ import { reducers, metaReducers } from './reducers';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { PaidPlansComponent } from './paid-plans/paid-plans.component';
-import { HTTP_INTERCEPTORS,HttpClientXsrfModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientXsrfModule } from '@angular/common/http';
 import { AuthInterceptor } from './common/helpers/auth.interceptor';
 import { AuthGuard } from './common/helpers/auth.guard';
-
+import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 /** Http interceptor providers  */
 export const httpInterceptorProviders = [
   { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
@@ -36,6 +36,7 @@ export const httpInterceptorProviders = [
     HttpClientModule,
     HttpClientXsrfModule, // Adds xsrf support
     AppRoutingModule,
+    NgxExtendedPdfViewerModule,
     StoreModule.forRoot(reducers, {
       metaReducers,
       runtimeChecks: {

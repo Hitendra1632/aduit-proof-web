@@ -3,6 +3,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { UserService } from '../../common/service/user.service';
 import { DocumentService } from '../../common/service/document.service';
 import { DomSanitizer } from '@angular/platform-browser';
+import interact from 'interactjs';
 
 @Component({
   selector: 'app-document-validation',
