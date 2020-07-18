@@ -43,7 +43,7 @@ export class DocumentSignComponent implements OnInit {
     const fileList: FileList = event.target.files;
     this.uploadDocFile = fileList[0];
     this.documentHash = hash256(this.uploadDocFile).toString();
-    
+
     // let hexhash = hash256(this.uploadDocFile).toString(CryptoJS.enc.hex).toUpperCase();
     // hexhash = hexhash.replace(/(\S{2})/g, "$1-");
     // hexhash = hexhash.replace(/-$/, "");
@@ -63,6 +63,7 @@ export class DocumentSignComponent implements OnInit {
         this.docID = this.initiatedDocumentResponse['documentID'];
         this.isSigningInitialized = true;
         this.isInitiatedAPI = false;
+        this.step = 2; // land user to plugin
       }, error => {
         this.isSigningInitialized = false;
         this.isInitiatedAPI = false;
@@ -113,5 +114,17 @@ export class DocumentSignComponent implements OnInit {
     this.router.navigate(['/dashboard/']);
   }
 
+  // Temp= downloads the actually uploaded pdf again
+  downloadPDF() {
+    const blob = new Blob([this.uploadDocFile], { type: '.pdf' });
+    const url = window.URL.createObjectURL(blob);
+    const downloadLink = document.createElement('a');
+    downloadLink.href = url;
+    downloadLink.download = this.uploadDocFile.name;
+    downloadLink.target = '_blank';
+    downloadLink.click();
+    document.body.appendChild(downloadLink);
+    downloadLink.parentNode.removeChild(downloadLink);
+  }
 
 }
