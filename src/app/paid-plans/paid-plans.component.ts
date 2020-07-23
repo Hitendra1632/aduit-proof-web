@@ -133,7 +133,7 @@ export class PaidPlansComponent implements OnInit {
       console.log("Promise resolved with: " + JSON.stringify(data));
       this.paymentService.finalPayCallback({ orderID: this.orderID }).subscribe(response => {
         console.log(response);
-        if(response.status === ' success'){
+        if(response.status === 'success'){
           this.router.navigate(['/dashboard/']);
         } else {
           console.log(response.message);
