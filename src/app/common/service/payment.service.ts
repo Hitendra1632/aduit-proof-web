@@ -71,4 +71,20 @@ export class PaymentService {
         return response.body;
       }));
   }
+
+  // Final callback
+  public finalPayCallback(paymentDetails) {
+    const httpHeaders = new HttpHeaders()
+
+    const httpOptions = {
+      headers: httpHeaders,
+      withCredentials: true,
+      observe: 'response' as 'response'
+    };
+
+    return this.http.post<any>(this.apiEndPointService.postGateWayStatus(), paymentDetails, httpOptions)
+      .pipe(map((response) => {
+        return response.body;
+      }));
+  }
 }

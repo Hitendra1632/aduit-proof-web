@@ -130,7 +130,17 @@ export class PaidPlansComponent implements OnInit {
     let pay0kPromise = pay0k.showPopup(this.clientID, this.orderID);
     console.log(pay0kPromise);
     pay0kPromise.then((data) => {
-      console.log("Promise resolved with: " + data);
+      console.log("Promise resolved with: " + JSON.stringify(data));
+      this.paymentService.finalPayCallback({ orderID: this.orderID }).subscribe(response => {
+        console.log(response);
+        if(response.status === ' success'){
+          this.router.navigate(['/dashboard/']);
+        } else {
+          console.log(response.message);
+        }
+      }, error => {
+        console.log(error);
+      })
     }, (error) => {
       console.log("Promise rejected with " + error);
     });
