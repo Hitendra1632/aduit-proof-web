@@ -29,6 +29,7 @@ export class SignUpComponent implements OnInit {
   public step = 1;
   public sigImgFile: File;
   public uploadDocFile: File;
+  public showPrivateKeyModal = true;
 
   constructor(
     private router: Router,
@@ -163,6 +164,7 @@ export class SignUpComponent implements OnInit {
     const wPubliKey = walletStr.getPublicKey()
     this.registerForm.controls.pubKeyHex.setValue(publicKeyString);
     this.registerForm.controls.pubKeyHex.disable({onlySelf: true });
+    this.showPrivateKeyModal = true;
   }
 
 }
