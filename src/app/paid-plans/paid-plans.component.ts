@@ -112,6 +112,10 @@ export class PaidPlansComponent implements OnInit {
 
   //Proceed for Payment
   public planPayment() {
+    if(!this.userSelectedPlan){
+      alert('Please select a plan');
+      return;
+    }
     this.isPaymentSubmitted = true;
     this.paymentService.purchasePlan(this.getPaymentParams()).subscribe(response => {
       if (response.status === 'success') {
@@ -128,7 +132,6 @@ export class PaidPlansComponent implements OnInit {
 
   openPay0kModal() {
     let pay0kPromise = pay0k.showPopup(this.clientID, this.orderID);
-    console.log(pay0kPromise);
     pay0kPromise.then((data) => {
       console.log("Promise resolved with: " + JSON.stringify(data));
       this.paymentService.finalPayCallback({ orderID: this.orderID }).subscribe(response => {
@@ -136,10 +139,10 @@ export class PaidPlansComponent implements OnInit {
         if(response.status === 'success'){
           this.router.navigate(['/dashboard/']);
         } else {
-          console.log(response.message);
+          alert(response.message);
         }
-      }, error => {
-        console.log(error);
+      }, response => {
+        alert(response.error.message);
       })
     }, (error) => {
       console.log("Promise rejected with " + error);
