@@ -1,7 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from '../common/service/user.service';
 import { PaymentService } from '../common/service/payment.service';
+// import { pay0k } from 'https://order.pay0k.ml/pay0k.js';
+// import { pay0k } from '../../vendor/pay0k.js';
+
+// const pay = require(pay0k);
+declare let pay0k: any;
 
 @Component({
   selector: 'app-paid-plans',
@@ -20,18 +25,35 @@ export class PaidPlansComponent implements OnInit {
   public isPaymentSubmitted = false;
 
   public userPaymentData = {};
-
+  public clientID = null;
+  public orderID = null;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private userService: UserService,
-    private paymentService: PaymentService
-  ) { }
+    private paymentService: PaymentService,
+    private renderer: Renderer2
+  ) {
+    // pay.config('https://order.pay0k.com');
+    // this.addJsToElement('https://order.pay0k.ml/pay0k.js').onload = () => {
+    //   console.log('loaded');
+    // };
+  }
+
+  addJsToElement(src: string): HTMLScriptElement {
+    const script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = src;
+    this.renderer.appendChild(document.body, script);
+    return script;
+  }
 
   ngOnInit(): void {
     this.getUserHistoryDetails();
     this.getAvailablePlans();
     this.getAvailablePaymentGateways();
+    pay0k.config('https://order.pay0k.com');
+
   }
 
   //Fetch the plans avaiable
@@ -106,15 +128,24 @@ export class PaidPlansComponent implements OnInit {
 
   //Proceed for Payment
   public planPayment() {
-    this.router.navigate(['/dashboard/']);
-    //@ToDO - uncomment after payment gateway integration
+    this.isPaymentSubmitted = true;
+    this.paymentService.purchasePlan(this.getPaymentParams()).subscribe(response => {
+      console.log(response);
+      if (response.status === 'success') {
+        this.clientID = response.message.clientID;
+        this.orderID = response.message.orderID;
+      }
+      this.openPay0kModal();
+      this.isPaymentSubmitted = false;
+      // this.router.navigate(['/dashboard/']);
+    }, error => {
+      this.isPaymentSubmitted = false;
+    })
+  }
 
-    // this.isPaymentSubmitted = true;
-    // this.paymentService.purchasePlan(this.getPaymentParams()).subscribe(response => {
-    //   this.isPaymentSubmitted = false;
-    // this.router.navigate(['/dashboard/'])
-    // }, error => {
-    //   this.isPaymentSubmitted = false;
-    // })
+  openPay0kModal(){
+      pay0k.showPopup(this.clientID,this.orderID).then(status => {
+        console.log(status);
+      });
   }
 }

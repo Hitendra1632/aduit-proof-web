@@ -68,7 +68,7 @@ export class PaymentService {
 
     return this.http.post<any>(this.apiEndPointService.postBuyPlan(), paymentDetails, httpOptions)
       .pipe(map((response) => {
-        return response;
+        return response.body;
       }));
   }
 }
