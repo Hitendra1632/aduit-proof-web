@@ -2,10 +2,6 @@ import { Component, OnInit, Renderer2 } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from '../common/service/user.service';
 import { PaymentService } from '../common/service/payment.service';
-// import { pay0k } from 'https://order.pay0k.ml/pay0k.js';
-// import { pay0k } from '../../vendor/pay0k.js';
-
-// const pay = require(pay0k);
 declare let pay0k: any;
 
 @Component({
@@ -34,18 +30,6 @@ export class PaidPlansComponent implements OnInit {
     private paymentService: PaymentService,
     private renderer: Renderer2
   ) {
-    // pay.config('https://order.pay0k.com');
-    // this.addJsToElement('https://order.pay0k.ml/pay0k.js').onload = () => {
-    //   console.log('loaded');
-    // };
-  }
-
-  addJsToElement(src: string): HTMLScriptElement {
-    const script = document.createElement('script');
-    script.type = 'text/javascript';
-    script.src = src;
-    this.renderer.appendChild(document.body, script);
-    return script;
   }
 
   ngOnInit(): void {
@@ -130,7 +114,6 @@ export class PaidPlansComponent implements OnInit {
   public planPayment() {
     this.isPaymentSubmitted = true;
     this.paymentService.purchasePlan(this.getPaymentParams()).subscribe(response => {
-      console.log(response);
       if (response.status === 'success') {
         this.clientID = response.message.clientID;
         this.orderID = response.message.orderID;
@@ -143,9 +126,13 @@ export class PaidPlansComponent implements OnInit {
     })
   }
 
-  openPay0kModal(){
-      pay0k.showPopup(this.clientID,this.orderID).then(status => {
-        console.log(status);
-      });
+  openPay0kModal() {
+    let pay0kPromise = pay0k.showPopup(this.clientID, this.orderID);
+    console.log(pay0kPromise);
+    pay0kPromise.then((data) => {
+      console.log("Promise resolved with: " + data);
+    }, (error) => {
+      console.log("Promise rejected with " + error);
+    });
   }
 }
