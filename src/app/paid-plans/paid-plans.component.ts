@@ -36,7 +36,7 @@ export class PaidPlansComponent implements OnInit {
     this.getUserHistoryDetails();
     this.getAvailablePlans();
     this.getAvailablePaymentGateways();
-    pay0k.config('https://order.pay0k.com');
+    pay0k.config('https://order.pay0k.ml');
 
   }
 
@@ -74,12 +74,12 @@ export class PaidPlansComponent implements OnInit {
     })
   }
 
-  // Selected Plan 
+  // Selected Plan
   public selectedPlan(e, planItem) {
     this.userSelectedPlan = planItem;
   }
 
-  // Highlight user selected Plan 
+  // Highlight user selected Plan
   highlightSelectedPlan(pItem, area) {
     if (area === 'border') {
       // 'Card'border style
