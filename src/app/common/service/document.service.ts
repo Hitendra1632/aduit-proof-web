@@ -10,10 +10,19 @@ import { Observable } from 'rxjs';
 })
 export class DocumentService {
 
+  public documentDetailsObj = {};
   constructor(
     private apiEndPointService: ApiEndPointService,
     private http: HttpClient,
   ) { }
+
+  public setDocumentDetails(docObj) {
+    this.documentDetailsObj = docObj;
+  }
+
+  public getDocumentDetails() {
+    return this.documentDetailsObj;
+  }
 
   public getDocumentList() {
 

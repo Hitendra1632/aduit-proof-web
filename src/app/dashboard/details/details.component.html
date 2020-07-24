@@ -1,0 +1,75 @@
+<div class="w-full   md:w-2/3 m-auto bg-white py-3 px-2">
+    <!--max-w-xl-->
+    <div class="flex flex-wrap -mx-3 mt-3 mb-3">
+        <div class="w-full px-3">
+            <div class="flex  px-3">
+                <img alt="AuditProof Logo" class="mb-2 px-2" width="80" src="/assets/logo.PNG" />
+                <a class="py-1 text-blue-500 w-full text-right" href="javascript:void(0);" title="Home" routerLink="/welcome">
+                    <i class="fa fa-home fa-lg"></i>
+                </a>
+            </div>
+        </div>
+
+        <ng-container id="DocumentDetails">
+            <div class="w-full   px-3 mt-4">
+                <p class="mt-2 text-lg leading-tight font-light">Here you go...</p>
+
+                <p class="mt-2 text-lg text-blue-500 leading-tight font-light">Below are the details of the document</p>
+                <p class="text-lg leading-tight text-blue-500 font-light">Uploaded and its traceability.</p>
+
+                <div class="flex mt-2">
+                    <div class="w-full text-sm flex-inline">
+                        <div class="w-1/3 text-blue-500 inline-block  h-8">Document ID</div>
+                        <div class="w-2/3  inline-block h-8"> {{document.documentID}} </div>
+                    </div>
+                </div>
+
+                <div class="flex">
+                    <div class="w-full text-sm flex-inline">
+                        <div class="w-1/3 text-blue-500 inline-block  h-8">Document Name</div>
+                        <div class="w-2/3  inline-block h-8"> {{document.documentName}} </div>
+                    </div>
+                </div>
+
+                <div class="flex ">
+                    <div class="w-full text-sm flex-inline">
+                        <div class="w-1/3 text-blue-500 inline-block  h-8">Date</div>
+                        <div class="w-2/3  inline-block h-8"> - </div>
+                    </div>
+                </div>
+
+                <div class="flex">
+                    <div class="w-full text-sm flex-inline">
+                        <div class="w-1/3 text-blue-500 inline-block  h-8">Validation Status</div>
+                        <div class="w-2/3  inline-block h-8">{{document.status}}
+                            <span class=" text-green-500">
+                                <i class="fa fa-check-circle fa-sm"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex">
+                    <div class="w-full text-sm flex-inline">
+                        <div class="w-1/3 text-blue-500 inline-block  h-8">Signer Name</div>
+                        <div class="w-2/3  inline-block h-8"> {{document.signerName}} </div>
+                    </div>
+                </div>
+
+                <div class="flex mt-2">
+                    <div class="w-full md:w-1/2">
+                        <button type="button" class="w-48 uppercase bg-transparent rounded focus:outline-none border
+                                        border-blue-300 hover:bg-gray-100  text-blue-500 
+                                        hover:text-black text-center text-white font-semibold py-2 px-4  "
+                            (click)="navigateToDashboard()">
+                            Dashboard
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+
+
+    </div>
+
+</div>

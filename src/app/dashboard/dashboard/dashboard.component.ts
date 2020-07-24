@@ -43,4 +43,12 @@ export class DashboardComponent implements OnInit {
       this.router.navigate(['/validate-document/', document['documentID']]);
     }
   }
+
+  // Navigate to  Document Details
+  public navigateToDocDetails(document = null) {
+    this.documentService.setDocumentDetails(document);
+    if (this.documentService.getDocumentDetails()) {
+      this.router.navigate(['/dashboard/document-details/']);
+    }
+  }
 }
