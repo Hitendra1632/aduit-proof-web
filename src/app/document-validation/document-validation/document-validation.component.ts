@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { UserService } from '../../common/service/user.service';
 import { DocumentService } from '../../common/service/document.service';
@@ -11,12 +11,18 @@ import interact from 'interactjs';
   styleUrls: ['./document-validation.component.scss']
 })
 export class DocumentValidationComponent implements OnInit {
+  @ViewChild(
+    'docUploadEle'
+  ) docUploadEle: ElementRef | null = null;
 
   public step = 1;
   public documentID = null;
   public isLoadingDocument = false;
   public signImage: any;
   public signerName = null;
+
+  public uploadDocFile: File;
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -34,12 +40,12 @@ export class DocumentValidationComponent implements OnInit {
         this.isLoadingDocument = false;
         this.step = 1;
       } else {
-        this.fetchPartialDocument();
+        // this.fetchPartialDocument();
       }
     });
   }
 
-  // Function to fetch the partially completed document and land the user to plugin screen
+  // "NOT IN USE" :: Function to fetch the partially completed document and land the user to plugin screen
   public fetchPartialDocument() {
     this.isLoadingDocument = true;
     this.documentService.getPartialDocument(
@@ -56,6 +62,25 @@ export class DocumentValidationComponent implements OnInit {
         this.step = 1;
       })
   }
+
+
+  onUploadDocChange(event) {
+    const fileList: FileList = event.target.files;
+    this.uploadDocFile = fileList[0];
+    // this.uploadedFileSize = (fileList[0].size / (1024 * 1024)).toFixed(2);
+    if (fileList[0].size >= 20 * 1024 * 1024) {
+      return;
+    }
+
+    if (fileList[0].type !== 'application/pdf') {
+      return;
+    }
+
+    if (this.uploadDocFile) {
+      this.step = 2;
+    }
+  }
+
 
   // Navigate to DAshoard
   public navigateToDashboard() {
