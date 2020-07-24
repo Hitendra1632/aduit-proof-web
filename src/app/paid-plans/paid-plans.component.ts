@@ -46,6 +46,7 @@ export class PaidPlansComponent implements OnInit {
     this.paymentService.getPlanList().subscribe(plans => {
       this.planSet = plans;
       this.isPlanSetLoading = false;
+      this.userSelectedPlan = plans[0];
     }, error => {
       this.isPlanSetLoading = false;
     })
@@ -76,7 +77,18 @@ export class PaidPlansComponent implements OnInit {
 
   // Selected Plan
   public selectedPlan(e, planItem) {
+    console.log(planItem);
     this.userSelectedPlan = planItem;
+    if (this.userSelectedPlan.price === 'Custom') {
+      // Open Mail
+      const mail = 'mailto:test@example.com?Subject=Audit Proof Plans';
+      const downloadLink = document.createElement('a');
+      downloadLink.href = mail;
+      downloadLink.target = '_blank';
+      downloadLink.click();
+      document.body.appendChild(downloadLink);
+      downloadLink.parentNode.removeChild(downloadLink);
+    }
   }
 
   // Highlight user selected Plan
@@ -112,8 +124,12 @@ export class PaidPlansComponent implements OnInit {
 
   //Proceed for Payment
   public planPayment() {
-    if(!this.userSelectedPlan){
+    if (!this.userSelectedPlan) {
       alert('Please select a plan');
+      return;
+    }
+
+    if (this.userSelectedPlan === 'Custom') {
       return;
     }
     this.isPaymentSubmitted = true;
@@ -136,7 +152,7 @@ export class PaidPlansComponent implements OnInit {
       console.log("Promise resolved with: " + JSON.stringify(data));
       this.paymentService.finalPayCallback({ orderID: this.orderID }).subscribe(response => {
         console.log(response);
-        if(response.status === 'success'){
+        if (response.status === 'success') {
           this.router.navigate(['/dashboard/']);
         } else {
           alert(response.message);
