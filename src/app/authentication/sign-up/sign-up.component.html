@@ -1,48 +1,43 @@
 <div class="py-5">
-    <div class="w-full m-auto my-2 max-w-xl">
-        <form class="px-8 pt-6 pb-8 mb-4" (ngSubmit)="onRegistration()"
-            [formGroup]="registerForm">
+	<div class="w-full m-auto my-2 max-w-xl">
+		<form class="px-8 pt-6 pb-8 mb-4" (ngSubmit)="onRegistration()" [formGroup]="registerForm">
 
-  			<img alt="AuditProof Logo" class="mb-2 text-left" width="65" src="/assets/logo.PNG" />
+			<img alt="AuditProof Logo" class="mb-2 text-left" width="65" src="/assets/logo.PNG" />
 
 			<ng-container id="BASIC_INFO" *ngIf="step === 1">
 				<p class="mt-1 text-lg leading-tight font-light">Become a smart document verifier</p>
 				<p class="text-lg leading-tight font-light">Sign Up today.</p>
 				<p class="text-xs leading-tight font-light">
 					Already have an account?
-					<a class="inline-block align-baseline font-semibold text-sm text-blue-500 hover:text-blue-900"
-						routerLink="/authentication/login" href="javascript:void(0);">
-						Sign In here  
+					<a class="inline-block align-baseline font-semibold text-sm text-blue-500 hover:text-blue-900" routerLink="/authentication/login"
+					 href="javascript:void(0);">
+						Sign In here
 					</a>
 				</p>
-	
+
 				<!-- First - Last Name -->
 				<div class="flex flex-wrap -mx-3 mb-3 mt-3">
 					<div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
 						<label class="block tracking-wide text-gray-700 text-xs font-bold mb-2" for="firstName">
 							First Name <span class="text-red-500 font-bold"> *</span>
 						</label>
-						<input
-							class="shadow appearance-none w-full  text-gray-700 border  rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
-							formControlName="firstName" required
-							[ngClass]="{ 'border-red-500':  getFormControls.firstName.touched  && getFormControls.firstName.errors }"
-							id="firstName" name="firstName" type="text" placeholder="Enter First Name">
+						<input class="shadow appearance-none w-full  text-gray-700 border  rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
+						 formControlName="firstName" required [ngClass]="{ 'border-red-500':  getFormControls.firstName.touched  && getFormControls.firstName.errors }"
+						 id="firstName" name="firstName" type="text" placeholder="Enter First Name">
 						<div *ngIf="getFormControls.firstName.touched  && getFormControls.firstName.errors">
 							<p class="text-red-500 text-xs italic" *ngIf="getFormControls.firstName.errors?.required">
 								First Name is required
 							</p>
 						</div>
 					</div>
-	
+
 					<div class="w-full md:w-1/2 px-3">
 						<label class="block  tracking-wide text-gray-700 text-xs font-bold mb-2" for="lastName">
 							Last Name <span class="text-red-500 font-bold"> *</span>
 						</label>
-						<input
-							class="appearance-none shadow w-full   text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-							formControlName="lastName" required
-							[ngClass]="{ 'border-red-500': getFormControls.lastName.touched  && getFormControls.lastName.errors }"
-							id="lastName" name="lastName" type="text" placeholder="Enter Last Name">
+						<input class="appearance-none shadow w-full   text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+						 formControlName="lastName" required [ngClass]="{ 'border-red-500': getFormControls.lastName.touched  && getFormControls.lastName.errors }"
+						 id="lastName" name="lastName" type="text" placeholder="Enter Last Name">
 						<div *ngIf=" getFormControls.lastName.touched  && getFormControls.lastName.errors">
 							<p class="text-red-500 text-xs italic" *ngIf="getFormControls.lastName.errors?.required">
 								Last Name is required
@@ -50,18 +45,16 @@
 						</div>
 					</div>
 				</div>
-	
+
 				<!-- EMail -->
 				<div class="flex flex-wrap -mx-3 mb-3">
 					<div class="w-full md:w-1/2  px-3  mb-6 md:mb-0">
 						<label class="block tracking-wide text-gray-700 text-xs font-bold mb-2" for="email">
 							Email <span class="text-red-500 font-bold"> *</span>
 						</label>
-						<input
-							class="appearance-none shadow w-full   text-gray-700 border border-gray-200 rounded py-3 px-4  leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-							email="true" id="email" formControlName="email"
-							[ngClass]="{ 'border-red-500':  getFormControls.email.touched  && getFormControls.email.errors }"
-							name="email" required type="text" placeholder="Enter Email Address ">
+						<input class="appearance-none shadow w-full   text-gray-700 border border-gray-200 rounded py-3 px-4  leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+						 email="true" id="email" formControlName="email" [ngClass]="{ 'border-red-500':  getFormControls.email.touched  && getFormControls.email.errors }"
+						 name="email" required type="text" placeholder="Enter Email Address ">
 						<div *ngIf=" getFormControls.email.touched  && getFormControls.lastName.errors">
 							<p class="text-red-500 text-xs italic" *ngIf="getFormControls.email.errors?.required">
 								Email is required
@@ -76,11 +69,9 @@
 						<label class="block tracking-wide text-gray-700 text-xs font-bold mb-2" for="password">
 							Password <span class="text-red-500 font-bold"> *</span>
 						</label>
-						<input
-							class="appearance-none shadow w-full   text-gray-700 border  rounded py-3 px-4  leading-tight focus:outline-none focus:bg-white"
-							formControlName="password" required minlength="8"
-							[ngClass]="{ 'border-red-500':    getFormControls.password.touched && getFormControls.password.errors }"
-							id="password" name="password" type="password" placeholder="Enter Password">
+						<input class="appearance-none shadow w-full   text-gray-700 border  rounded py-3 px-4  leading-tight focus:outline-none focus:bg-white"
+						 formControlName="password" required minlength="8" [ngClass]="{ 'border-red-500':    getFormControls.password.touched && getFormControls.password.errors }"
+						 id="password" name="password" type="password" placeholder="Enter Password">
 						<div *ngIf="getFormControls.password.touched && getFormControls.password.errors">
 							<p class="text-red-500 text-xs italic" *ngIf="getFormControls.password.errors?.required">
 								Password is required
@@ -91,19 +82,16 @@
 						</div>
 					</div>
 				</div>
-	
+
 				<!-- Password -->
 				<div class="flex flex-wrap -mx-3 mb-3">
 					<div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
 						<label class="block  tracking-wide text-gray-700 text-xs font-bold mb-2" for="confirmPassword">
 							Confirm Password <span class="text-red-500 font-bold"> *</span>
 						</label>
-						<input
-							class="appearance-none shadow w-full   text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-							formControlName="confirmPassword" required
-							[ngClass]="{ 'border-red-500':  getFormControls.confirmPassword.touched && getFormControls.confirmPassword.errors }"
-							id="confirmPassword" name="confirmPassword" type="password"
-							placeholder="Enter Confirm Password">
+						<input class="appearance-none shadow w-full   text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+						 formControlName="confirmPassword" required [ngClass]="{ 'border-red-500':  getFormControls.confirmPassword.touched && getFormControls.confirmPassword.errors }"
+						 id="confirmPassword" name="confirmPassword" type="password" placeholder="Enter Confirm Password">
 						<div *ngIf="getFormControls.confirmPassword.touched && getFormControls.confirmPassword.errors">
 							<p class="text-red-500 text-xs italic" *ngIf="getFormControls.confirmPassword.errors?.required">
 								Confirm Password is required
@@ -117,11 +105,9 @@
 						<label class="block  tracking-wide text-gray-700 text-xs font-bold mb-2" for="phone">
 							Phone Number <span class="text-red-500 font-bold"> *</span>
 						</label>
-						<input
-							class="appearance-none shadow w-full  text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-							formControlName="phone" required
-							[ngClass]="{ 'border-red-500': getFormControls.phone.touched  && getFormControls.phone.errors }"
-							id="phone" name="phone" type="text" placeholder="Enter Phone Number">
+						<input class="appearance-none shadow w-full  text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+						 formControlName="phone" required [ngClass]="{ 'border-red-500': getFormControls.phone.touched  && getFormControls.phone.errors }"
+						 id="phone" name="phone" type="text" placeholder="Enter Phone Number">
 						<div *ngIf="getFormControls.phone.touched  && getFormControls.phone.errors">
 							<p class="text-red-500 text-xs italic" *ngIf="getFormControls.phone.errors?.required">
 								Phone Number is required
@@ -129,18 +115,17 @@
 						</div>
 					</div>
 				</div>
-	
+
 				<!-- fullAddress  and Signature Upload-->
 				<div class="flex flex-wrap -mx-3 mb-3">
 					<div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
 						<label class="block tracking-wide text-gray-700 text-xs font-bold mb-2" for="fullAddress">
 							Address <span class="text-red-500 font-bold"> *</span>
 						</label>
-						<textarea formControlName="fullAddress" required maxlength="40" rows="4"
-							[ngClass]="{ 'border-red-500':    getFormControls.fullAddress.touched && getFormControls.fullAddress.errors }"
-							id="fullAddress" name="fullAddress" placeholder="Enter Address " class="appearance-none shadow w-full   text-gray-700 resize-none
+						<textarea formControlName="fullAddress" required maxlength="40" rows="4" [ngClass]="{ 'border-red-500':    getFormControls.fullAddress.touched && getFormControls.fullAddress.errors }"
+						 id="fullAddress" name="fullAddress" placeholder="Enter Address " class="appearance-none shadow w-full   text-gray-700 resize-none
 						 border rounded focus:outline-none focus:bg-white  py-3 px-4  leading-tight"></textarea>
-	
+
 						<div *ngIf="getFormControls.fullAddress.touched && getFormControls.fullAddress.errors">
 							<p class="text-red-500 text-xs italic" *ngIf="getFormControls.fullAddress.errors?.required">
 								Address is required
@@ -154,124 +139,140 @@
 						<label class="block  tracking-wide text-gray-700 text-xs font-bold mb-2" for="sigImage">
 							Scanned Signature Upload <span class="text-red-500 font-bold"> *</span>
 						</label>
-	
+
 						<label class="flex flex-col w-full items-center px-2 py-2 bg-white text-blue rounded-lg
 							 shadow-lg tracking-wide  border border-blue cursor-pointer 
-							 hover:bg-blue hover:text-blue-500"  (change)="signatureImageChange($event)">
+							 hover:bg-blue hover:text-blue-500"
+						 (change)="signatureImageChange($event)">
 							<div class="flex w-full text-blue-500">
 								<i class="fa fa-upload  m-auto fa-4x"></i>
 							</div>
 							<span class="text-base leading-normal">Select a file</span>
-							<input type='file' class="hidden" #signatureImageEle
-							  required accept="image/*"
-							id="sigImage" name="sigImage"/>
+							<input type='file' class="hidden" #signatureImageEle required accept="image/*" id="sigImage" name="sigImage" />
 						</label>
-						 
-						<!-- <div *ngIf="getFormControls.sigImage.touched && getFormControls.sigImage.errors">
-							<p class="text-red-500 text-xs italic" *ngIf="getFormControls.sigImage.errors?.required">
-								Signature is required.
+
+						<ng-container class="block mt-1" *ngIf="sigImgFile">
+							<p class="text-xs inline leading-normal font-light">
+								Name: {{sigImgFile.name}}
 							</p>
-							<p class="text-red-500 text-xs italic" *ngIf="getFormControls.sigImage.errors.requiredFileType">
-								Signature  should be in png format.
+							<p class="text-xs inline leading-normal font-light px-3">
+								Size: {{sigImgFile.size}}
 							</p>
-						</div> -->
+						</ng-container>
 						<!-- https://tailwindcomponents.com/component/tailwind-file-upload-->
 					</div>
 				</div>
 
-			<ng-container id="PRIVATE_KEY"  >  
-				<!-- Private Key -->
-				<p class="mt-1 text-lg leading-tight font-light">Generate your private key.</p>
-				<div class="flex flex-wrap -mx-3 mt-3 mb-3">
-					<div class="w-full px-3">
-						<label class="block tracking-wide text-gray-700 text-xs font-bold mb-2" for="pubKeyHex">
-							Input Public Key <span class="text-red-500 font-bold"> *</span>
-						</label>
-						<input
-							class="appearance-none shadow w-full   text-gray-700 border border-gray-200 rounded py-3 px-4  leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-							id="pubKeyHex" formControlName="pubKeyHex"
-							[ngClass]="{ 'border-red-500':  getFormControls.pubKeyHex.touched  && getFormControls.pubKeyHex.errors }"
-							name="pubKeyHex" required type="text" placeholder="Enter Public Key">
-						<div *ngIf=" getFormControls.pubKeyHex.touched  && getFormControls.pubKeyHex.errors">
-							<p class="text-red-500 text-xs italic" *ngIf="getFormControls.pubKeyHex.errors?.required">
-								Public Key is required
-							</p>
+				<ng-container id="PRIVATE_KEY">
+					<!-- Private Key -->
+					<p class="mt-1 text-lg leading-tight font-light">Generate your private key.</p>
+					<div class="flex flex-wrap -mx-3 mt-3 mb-3">
+						<div class="w-full px-3">
+							<label class="block tracking-wide text-gray-700 text-xs font-bold mb-2" for="pubKeyHex">
+								Input Public Key <span class="text-red-500 font-bold"> *</span>
+							</label>
+							<input class="appearance-none shadow w-full   text-gray-700 border border-gray-200 rounded py-3 px-4  leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+							 id="pubKeyHex" formControlName="pubKeyHex" [ngClass]="{ 'border-red-500':  getFormControls.pubKeyHex.touched  && getFormControls.pubKeyHex.errors }"
+							 name="pubKeyHex" required type="text" placeholder="Enter Public Key">
+							<div *ngIf=" getFormControls.pubKeyHex.touched  && getFormControls.pubKeyHex.errors">
+								<p class="text-red-500 text-xs italic" *ngIf="getFormControls.pubKeyHex.errors?.required">
+									Public Key is required
+								</p>
+							</div>
 						</div>
 					</div>
-				</div>
-				<p class="  text-sm leading-tight font-light">
-					Don't have a private key?
-					<a class="inline-block align-baseline font-light text-sm text-blue-500 hover:text-blue-900"
-						href="javascript:void(0);" (click)="generatePublicKey()">
-						Click here  
-					</a>
-				</p>
-				<!-- Private Key -->
-			</ng-container>
-				
-			
-				<!-- KYC Section-->
-				<ng-container id="KYC"  >
-					<p class="mt-1 text-lg leading-tight font-light">Upload KYC</p>
-				
-					<div class="flex flex-wrap -mx-3 mb-3 mt-3">
-						<div class="w-full  px-3">
-							<label class="block  tracking-wide text-gray-700 text-xs font-bold mb-2" for="uploadDoc">
-								  Upload Document
-							</label>
+					<p class="  text-sm leading-tight font-light">
+						Don't have a private key?
+						<a class="inline-block align-baseline font-light text-sm text-blue-500 hover:text-blue-900" href="javascript:void(0);"
+						 (click)="generatePublicKey()">
+							Click here
+						</a>
+					</p>
 
-							<label class="flex flex-col w-1/2 items-center px-2 py-2 bg-white text-blue rounded-lg
-								 shadow-lg tracking-wide  border border-blue cursor-pointer 
-								 hover:bg-blue hover:text-blue-500"  (change)="docUploadChange($event)">
-								<svg class="w-12 h-12" fill="currentColor" xmlns="http://www.w3.org/2000/svg"
-									viewBox="0 0 20 20">
-									<path
-										d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
-								</svg>
-								<span class="text-base leading-normal">Select a file</span>
-								<input type='file' class="hidden" #docUploadEle
-								required  
-							  id="uploadDoc" name="uploadDoc" />
-							</label>
-						</div>
-					</div>
+					<!-- Private Key -->
+					<div *ngIf="showPrivateKeyModal" class="modal  fixed w-full h-full top-0 left-0 
+					flex items-center justify-center">
+						<div class="modal-overlay absolute  w-full h-full bg-black opacity-50 cursor-pointer"></div>
+						<!--Modal-->
+						<div class="modal modal-active fixed w-full h-full top-0 left-0 flex items-center
+						 justify-center">
+							<div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
 
-					<div class="flex w-full   m-auto"  *ngIf="false">
-						<div class="w-1/2">
-							<button type="button" class="w-32 uppercase rounded focus:outline-none border-transparent bg-blue-500 hover:bg-green-400 text-white-800 
-								text-center text-white font-bold py-2 px-4"  (click)="submitSignUp()" >
-									Submit
-							</button>
+							<div class="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
+								<div (click)="hideModal()" class="modal-close absolute top-0 right-0 cursor-pointer flex flex-col items-center mt-4 mr-4 text-white text-sm z-50">
+									<i class="fa fa-times fa-2x" aria-hidden="true"></i>
+								</div>
+								<!-- Add margin if you want to see some of the overlay behind the modal-->
+								<div class="modal-content py-4 text-left px-6">
+									<!--Title-->
+									<div class="flex justify-between items-center pb-3">
+										<p class="text-2xl font-bold">Private Key</p>
+										<div class="modal-close cursor-pointer z-50" (click)="hideModal()">
+											<i class="fa fa-times fa-2x" aria-hidden="true"></i>
+										</div>
+									</div>
+
+									<!--Body-->
+									<p>Save your private key at a safe place.</p>
+
+									<textarea class="w-full" #PrivateKey readonly>{{privateKey}}</textarea>
+									<!--Footer-->
+									<div class="flex justify-end pt-2">
+										<button class="px-4 bg-green-200 p-3 rounded-lg text-indigo-500 hover:bg-green-500 hover:text-white-900 mr-2"
+										 (click)="copyPrivateKey(PrivateKey)">Copy to Clipboard</button>
+										<button (click)="hideModal()" class="modal-close px-4 bg-indigo-500 p-3 rounded-lg text-white hover:bg-indigo-400">Close</button>
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
 				</ng-container>
 
-				
-				<ng-container>
-					<!-- Navigation Section -->
-					<div class="flex w-full   m-auto"  *ngIf="false">
-						<!-- <div class="w-1/2">
-							<button type="button" class="w-32 focus:outline-none border-transparent bg-gray-300 hover:bg-gray-400 text-gray-800 
-							text-center text-white font-bold py-2 px-4 rounded-lg" (click)="previousStep(step)">
-								Previous
-							</button>
-						</div> -->
-						<div class="w-full text-right">
-							<button type="button" class="w-32  focus:outline-none border-transparent 
-							bg-blue-500 hover:bg-green-400 text-white-800
-							text-center uppercase text-white font-bold py-2 px-4 rounded-lg" (click)="nextStep(step)">
-								Next
-							</button>
+
+				<!-- KYC Section-->
+				<ng-container id="KYC">
+					<p class="mt-2 text-lg leading-tight font-light">Upload KYC</p>
+
+					<div class="flex flex-wrap -mx-3 mb-3 mt-3">
+						<div class="w-full  px-3">
+							<label class="block  tracking-wide text-gray-700 text-xs font-bold mb-2" for="uploadDoc">
+								Upload Document
+							</label>
+
+							<label class="flex flex-col w-1/2 items-center px-2 py-2 bg-white text-blue rounded-lg
+								 shadow-lg tracking-wide  border border-blue cursor-pointer 
+								 hover:bg-blue hover:text-blue-500"
+							 (change)="docUploadChange($event)">
+								<svg class="w-12 h-12" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+									<path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
+								</svg>
+								<span class="text-base leading-normal">Select a file</span>
+								<input type='file' class="hidden" #docUploadEle multiple required accept="application/pdf" id="uploadDoc" name="uploadDoc" />
+							</label>
+
+							<ng-container class="block mt-1" *ngIf="uploadDocFile.length">
+								<ng-container *ngFor="let file of uploadDocFile;">
+									<p class="text-xs inline leading-normal font-light">
+										Name: {{file.name}}
+									</p>
+									<p class="text-xs inline leading-normal font-light px-3">
+										Size: {{file.size}}
+									</p>
+								</ng-container>
+							</ng-container>
 						</div>
 					</div>
 
+				</ng-container>
+
+
+				<ng-container>
 					<!-- Registration Section -->
 					<div class="flex flex-wrap -mx-3 mt-3 mb-3">
 						<div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
 							<label class="w-full md:items-center block text-gray-500 font-bold">
-								<input class="mr-2 leading-tight" type="checkbox" formControlName="acceptTerms" id="acceptTerms"
-									[ngClass]="{ 'border-red-500':  getFormControls.acceptTerms.touched && getFormControls.acceptTerms.errors }"
-									name="acceptTerms" required>
+								<input class="mr-2 leading-tight" type="checkbox" formControlName="acceptTerms" id="acceptTerms" [ngClass]="{ 'border-red-500':  getFormControls.acceptTerms.touched && getFormControls.acceptTerms.errors }"
+								 name="acceptTerms" required>
 								<span class="text-sm">
 									Accept Terms & Conditions <span class="text-red-500 font-bold"> *</span>
 								</span>
@@ -286,102 +287,23 @@
 
 
 					<div class="flex items-center justify-between">
-						<button [disabled]="!registerForm.valid"
-							[ngClass]="{'opacity-50 cursor-not-allowed':!registerForm.valid}"
-							class="bg-blue-500 hover:bg-blue-700 text-white font-bold uppercase py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-							type="submit">
+						<button [disabled]="!registerForm.valid" [ngClass]="{'opacity-50 cursor-not-allowed':!registerForm.valid}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold uppercase py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+						 type="submit">
 							Register
 						</button>
 					</div>
 				</ng-container>
-				
+
 				<!-- Registration Section -->
 
 			</ng-container>
-			
-			<ng-container id="PLAN" *ngIf="step === 3">
+
+			<ng-container id="PAIDPLAN" *ngIf="step === 3">
 				<a class="text-blue-500 hover:text-blue-800" href="javascript:void(0);" title="Step {{step - 1 }}" (click)="previousStep(step)">Back</a>
-				<!-- PLAN Section-->
-				<p class="mt-1 text-lg leading-tight font-light">Choose your plan.</p>
-			
-				<p class="mt-3 text-lg leading-tight font-light text-blue-500">Subscribe to get your signatures</p>
-				<p class="mt-1 text-lg leading-tight font-light text-blue-500">and choose your mode of payment.</p>
-
-				<div class="flex flex-wrap -mx-3 mt-3 mb-3">
-					<div class="w-full px-3">
-						<div class="flex mb-4">
-							<div class="w-1/3 pr-2">
-								<div class="w-full border-2 border-blue-500 cursor-pointer hover:border-green-500 rounded overflow-hidden shadow-sm">
-									<div class="px-5 py-4">
-										<div class="font-bold text-xl text-center  text=gray-800 mb-2">$100</div>
-										<p class="font-bold text-sm text-blue-500  text-center mb-1">for 5 signatures</p>
-									  
-									</div>
-									<div class="w-full">
-										<button type="button" class="w-full uppercase  focus:outline-none border-transparent  bg-blue-500 
-										hover:bg-green-400 text-white-800  
-										text-center text-white font-bold py-2 px-4 "  >
-											Choose
-										  </button>
-										</div>
-								</div>
-							</div>
-
-							<div class="w-1/3 pr-2">
-								<div class="w-full  cursor-pointer border-2 border-blue-500 hover:border-green-500 rounded overflow-hidden shadow-sm">
-									<div class="px-5 py-4">
-									  <div class="font-bold text-xl text-center  text=gray-800 mb-2">$150</div>
-									  <p class="font-bold text-sm text-blue-500  text-center mb-1">for 10 signatures</p>
-									</div>
-									<div class="w-full">
-										<button type="button" class="w-full uppercase   bg-blue-500 hover:bg-green-400 text-white-800  focus:outline-none border-transparent   
-										text-center text-white font-bold py-2 px-4  "  >
-											Choose
-										  </button>
-										</div>
-								</div>
-							</div>
-
-							<div class="w-1/3">
-								<div class="w-full  cursor-pointer border-2 border-blue-500 hover:border-green-500 rounded overflow-hidden shadow-sm">
-									<div class="px-5 py-4">
-										<div class="font-bold text-xl text-center  text=gray-800 mb-2">$200</div>
-										<p class="font-bold text-sm text-blue-500  text-center mb-1">for 15 signatures</p>
-									  
-									</div>
-									<div class="w-full">
-										<button type="button" class="w-full  uppercase focus:outline-none border-transparent bg-blue-500 hover:bg-green-400 text-white-800 
-										text-center text-white font-bold py-2 px-4  "  >
-											Choose
-										  </button>
-										</div>
-								</div>
-							</div>
-
-						  </div>
-
-						<label class="flex w-full items-center cursor-pointer">
-						<input type="radio" class="form-radio" name="accountType" value="personal" checked>
-						<span class="ml-2">Pay using Debit card</span>
-						</label>
-						
-						<label class="flex w-full items-center cursor-pointer">
-						<input type="radio" class="form-radio" name="accountType" value="personal">
-						<span class="ml-2">Pay using Crypto currency</span>
-						</label>
-
-						<div class="w-1/3 mt-3">
-							<button type="button" class="w-32 uppercase rounded focus:outline-none border-transparent bg-blue-500 hover:bg-green-400 text-white-800 
-							text-center text-white font-bold py-2 px-4  "  (click)="planPayment()" >
-								Pay
-							</button>
-						</div>
-						
-					</div>
-				</div>
+				<!-- <app-paid-plans></app-paid-plans> -->
 			</ng-container>
 
-			<ng-container id="FINAL_STEP" *ngIf="step === 5"> 
+			<ng-container id="FINAL_STEP" *ngIf="step === 5">
 				<p class="mt-1 text-lg leading-tight font-light">Hurray...</p>
 				<p class="mt-1 text-lg leading-tight font-light text-blue-500">Sign Up Successful!</p>
 
@@ -390,51 +312,16 @@
 				</div>
 				<div class="w-1/3 mt-3">
 					<button type="button" class="w-32 uppercase rounded focus:outline-none border-transparent bg-blue-500 hover:bg-green-400 text-white-800 
-					text-center text-white font-bold py-2 px-4  "  (click)="navigateToLogin()"  >
+					text-center text-white font-bold py-2 px-4  "
+					 (click)="navigateToLogin()">
 						Login
-					  </button>
+					</button>
 				</div>
 
-				<div *ngIf="false">
-					<div class="flex flex-wrap -mx-3 mt-3 mb-3">
-						<div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-							<label class="w-full md:items-center block text-gray-500 font-bold">
-								<input class="mr-2 leading-tight" type="checkbox" formControlName="acceptTerms" id="acceptTerms"
-									[ngClass]="{ 'border-red-500':  getFormControls.acceptTerms.touched && getFormControls.acceptTerms.errors }"
-									name="acceptTerms" required>
-								<span class="text-sm">
-									Accept Terms & Conditions <span class="text-red-500 font-bold"> *</span>
-								</span>
-								<div *ngIf="submitted && getFormControls.acceptTerms.errors">
-									<p class="text-red-500 text-xs italic" *ngIf="getFormControls.acceptTerms.errors?.required">
-										Accept Terms & Conditions
-									</p>
-								</div>
-							</label>
-						</div>
-					</div>
-		
-		
-					<div class="flex items-center justify-between">
-						<button [disabled]="!registerForm.valid"
-							[ngClass]="{'opacity-50 cursor-not-allowed':!registerForm.valid}"
-							class="bg-blue-500 hover:bg-blue-700 text-white font-bold uppercase py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-							type="submit">
-							Register
-						</button>
-					</div>
-		
-					<p class="  text-sm leading-tight font-light">
-						Already have an account?
-						<a class="inline-block align-baseline font-light text-sm text-blue-500 hover:text-blue-900"
-							routerLink="/authentication/login" href="javascript:void(0);">
-							Sign In here {{step}}
-						</a>
-					</p>
-				</div>
-				
 			</ng-container>
-        </form>
-    </div>
+		</form>
+	</div>
 
 </div>
+
+<!--Modal :: https://www.tailwindtoolbox.com/components/modal -->

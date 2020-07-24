@@ -56,7 +56,10 @@ export class AuthService {
       headers: httpHeaders
     };
     formData.append('sigImage', signImg);
-    formData.append('kycDocuments', documentFile);
+
+    for (var i = 0; i < documentFile.length; i++) {
+      formData.append('kycDocuments', documentFile[i]);
+    }
 
     Object.keys(userData).forEach(key => {
       if (key !== 'confirmPassword' && key !== 'acceptTerms') {

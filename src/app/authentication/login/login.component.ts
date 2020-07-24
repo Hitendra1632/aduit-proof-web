@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginForm } from '../login-form.model';
 import { NgForm } from '@angular/forms';
-import { AuthService } from 'src/app/common/service/auth.service';
+import { AuthService } from '../../common/service/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpResponse } from '@angular/common/http';
 import { UserService } from '../../common/service/user.service';

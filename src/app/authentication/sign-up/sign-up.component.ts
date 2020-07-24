@@ -28,9 +28,9 @@ export class SignUpComponent implements OnInit {
   submitted = false;
   public step = 1;
   public sigImgFile: File;
-  public uploadDocFile: File;
-  public showPrivateKeyModal = true;
-
+  public uploadDocFile: File[] = [];
+  public showPrivateKeyModal = false;
+  public privateKey = null;
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
@@ -43,16 +43,16 @@ export class SignUpComponent implements OnInit {
 
   ngOnInit(): void {
     this.registerForm = this.formBuilder.group({
-      firstName: ['Jo', Validators.required],
-      lastName: ['Root', Validators.required],
-      email: ['joroot@cricket.eu', [Validators.required, Validators.email]],
-      password: ['12345678', [Validators.required, Validators.minLength(8)]],
-      confirmPassword: ['12345678', Validators.required],
-      fullAddress: ['Bristol,England', [Validators.required, Validators.maxLength(40)]],
-      phone: ['+44100100', Validators.required],
-      pubKeyHex: ['256eh-eu-eng-dream-11', Validators.required],
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(8)]],
+      confirmPassword: ['', Validators.required],
+      fullAddress: ['', [Validators.required, Validators.maxLength(40)]],
+      phone: ['', Validators.required],
+      pubKeyHex: ['', Validators.required],
       acceptTerms: [true, Validators.requiredTrue],
-      // sigImage: [null, [Validators.required,requiredFileType('png')]],
+      // sigImage: [null, [Validators.required, requiredFileType('pdf')]],
       // sigImage: [null, [requiredFileType('png')]],
 
     }, {
@@ -80,7 +80,7 @@ export class SignUpComponent implements OnInit {
     this.authService.registerUser(this.registerForm.value, this.sigImgFile, this.uploadDocFile)
       .subscribe(response => {
         console.log(response);
-        if(response.status === 'success'){
+        if (response.status === 'success') {
           this.step = 5;
         }
       },
@@ -122,10 +122,6 @@ export class SignUpComponent implements OnInit {
     }
   }
 
-  submitSignUp() {
-    this.step = 3;
-  }
-
   planPayment() {
     this.step = 5;
 
@@ -137,7 +133,11 @@ export class SignUpComponent implements OnInit {
 
   docUploadChange(event) {
     const fileList: FileList = event.target.files;
-    this.uploadDocFile = fileList[0];
+    if (fileList.length) {
+      for (let i = 0; i < event.target.files.length; i++) {
+        this.uploadDocFile.push(event.target.files[i]);
+      }
+    }
   }
 
 
@@ -159,12 +159,25 @@ export class SignUpComponent implements OnInit {
   // GeneratePublic Key using Ethereum
   generatePublicKey() {
     const privateKey = localWallet.hdkey.fromMasterSeed('random')._hdkey._privateKey;
+    this.privateKey = privateKey.toString('hex')
     const walletStr = localWallet.default.fromPrivateKey(privateKey);
     const publicKeyString = walletStr.getPublicKeyString();
     const wPubliKey = walletStr.getPublicKey()
     this.registerForm.controls.pubKeyHex.setValue(publicKeyString);
-    this.registerForm.controls.pubKeyHex.disable({onlySelf: true });
+    this.registerForm.controls.pubKeyHex.disable({ onlySelf: true });
     this.showPrivateKeyModal = true;
+  }
+
+  /* To copy Text from Textbox */
+  copyPrivateKey(inputElement) {
+    inputElement.select();
+    document.execCommand('copy');
+    inputElement.setSelectionRange(0, 0);
+    alert('Copied');
+  }
+
+  hideModal() {
+    this.showPrivateKeyModal = false;
   }
 
 }
