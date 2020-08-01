@@ -30,6 +30,11 @@
               "src/favicon.ico",
               "src/assets",
               {
+                "glob": "pdf.worker.*",
+                "input": "node_modules/pdfjs-dist/build/",
+                "output": "/assets/"
+              },
+              {
                 "glob": "**/*",
                 "input": "node_modules/ngx-extended-pdf-viewer/assets/",
                 "output": "/assets/"
@@ -40,7 +45,9 @@
               "src/styles.scss",
               "src/tailwind.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "./node_modules/jquery/dist/jquery.min.js",
+            ]
           },
           "configurations": {
             "production": {
