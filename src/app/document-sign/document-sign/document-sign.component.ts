@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { DocumentService } from '../../common/service/document.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import interact from 'interactjs';
+
 import {
   PDFJSStatic,
   PDFPageViewport,
@@ -71,7 +72,91 @@ export class DocumentSignComponent implements OnInit {
       this.errorMessage = error;
       console.log(error);
     }
-    window.dragMoveListener = dragMoveListener;
+    interact('.draggable')
+      .draggable({
+        // enable inertial throwing
+        inertia: true,
+        // keep the element within the area of it's parent
+        modifiers: [
+          interact.modifiers.restrict({
+            restriction: "#pageContainer",
+            endOnly: true,
+            elementRect: { top: 0, left: 0, bottom: 1, right: 1 }
+          })
+        ],
+        // enable autoScroll
+        autoScroll: true,
+
+        // call this function on every dragmove event
+        onmove: function(event){
+          var target = event.target,
+            // keep the dragged position in the data-x/data-y attributes
+            x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
+            y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+          // translate the element
+          target.style.webkitTransform =
+            target.style.transform =
+              'translate(' + x + 'px, ' + y + 'px)';
+
+          var mouse_position_x = target.getBoundingClientRect().left;
+          var mouse_position_y = target.getBoundingClientRect().top;
+
+          // update the posiion attributes
+          target.setAttribute('data-x', x);
+          target.setAttribute('data-y', y);
+          target.setAttribute('data-tx', event.clientX);
+          target.setAttribute('data-ty', event.clientY);
+          target.setAttribute('data-mx', mouse_position_x);
+          target.setAttribute('data-my', mouse_position_y);
+        },
+        // call this function on every dragend event
+        onend: function (event) {
+          var textEl = event.target.querySelector('p');
+
+          textEl && (textEl.textContent =
+            'moved a distance of '
+            + (Math.sqrt(event.dx * event.dx +
+            event.dy * event.dy)|0) + 'px');
+        }
+      });
+
+    // enable draggables to be dropped into this
+    interact('.dropzone').dropzone({
+      // only accept elements matching this CSS selector
+      accept: '#yes-drop',
+      // Require a 75% element overlap for a drop to be possible
+      overlap: 0.75,
+
+      // listen for drop related events:
+
+      ondropactivate: function (event) {
+        // add active dropzone feedback
+        event.target.classList.add('drop-active');
+      },
+      ondragenter: function (event) {
+        var draggableElement = event.relatedTarget,
+          dropzoneElement = event.target;
+
+        // feedback the possibility of a drop
+        dropzoneElement.classList.add('drop-target');
+        draggableElement.classList.add('can-drop');
+        // draggableElement.textContent = 'Dragged in';
+      },
+      ondragleave: function (event) {
+        // remove the drop feedback style
+        event.target.classList.remove('drop-target');
+        event.relatedTarget.classList.remove('can-drop');
+        // event.relatedTarget.textContent = 'Dragged out';
+      },
+      ondrop: function (event) {
+        // event.relatedTarget.textContent = 'Dropped';
+      },
+      ondropdeactivate: function (event) {
+        // remove active dropzone feedback
+        event.target.classList.remove('drop-active');
+        event.target.classList.remove('drop-target');
+      }
+    });
   }
 
   /********************************** PDF Side ***********************************************************/
@@ -122,87 +207,6 @@ export class DocumentSignComponent implements OnInit {
     this.imgHeight = canvas.height;
     this.imgSrc = canvas.toDataURL();
   }
-
-  /******************************************   Draggable  **************************************************************************/
-  function dragMoveListener (event) {
-    var target = event.target,
-      // keep the dragged position in the data-x/data-y attributes
-      x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
-      y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
-    // translate the element
-    target.style.webkitTransform =
-      target.style.transform =
-        'translate(' + x + 'px, ' + y + 'px)';
-
-    // update the posiion attributes
-    target.setAttribute('data-x', x);
-    target.setAttribute('data-y', y);
-    target.setAttribute('data-tx', event.x0);
-    target.setAttribute('data-ty', event.y0);
-  }
-
-
-  dragMoveListener(event) {
-    const target = event.target;
-    // keep the dragged position in the data-x/data-y attributes  
-    const x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx;
-    const y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
-    // translate the element  
-    target.style.webkitTransform =
-      target.style.transform = 'translate(' + x + 'px, ' + y + 'px)';
-    // update the posiion attributes 
-    target.setAttribute('data-x', x);
-    target.setAttribute('data-y', y);
-  }
-
-  showCoordinates() {
-    const validi = [];
-    const nonValidi = [];
-    const dCanvas: HTMLCanvasElement = document.getElementById('the-canvas') as HTMLCanvasElement;
-    const maxHTMLx = dCanvas.width;
-    const maxHTMLy = dCanvas.height;
-    const paramContainerWidth = jQuery('#parametriContainer').width();
-    const $this = this;
-    console.log(jQuery('.drag-drop.can-drop').length);
-    // recupera tutti i placholder validi  
-    jQuery('.drag-drop.can-drop').each((index) => {
-      console.log(jQuery($this).data('x'));
-      const x = parseFloat(jQuery($this).data('x'));
-      const y = parseFloat(jQuery($this).data('y'));
-      const valore = jQuery($this).data('valore');
-      const descrizione = jQuery($this).find('.descrizione').text();
-      const pdfY = y * $this.maxPDFy / maxHTMLy;
-      const posizioneY = $this.maxPDFy - $this.offsetY - pdfY;
-      const posizioneX = (x * $this.maxPDFx / maxHTMLx) - paramContainerWidth;
-      const val = {
-        'descrizione': descrizione,
-        'posizioneX': posizioneX,
-        'posizioneY': posizioneY,
-        'valore': valore
-      };
-      validi.push(val);
-    });
-
-    if (validi.length === 0) {
-      alert('No placeholder dragged into document');
-    } else {
-      // alert(JSON.stringify(validi));     
-      const pdfcanvas: HTMLCanvasElement = document.getElementById('the-canvas') as HTMLCanvasElement;
-      $this.context = pdfcanvas.getContext('2d');
-      const img = new Image();
-      img.onload = (event) => {
-        const loadedImage = event.currentTarget;
-        validi.forEach(im => {
-          $this.context.drawImage(im.descrizione, im.posizioneX, im.posizioneY,
-            loadedImage['width'], loadedImage['height']);
-          // Or at whatever offset you like 
-        });
-      };
-      console.log(pdfcanvas.toDataURL('png'));
-    }
-  }
-
-  /******************************************   Draggable  **************************************************************************/
 
   onUploadDocChange(event) {
     const fileList: FileList = event.target.files;
@@ -299,5 +303,6 @@ export class DocumentSignComponent implements OnInit {
     document.body.appendChild(downloadLink);
     downloadLink.parentNode.removeChild(downloadLink);
   }
-
 }
+
+
