@@ -56,13 +56,6 @@ export class DocumentSignComponent implements OnInit {
   public offsetY = 7;
   public context: CanvasRenderingContext2D;
 
-  public placeholderObj = [
-    { "idParametro": 480, "descrizione": "RAPINA", "valore": "X", "nota": null },
-    // { "idParametro": 481, "descrizione": "CAUSAL_G00", "valore": "X", "nota": null },
-    { "idParametro": 483, "descrizione": "POSTA_REGISTRATA", "valore": "X", "nota": null },
-    // { "idParametro": 484, "descrizione": "CD", "valore": "CD", "nota": null }
-  ];
-
   constructor(
     private router: Router,
     private documentService: DocumentService,
@@ -73,16 +66,12 @@ export class DocumentSignComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     PDFJS.disableWorker = true;
     try {
-      this.draggableFunc();
       await this.showPDF(this.pdfSRC);
     } catch (error) {
       this.errorMessage = error;
       console.log(error);
     }
-    const parametri = this.placeholderObj;
-    jQuery('#parametriContainer').empty();
-    this.renderizzaPlaceholder(0, parametri);
-    window.dragMoveListener = this.dragMoveListener;
+    window.dragMoveListener = dragMoveListener;
   }
 
   /********************************** PDF Side ***********************************************************/
@@ -135,57 +124,23 @@ export class DocumentSignComponent implements OnInit {
   }
 
   /******************************************   Draggable  **************************************************************************/
-  /* The dragging code for '.draggable' from the demo above * applies to this demo as well so it doesn't have to be repeated. */
-  draggableFunc() {
-    // enable draggables to be dropped into this 
-    interact('.dropzone').dropzone({
-      // only accept elements matching this CSS selector
-      accept: '.drag-drop',
-      // Require a 100% element overlap for a drop to be possible
-      overlap: 1,
-      // listen for drop related events:
-      ondropactivate: (event) => {
-        // add active dropzone feedback 
-        event.target.classList.add('drop-active');
-      },
-      ondragenter: (event) => {
-        const draggableElement = event.relatedTarget;
-        const dropzoneElement = event.target;
-        // feedback the possibility of a drop 
-        dropzoneElement.classList.add('drop-target');
-        draggableElement.classList.add('can-drop');
-        draggableElement.classList.remove('dropped-out');
-        // draggableElement.textContent = 'Dragged in';
-      },
-      ondragleave: (event) => {
-        // remove the drop feedback style 
-        event.target.classList.remove('drop-target');
-        event.relatedTarget.classList.remove('can-drop');
-        event.relatedTarget.classList.add('dropped-out');
-        // event.relatedTarget.textContent = 'Dragged out'; 
-      },
-      ondrop: (event) => {
-        // event.relatedTarget.textContent = 'Dropped';
-      },
-      ondropdeactivate: (event) => {
-        // remove active dropzone feedback     
-        event.target.classList.remove('drop-active');
-        event.target.classList.remove('drop-target');
-      }
-    });
+  function dragMoveListener (event) {
+    var target = event.target,
+      // keep the dragged position in the data-x/data-y attributes
+      x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
+      y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+    // translate the element
+    target.style.webkitTransform =
+      target.style.transform =
+        'translate(' + x + 'px, ' + y + 'px)';
 
-    interact('.drag-drop').draggable({
-      inertia: true,
-      // restrict: {
-      //   restriction: "#pageContainer",
-      //   endOnly: true,
-      //   elementRect: { top: 0, left: 0, bottom: 1, right: 1 }
-      // },
-      autoScroll: true,
-      // dragMoveListener from the dragging demo above 
-      onmove: this.dragMoveListener,
-    });
+    // update the posiion attributes
+    target.setAttribute('data-x', x);
+    target.setAttribute('data-y', y);
+    target.setAttribute('data-tx', event.x0);
+    target.setAttribute('data-ty', event.y0);
   }
+
 
   dragMoveListener(event) {
     const target = event.target;
@@ -198,87 +153,6 @@ export class DocumentSignComponent implements OnInit {
     // update the posiion attributes 
     target.setAttribute('data-x', x);
     target.setAttribute('data-y', y);
-  }
-
-
-  renderizzaPlaceholder(currentPage, parametri) {
-    const maxHTMLx = jQuery('#the-canvas').width();
-    const maxHTMLy = jQuery('#the-canvas').height();
-    const paramContainerWidth = jQuery('#parametriContainer').width();
-    let yCounterOfGenerated = 0;
-    const numOfMaxItem = 25;
-    const notValidHeight = 30;
-    let y = 0;
-    const x = 6;
-    const totalPages = Math.ceil(parametri.length / numOfMaxItem);
-
-    for (let i = 0; i < parametri.length; i++) {
-      const param = parametri[i];
-      const page = Math.floor(i / numOfMaxItem);
-      const display = currentPage === page ? 'block' : 'none';
-      let classStyle = '';
-      const valore = param.valore;
-      if (i > 0 && i % numOfMaxItem === 0) {
-        yCounterOfGenerated = 0;
-      }
-      /*il placeholder non è valido: lo incolonna a sinistra*/
-      if (i > 0 && i % numOfMaxItem === 0) {
-        yCounterOfGenerated = 0;
-      }
-      /*il placeholder non è valido: lo incolonna a sinistra*/
-      y = yCounterOfGenerated;
-      yCounterOfGenerated += notValidHeight;
-      classStyle = 'drag-drop dropped-out';
-
-      jQuery('#parametriContainer').append('<div class="' + classStyle + '" data-id="-1" data-page="' + page +
-        '" data-toggle="' + valore + '" data-valore="' + valore + '" data-x="' + x + '" data-y="' + y +
-        '" style="transform: translate(' + x + 'px, ' + y + 'px); display:' + display +
-        '">  <span class="circle"></span><span class="descrizione">' + param.descrizione
-        + ' </span></div>');
-    }
-
-    y = notValidHeight * (numOfMaxItem + 1);
-    let prevStyle = '';
-    let nextStyle = '';
-    let prevDisabled = false;
-    let nextDisabled = false;
-    if (currentPage === 0) {
-      prevStyle = 'disabled';
-      prevDisabled = true;
-    }
-    if (currentPage >= totalPages - 1 || totalPages === 1) {
-      nextDisabled = true;
-      nextStyle = 'disabled';
-    }
-    // Aggiunge la paginazione   
-    jQuery('#parametriContainer').append('<ul id="pager" class="pager" style="transform: translate(' + x + 'px, ' + y
-      + 'px); width:200px;"><li onclick="this.changePage(' + prevDisabled + ',' + currentPage + ',-1)" class="page-item '
-      + prevStyle + '"><span>«</span></li><li onclick="this.changePage(' + nextDisabled + ','
-      + currentPage + ',1)" class="page-item ' +
-      nextStyle + '" style="margin-left:10px;"><span>&raquo;</span></li></ul>');
-  }
-
-  changePage(disabled, currentPage, delta) {
-    if (disabled) {
-      return;
-    }
-    /*recupera solo i parametri non posizionati in pagina*/
-    const parametri = [];
-    jQuery('.drag-drop.dropped-out').each(() => {
-      const valore = jQuery(this).data('valore');
-      const descrizione = jQuery(this).find('.descrizione').text();
-      parametri.push(        {
-        valore: valore,
-        descrizione: descrizione,
-        posizioneX: -1000,
-        posizioneY: -1000
-      });
-      jQuery(this).remove();
-    });
-
-    jQuery('#pager').remove();
-    currentPage += delta;
-    this.renderizzaPlaceholder(currentPage, parametri);
   }
 
   showCoordinates() {

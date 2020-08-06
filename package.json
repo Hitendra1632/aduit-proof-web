@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "node server.js",
+    "start": "ng serve",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
@@ -52,8 +52,8 @@
     "@angular-builders/custom-webpack": "^9.2.0",
     "@angular-devkit/build-angular": "~0.901.9",
     "@angular/cli": "^10.0.2",
-    "@interactjs/types": "^1.9.20",
     "@fullhuman/postcss-purgecss": "^2.3.0",
+    "@interactjs/types": "^1.9.20",
     "@types/jasmine": "~3.5.0",
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "^12.12.50",
