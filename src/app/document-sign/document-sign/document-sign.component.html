@@ -52,6 +52,15 @@
                             [disabled]="!isSigningInitialized" (click)="nextStep(2)">
                             Next
                         </button>
+
+                        <!--Use at proper location after completeing flow -->
+                        <!-- Download button for setting Metadata to PDF file -->
+
+                        <button type="button" class="w-32 uppercase bg-blue-500 hover:bg-blue-700 text-white font-bold 
+                        uppercase py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                            (click)="setDocumentMetadata()" *ngIf="false">
+                            Download
+                        </button>
                     </div>
                 </div>
             </div>
