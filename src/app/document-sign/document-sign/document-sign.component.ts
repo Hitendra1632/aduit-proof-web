@@ -11,6 +11,7 @@ import {
   PDFDocumentProxy,
   PDFPageProxy
 } from 'pdfjs-dist';
+const { PDFDocument } = require('pdf-lib');
 
 const hash256 = require('crypto-js/sha256');
 const CryptoJS = require('crypto-js');
@@ -30,9 +31,11 @@ export class DocumentSignComponent implements OnInit {
   @ViewChild(
     'docUploadEle'
   ) docUploadEle: ElementRef | null = null;
-  public step = 2;
+  public step = 1;
   public uploadDocFile: File;
   public documentHash: any; // initial document hash
+  public pdfArrayBuffer: any;
+  public pdfBase64String = '';
   public privateKeyHex = '';
   public initiatedDocumentResponse = {};
   public signImage: any;
@@ -66,10 +69,15 @@ export class DocumentSignComponent implements OnInit {
 
   ) { }
 
-  async ngOnInit(): Promise<void> {
+  ngOnInit() {
+  }
+
+  /********************************** PDF Side ***********************************************************/
+
+  async loadSignaturePlugin(): Promise<void> {
     PDFJS.disableWorker = true;
     try {
-      await this.showPDF(this.pdfSRC);
+      await this.showPDF(this.pdfBase64String);
     } catch (error) {
       this.errorMessage = error;
       console.log(error);
@@ -161,7 +169,6 @@ export class DocumentSignComponent implements OnInit {
     });
   }
 
-  /********************************** PDF Side ***********************************************************/
   private async showPDF(pdfFile): Promise<void> {
     pdfjsLib.getDocument(pdfFile).promise.then((pdf: PDFDocumentProxy) => {
       console.log('PDF loaded');
@@ -231,9 +238,19 @@ export class DocumentSignComponent implements OnInit {
     this.imgSrc = canvas.toDataURL();
   }
 
+  /*** Step 1 : Document Upload ******/
+
   onUploadDocChange(event) {
     const fileList: FileList = event.target.files;
     this.uploadDocFile = fileList[0];
+
+    //  ===> Trigger point to convert pdf to base64 and arraybuffer
+    //  ===> Needs to call at correct location after completing the overall flow
+    if (fileList.length) {
+      //Convert PDF to base64
+      this.convertPDFToBase64();
+    }
+
     this.documentHash = hash256(this.uploadDocFile).toString();
     // this.uploadedFileSize = (fileList[0].size / (1024 * 1024)).toFixed(2);
     if (fileList[0].size >= 20 * 1024 * 1024) {
@@ -243,12 +260,6 @@ export class DocumentSignComponent implements OnInit {
     if (fileList[0].type !== 'application/pdf') {
       return;
     }
-
-    // let hexhash = hash256(this.uploadDocFile).toString(CryptoJS.enc.hex).toUpperCase();
-    // hexhash = hexhash.replace(/(\S{2})/g, "jQuery1-");
-    // hexhash = hexhash.replace(/-jQuery/, "");
-    // console.log(hexhash);
-    // console.log(this.documentHash);
 
     this.signedDocumentHash = this.documentHash; // temporary assigned initial doc has
     if (this.uploadDocFile) {
@@ -264,12 +275,17 @@ export class DocumentSignComponent implements OnInit {
         this.isSigningInitialized = true;
         this.isInitiatedAPI = false;
         this.step = 2; // land user to plugin
+        if (this.pdfBase64String) {
+          this.loadSignaturePlugin();
+        }
       }, error => {
         this.isSigningInitialized = false;
         this.isInitiatedAPI = false;
       });
     }
   }
+
+  /***  Document Upload ******/
 
   public previousStep(stepNumber) {
     if (stepNumber > 1) {
@@ -291,7 +307,7 @@ export class DocumentSignComponent implements OnInit {
   // Final Submit
   public getFinalSubmitParams() {
     return {
-      documentHash: this.signedDocumentHash,
+      documentHash: this.previewPDFFile,
       documentID: this.docID,
       pubKeyHex: this.privateKeyHex,
       signatureHex: this.initiatedDocumentResponse['sigBase64Image']
@@ -314,6 +330,34 @@ export class DocumentSignComponent implements OnInit {
     this.router.navigate(['/dashboard/']);
   }
 
+  /***************************************** Converts PDF to Base64 and Array Buffer **************************************/
+  convertPDFToBase64() {
+    // Select the very first file from list
+    const fileToLoad = this.uploadDocFile;
+    // FileReader function for read the file.
+    const fileReader = new FileReader();
+    let base64;
+    // Onload of file read the file content
+    fileReader.onload = (fileLoadedEvent) => {
+      base64 = fileLoadedEvent.target['result'];
+      this.convertPDFtoBytes(base64);
+    };
+    // Convert data to base64
+    fileReader.readAsDataURL(fileToLoad);
+  }
+
+  convertPDFtoBytes(pdfbase64) {
+    this.pdfBase64String = pdfbase64;
+    var len = pdfbase64.length;
+    var bytes = new Uint8Array(len);
+    for (var i = 0; i < len; i++) {
+      bytes[i] = pdfbase64.charCodeAt(i);
+    }
+    this.pdfArrayBuffer = bytes.buffer;
+  }
+  /***************************************** Converts PDF to Base64 and Array Buffer **************************************/
+
+
   // Temp= downloads the actually uploaded pdf again
   downloadPDF() {
     const blob = new Blob([this.uploadDocFile], { type: '.pdf' });
@@ -327,67 +371,10 @@ export class DocumentSignComponent implements OnInit {
     downloadLink.parentNode.removeChild(downloadLink);
   }
 
-  // Actively used for Showing PDF Sign Preview
-  public simplePreview() {
-    var validi = [];
-
-    const canvas: HTMLCanvasElement = document.getElementById('the-canvas') as HTMLCanvasElement;
-    const pdfContext: CanvasRenderingContext2D = canvas.getContext('2d');
-
-    var paramContainerWidth = jQuery('#parametriContainer').width();
-    //recupera tutti i placholder validi
-    jQuery('.drag-drop.can-drop').each(function (index) {
-      var x = parseFloat(jQuery(this).data("mx"));
-      var y = parseFloat(jQuery(this).data("my"));
-      var valore = jQuery(this).data("valore");
-      var descrizione = jQuery(this).find(".descrizione").text();
-      var id = jQuery(this).data("id");
-
-      var x = parseFloat(jQuery(this).data("x"));
-      var y = parseFloat(jQuery(this).data("y"));
-
-      // var pdfY = y * maxPDFy / maxHTMLy;
-      var posizioneY = y - 21;
-      var posizioneX = x - paramContainerWidth;
-
-      // var posizioneY = maxPDFy - y;
-      // var posizioneX = maxPDFx - x;
-      var val = { "descrizione": descrizione, "posizioneX": posizioneX, "posizioneY": posizioneY, "valore": valore, "value": id };
-      validi.push(val);
-
-    });
-
-    validi.forEach(im => {
-      var imgObj = new Image();
-
-      imgObj.onload = function () {
-        // test that the image was loaded
-        const loadedImage = event.currentTarget;
-        pdfContext.drawImage(imgObj, im.posizioneX, im.posizioneY,
-          loadedImage['width'], loadedImage['height']);
-      }
-      imgObj.src = '/assets/logo.PNG';
-
-
-      // Or at whatever offset you like 
-    });
-
-    setTimeout(() => {
-      console.log(canvas.toDataURL('png'));
-      this.previewPDFFile = canvas.toDataURL('png');
-
-      if (this.previewPDFFile) {
-        this.showPreviewModal = true;
-      }
-    }, 2000);
-
-  }
-
   hideModal() {
     this.showPreviewModal = false;
   }
 
-  // Inactive Function
   public preview() {
     var validi = [];
     var nonValidi = [];
@@ -419,7 +406,7 @@ export class DocumentSignComponent implements OnInit {
 
       // var pdfY = y * maxPDFy / maxHTMLy;
       var posizioneY = data_set.y;
-      var posizioneX =  data_set.x - paramContainerWidth;
+      var posizioneX = data_set.x - paramContainerWidth;
 
       // var posizioneY = maxPDFy - y;
       // var posizioneX = maxPDFx - x;
@@ -431,38 +418,69 @@ export class DocumentSignComponent implements OnInit {
       alert('No placeholder dragged into document');
     }
     else {
-      console.log(JSON.stringify(validi));
       const originalCanvas: HTMLCanvasElement = document.getElementById('the-canvas') as HTMLCanvasElement;
 
       const previewCanvas: HTMLCanvasElement = document.createElement('canvas') as HTMLCanvasElement;
-      previewCanvas.width  = originalCanvas.width;
+      previewCanvas.width = originalCanvas.width;
       previewCanvas.height = originalCanvas.height;
       const previewContext: CanvasRenderingContext2D = previewCanvas.getContext('2d');
-      previewContext.drawImage(originalCanvas,0,0);
+      previewContext.drawImage(originalCanvas, 0, 0);
 
       validi.forEach(im => {
         var imgObj = new Image();
         // this is sign
-        imgObj.src = '/assets/logo.PNG';
-        imgObj.onload = function()
-        {
+        imgObj.src = 'data:image/png;base64,' + this.initiatedDocumentResponse['sigBase64Image'];
+        imgObj.onload = function () {
           // test that the image was loaded
           previewContext.drawImage(imgObj, im.posizioneX, im.posizioneY,
-            100,100);
+            150, 150);
         }
       });
 
-        setTimeout(() => {
+      setTimeout(() => {
         console.log(previewCanvas.toDataURL('png'));
         this.previewPDFFile = previewCanvas.toDataURL('png');
 
         if (this.previewPDFFile) {
           this.showPreviewModal = true;
         }
-      }, 2000);
+      }, 1000);
 
     }
     // }
 
   }
+
+  /***************************************** Sets PDF Properties and downloads PDF containing metadata **************************************/
+
+  async setDocumentMetadata() {
+    const arrayBuffer = await fetch(this.pdfBase64String).then(res => res.arrayBuffer())
+    const pdfDoc = await PDFDocument.load(arrayBuffer, { ignoreEncryption: true })
+
+    // Set all available metadata fields on the PDFDocument. Note that these fields
+    // are visible in the "Document Properties" section of most PDF readers.
+    pdfDoc.setTitle('AuditProof')
+    pdfDoc.setAuthor('@AuditProof: ' + this.docID)
+    pdfDoc.setSubject('AuditProof')
+    pdfDoc.setKeywords(['audit', 'AuditProof'])
+    pdfDoc.setProducer('AuditProof')
+    pdfDoc.setCreator('AuditProof')
+    pdfDoc.setCreationDate(new Date())
+    pdfDoc.setModificationDate(new Date())
+
+    // Serialize the PDFDocument to bytes (a Uint8Array)
+    const pdfBytes = await pdfDoc.save();
+
+    // Trigger the browser to download the PDF document
+    var blob = new Blob([pdfBytes], { type: "application/pdf" });
+    const url = window.URL.createObjectURL(blob);
+    const downloadLink = document.createElement('a');
+    downloadLink.href = url;
+    downloadLink.download = this.uploadDocFile.name;
+    downloadLink.target = '_blank';
+    downloadLink.click();
+    document.body.appendChild(downloadLink);
+    downloadLink.parentNode.removeChild(downloadLink);
+  }
+
 }
