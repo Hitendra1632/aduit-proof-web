@@ -3,8 +3,9 @@
     <div class="flex flex-wrap -mx-3 mt-3 mb-3">
         <div class="w-full px-3">
             <div class="flex  px-3">
-                <img alt="AuditProof Logo" class="mb-2 px-2" width="80" src="/assets/logo.PNG" />
-                <a class="py-1 text-blue-500 w-full text-right" href="javascript:void(0);" title="Home" routerLink="/welcome">
+                <img alt="AuditProof Logo" class="mb-2 px-2 cursor-pointer" routerlink="/welcome" width="80" src="/assets/logo.PNG" />
+                <a class="py-1 text-blue-500 w-full text-right cursor-pointer" href="javascript:void(0);" title="Home"
+                    (click)="navigateToDefaultScreen()">
                     <i class="fa fa-home fa-lg"></i>
                 </a>
             </div>

@@ -165,4 +165,13 @@ export class DocumentValidationComponent implements OnInit {
     this.router.navigate(['/dashboard/']);
   }
 
+  public navigateToDefaultScreen() {
+    if (localStorage.getItem('currentUserDetails')) {
+      // User is already logged in .. send to dashboard
+      this.router.navigate(['/dashboard/']);
+    } else {
+      // User is not logged in .. send to WElcome Screen
+      this.router.navigate(['welcome']);
+    }
+  }
 }
