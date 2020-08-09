@@ -31,6 +31,12 @@ export class SignUpComponent implements OnInit {
   public uploadDocFile: File[] = [];
   public showPrivateKeyModal = false;
   public privateKey = null;
+
+  showSignPreviewModal = false;
+  showKYCPreviewModal = false;
+
+  signImageUrl: string | ArrayBuffer;
+  kycImageUrl: string | ArrayBuffer;
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
@@ -146,6 +152,12 @@ export class SignUpComponent implements OnInit {
   signatureImageChange(event) {
     const fileList: FileList = event.target.files;
     this.sigImgFile = fileList[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(this.sigImgFile);
+
+    reader.onload = event => {
+      this.signImageUrl = reader.result;
+    };
   }
 
   // Reset selected file
@@ -182,6 +194,29 @@ export class SignUpComponent implements OnInit {
 
   public navigateToHomeScreen() {
     this.router.navigate(['welcome']);
+  }
+
+  showSignPreview() {
+    this.showSignPreviewModal = true;
+  }
+
+  hideSignModal() {
+    this.showSignPreviewModal = false;
+  }
+
+  showKYCPreview(indx) {
+    this.showKYCPreviewModal = true;
+    const reader = new FileReader();
+    const currentFile = this.uploadDocFile[indx];
+    reader.readAsDataURL(currentFile);
+
+    reader.onload = event => {
+      this.kycImageUrl = reader.result;
+    };
+  }
+
+  hideKYCModal() {
+    this.showKYCPreviewModal = false;
   }
 
 }

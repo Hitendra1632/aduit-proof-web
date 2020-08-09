@@ -153,14 +153,50 @@
 						</label>
 
 						<ng-container class="block mt-1" *ngIf="sigImgFile">
-							<p class="text-xs inline leading-normal font-light">
+							<p class="text-xs inline leading-normal font-light text-blue-500 cursor-pointer" title="Click to preview"
+							 (click)="showSignPreview()">
 								Name: {{sigImgFile.name}}
 							</p>
-							<p class="text-xs inline leading-normal font-light px-3">
+							<p class="text-xs inline leading-normal font-light text-blue-500 px-3">
 								Size: {{sigImgFile.size}}
 							</p>
 						</ng-container>
-						<!-- https://tailwindcomponents.com/component/tailwind-file-upload-->
+
+						<!-- Preview Sign Image -->
+						<div *ngIf="showSignPreviewModal" class="modal  fixed w-full h-full top-0 left-0 
+					flex items-center justify-center">
+							<div class="modal-overlay absolute  w-full h-full bg-black opacity-50 cursor-pointer"></div>
+							<!--Modal-->
+							<div class="modal modal-active fixed w-full h-full top-0 left-0 flex items-center
+						 justify-center">
+								<div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+
+								<div class="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
+									<div (click)="hideSignModal()" class="modal-close absolute top-0 right-0 cursor-pointer flex flex-col items-center mt-4 mr-4 text-white text-sm z-50">
+										<i class="fa fa-times fa-2x" aria-hidden="true"></i>
+									</div>
+									<!-- Add margin if you want to see some of the overlay behind the modal-->
+									<div class="modal-content py-4 text-left px-6">
+										<!--Title-->
+										<div class="flex justify-between items-center pb-3">
+											<p class="text-2xl font-bold">Sign Preview</p>
+											<div class="modal-close cursor-pointer z-50" (click)="hideSignModal()">
+												<i class="fa fa-times fa-2x" aria-hidden="true"></i>
+											</div>
+										</div>
+
+										<!--Body-->
+										<div class="w-full">
+											<img [src]="signImageUrl" />
+										</div>
+										<!--Footer-->
+										<div class="flex justify-end pt-2">
+											<button (click)="hideSignModal()" class="modal-close px-4 bg-indigo-500 p-3 rounded-lg text-white hover:bg-indigo-400">Close</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 
@@ -252,14 +288,53 @@
 							</label>
 
 							<ng-container class="block mt-1" *ngIf="uploadDocFile.length">
-								<ng-container *ngFor="let file of uploadDocFile;">
-									<p class="text-xs inline leading-normal font-light">
+								<ng-container *ngFor="let file of uploadDocFile;let index = index">
+									<p class="text-xs inline leading-normal text-blue-500 font-light cursor-pointer " title="Click to preview"
+									 (click)="showKYCPreview(index)">
 										Name: {{file.name}}
 									</p>
-									<p class="text-xs inline leading-normal font-light px-3">
+									<p class="text-xs inline leading-normal font-light px-3 text-blue-500">
 										Size: {{file.size}}
 									</p>
 								</ng-container>
+
+								<!-- Preview Sign Image -->
+								<div *ngIf="showKYCPreviewModal" class="modal  fixed w-full h-full top-0 left-0 
+								flex items-center justify-center">
+									<div class="modal-overlay absolute  w-full h-full bg-black opacity-50 cursor-pointer"></div>
+									<!--Modal-->
+									<div class="modal modal-active fixed w-full h-full top-0 left-0 flex items-center
+									 justify-center">
+										<div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+
+										<div class="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
+											<div (click)="hideKYCModal()" class="modal-close absolute top-0 right-0 cursor-pointer flex flex-col items-center mt-4 mr-4 text-white text-sm z-50">
+												<i class="fa fa-times fa-2x" aria-hidden="true"></i>
+											</div>
+											<!-- Add margin if you want to see some of the overlay behind the modal-->
+											<div class="modal-content py-4 text-left px-6">
+												<!--Title-->
+												<div class="flex justify-between items-center pb-3">
+													<p class="text-2xl font-bold">KYC Preview</p>
+													<div class="modal-close cursor-pointer z-50" (click)="hideKYCModal()">
+														<i class="fa fa-times fa-2x" aria-hidden="true"></i>
+													</div>
+												</div>
+
+												<!--Body-->
+												<div class="w-full">
+													<ngx-extended-pdf-viewer [src]="kycImageUrl" [showSidebarButton]="false" [showSidebarOnLoad]="false"
+													 [useBrowserLocale]="true" [height]="'70vh'">
+													</ngx-extended-pdf-viewer>
+												</div>
+												<!--Footer-->
+												<div class="flex justify-end pt-2">
+													<button (click)="hideKYCModal()" class="modal-close px-4 bg-indigo-500 p-3 rounded-lg text-white hover:bg-indigo-400">Close</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
 							</ng-container>
 						</div>
 					</div>

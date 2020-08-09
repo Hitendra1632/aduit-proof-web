@@ -6,6 +6,7 @@ import { AuthenticationRoutingModule } from './authentication-routing.module';
 import { LoginComponent } from './login/login.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { MustMatchDirective } from './must-match.directive';
+import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 
 
 @NgModule({
@@ -18,6 +19,7 @@ import { MustMatchDirective } from './must-match.directive';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    NgxExtendedPdfViewerModule,
     AuthenticationRoutingModule
   ]
 })
