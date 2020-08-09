@@ -3,7 +3,8 @@
 
         <form class=" px-8 pt-6 pb-8 mb-4" (ngSubmit)="loginForm.form.valid && onLogin(loginForm)" #loginForm="ngForm"
             novalidate>
-            <img alt="AuditProof Logo" class="mb-2 text-left" width="65" src="/assets/logo.PNG" />
+            <img alt="AuditProof Logo" class="mb-2 text-left cursor-pointer" title="Home" (click)="navigateToHomeScreen()"
+                width="65" src="/assets/logo.PNG" />
 
             <p class="mt-1 text-lg leading-tight font-light">We're glad you're back!</p>
             <p class="text-lg leading-tight font-light">Sign In here, please.</p>

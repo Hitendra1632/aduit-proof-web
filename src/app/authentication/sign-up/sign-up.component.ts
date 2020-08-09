@@ -180,4 +180,8 @@ export class SignUpComponent implements OnInit {
     this.showPrivateKeyModal = false;
   }
 
+  public navigateToHomeScreen() {
+    this.router.navigate(['welcome']);
+  }
+
 }

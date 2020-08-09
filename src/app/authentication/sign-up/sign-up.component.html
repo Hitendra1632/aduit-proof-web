@@ -2,7 +2,8 @@
 	<div class="w-full m-auto my-2 max-w-xl">
 		<form class="px-8 pt-6 pb-8 mb-4" (ngSubmit)="onRegistration()" [formGroup]="registerForm">
 
-			<img alt="AuditProof Logo" class="mb-2 text-left" width="65" src="/assets/logo.PNG" />
+			<img alt="AuditProof Logo" class="mb-2 text-left  cursor-pointer" title="Home" (click)="navigateToHomeScreen()"
+			 width="65" src="/assets/logo.PNG" />
 
 			<ng-container id="BASIC_INFO" *ngIf="step === 1">
 				<p class="mt-1 text-lg leading-tight font-light">Become a smart document verifier</p>

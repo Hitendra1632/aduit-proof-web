@@ -89,4 +89,8 @@ export class LoginComponent implements OnInit {
     };
     this.signInForm = new LoginForm('test@example.com', '12345678');
   }
+
+  public navigateToHomeScreen() {
+    this.router.navigate(['welcome']);
+  }
 }
