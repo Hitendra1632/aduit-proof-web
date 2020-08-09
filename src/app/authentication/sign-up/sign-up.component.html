@@ -2,7 +2,7 @@
 	<div class="w-full m-auto my-2 max-w-xl">
 		<form class="px-8 pt-6 pb-8 mb-4" (ngSubmit)="onRegistration()" [formGroup]="registerForm">
 
-			<img alt="AuditProof Logo" class="mb-2 text-left" width="65" src="/assets/logo.PNG" />
+			<img alt="AuditProof Logo" class="mb-2 text-left" src="/assets/logo.png" />
 
 			<ng-container id="BASIC_INFO" *ngIf="step === 1">
 				<p class="mt-1 text-lg leading-tight font-light">Become a smart document verifier</p>
@@ -141,7 +141,7 @@
 						</label>
 
 						<label class="flex flex-col w-full items-center px-2 py-2 bg-white text-blue rounded-lg
-							 shadow-lg tracking-wide  border border-blue cursor-pointer 
+							 shadow-lg tracking-wide  border border-blue cursor-pointer
 							 hover:bg-blue hover:text-blue-500"
 						 (change)="signatureImageChange($event)">
 							<div class="flex w-full text-blue-500">
@@ -190,7 +190,7 @@
 					</p>
 
 					<!-- Private Key -->
-					<div *ngIf="showPrivateKeyModal" class="modal  fixed w-full h-full top-0 left-0 
+					<div *ngIf="showPrivateKeyModal" class="modal  fixed w-full h-full top-0 left-0
 					flex items-center justify-center">
 						<div class="modal-overlay absolute  w-full h-full bg-black opacity-50 cursor-pointer"></div>
 						<!--Modal-->
@@ -240,7 +240,7 @@
 							</label>
 
 							<label class="flex flex-col w-1/2 items-center px-2 py-2 bg-white text-blue rounded-lg
-								 shadow-lg tracking-wide  border border-blue cursor-pointer 
+								 shadow-lg tracking-wide  border border-blue cursor-pointer
 								 hover:bg-blue hover:text-blue-500"
 							 (change)="docUploadChange($event)">
 								<svg class="w-12 h-12" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -311,7 +311,7 @@
 					<i class="fa fa-check-circle fa-5x"></i>
 				</div>
 				<div class="w-1/3 mt-3">
-					<button type="button" class="w-32 uppercase rounded focus:outline-none border-transparent bg-blue-500 hover:bg-green-400 text-white-800 
+					<button type="button" class="w-32 uppercase rounded focus:outline-none border-transparent bg-blue-500 hover:bg-green-400 text-white-800
 					text-center text-white font-bold py-2 px-4  "
 					 (click)="navigateToLogin()">
 						Login
