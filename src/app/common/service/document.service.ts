@@ -88,4 +88,20 @@ export class DocumentService {
         return response.body;
       }));
   }
+
+  // Validate Doc  process
+  public validateSignedDocument(documentDetails): Observable<any> {
+    const httpHeaders = new HttpHeaders();
+
+    const httpOptions = {
+      headers: httpHeaders,
+      withCredentials: true,
+      observe: 'response' as 'response'
+    };
+
+    return this.http.post<any>(this.apiEndPointService.postFullDocSigning(), documentDetails, httpOptions)
+      .pipe(map((response) => {
+        return response.body;
+      }));
+  }
 }

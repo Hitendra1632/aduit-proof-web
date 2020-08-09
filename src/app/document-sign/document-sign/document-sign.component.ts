@@ -460,17 +460,17 @@ export class DocumentSignComponent implements OnInit {
 
     // Embed the PNG image bytes
     const pngImage = await pdfDoc.embedPng(this.previewPDFFile)
-
+    const user = JSON.parse(localStorage.getItem('currentUserDetails'));
     // Set all available metadata fields on the PDFDocument. Note that these fields
     // are visible in the "Document Properties" section of most PDF readers.
-    pdfDoc.setTitle('AuditProof')
-    pdfDoc.setAuthor('@AuditProof: ' + this.docID)
-    pdfDoc.setSubject('AuditProof')
-    pdfDoc.setKeywords(['audit', 'AuditProof'])
-    pdfDoc.setProducer('AuditProof')
-    pdfDoc.setCreator('AuditProof')
-    pdfDoc.setCreationDate(new Date())
-    pdfDoc.setModificationDate(new Date())
+    pdfDoc.setTitle(this.docID);
+    pdfDoc.setAuthor(user.email);
+    pdfDoc.setSubject('AuditProof');
+    pdfDoc.setKeywords(['audit', 'AuditProof']);
+    pdfDoc.setProducer('AuditProof');
+    pdfDoc.setCreator('AuditProof');
+    pdfDoc.setCreationDate(new Date());
+    pdfDoc.setModificationDate(new Date());
 
     // Get the width/height of the PNG image scaled original size
     const pngDims = pngImage.scale(1);
