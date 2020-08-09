@@ -82,8 +82,8 @@
                         <div class="block text-blue-500">Signature</div>
                         <div class="block border border-gray-200 ">
                             <div class="col-fixed-240">
-                                <div id="yes-drop" class="draggable drag-drop">
-                                    <img class="tool" width=32 height=32 src="/assets/logo.PNG">
+                                <div id="yes-drop" class="draggable drag-drop" width=32 height=32 >
+                                    <img class="tool"src="/assets/logo.PNG">
                                 </div>
                             </div>
                         </div>
@@ -128,13 +128,13 @@
                     <div class="w-full">
                         <button type="button" class="w-32 uppercase bg-transparent rounded focus:outline-none border text-blue-500 border-blue-300 hover:bg-gray-100 hover:text-black hover:bg-gray-100  text-blue-500
                                         hover:text-black text-center text-white font-semibold py-2 px-4  "
-                            (click)="simplePreview()">
+                            (click)="preview()">
                             Preview
                         </button>
                     </div>
                 </div>
 
-                <div *ngIf="showPreviewModal" class="modal  fixed w-full h-full top-0 left-0 
+                <div *ngIf="showPreviewModal" class="modal  fixed w-full h-full top-0 left-0
 					flex items-center justify-center">
                     <div class="modal-overlay absolute  w-full h-full bg-black opacity-50 cursor-pointer"></div>
                     <!--Modal-->

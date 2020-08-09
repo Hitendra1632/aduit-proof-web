@@ -415,9 +415,11 @@ export class DocumentSignComponent implements OnInit {
       var x = parseFloat(jQuery(this).data("x"));
       var y = parseFloat(jQuery(this).data("y"));
 
+      var data_set = this.dataset
+
       // var pdfY = y * maxPDFy / maxHTMLy;
-      var posizioneY = y - 21;
-      var posizioneX = x - paramContainerWidth;
+      var posizioneY = data_set.y;
+      var posizioneX =  data_set.x - paramContainerWidth;
 
       // var posizioneY = maxPDFy - y;
       // var posizioneX = maxPDFx - x;
@@ -425,41 +427,6 @@ export class DocumentSignComponent implements OnInit {
       validi.push(val);
 
     });
-
-
-
-    // document.querySelector('#imageContainer').innerHTML = '';
-    // let pdfcanvas = document.getElementById('the-canvas') as HTMLCanvasElement;
-    // let context = pdfcanvas.getContext('2d');
-    // validi.forEach(im => {
-    //   var imgObj = new Image();
-
-    //   imgObj.src = '/assets/logo.PNG';
-    //   imgObj.onload = function () {
-    //     // test that the image was loaded
-    //     context.drawImage(imgObj, im.posizioneX, im.posizioneY,
-    //       100, 100);
-    //   }
-
-    //   // Or at whatever offset you like 
-    // });
-    // document.querySelector('#imageContainer').innerHTML = '';
-    // setTimeout(function () {
-    //   let data = pdfcanvas.toDataURL('png');
-    //   let image = new Image()
-    //   image.src = data;
-    //   document.querySelector('#imageContainer').innerHTML = image.outerHTML;
-    // }, 500);
-
-    // // load image from local file
-    // pdf.imageLoadFromUrl(pdfcanvas.toDataURL('png'));
-    // // place this mage at given X, Y coordinates on the page
-    // pdf.imagePlace(20, 40);
-    // //Usage example:
-    // urltoFile(pdfcanvas.toDataURL('png'), 'a.png')
-    // .then(function(file){
-    //     console.log(file);
-    // })
     if (validi.length == 0) {
       alert('No placeholder dragged into document');
     }
@@ -467,35 +434,33 @@ export class DocumentSignComponent implements OnInit {
       console.log(JSON.stringify(validi));
       const originalCanvas: HTMLCanvasElement = document.getElementById('the-canvas') as HTMLCanvasElement;
 
-      const previewCanvas: HTMLCanvasElement = document.getElementById('preview-canvas') as HTMLCanvasElement;
+      const previewCanvas: HTMLCanvasElement = document.createElement('canvas') as HTMLCanvasElement;
+      previewCanvas.width  = originalCanvas.width;
+      previewCanvas.height = originalCanvas.height;
       const previewContext: CanvasRenderingContext2D = previewCanvas.getContext('2d');
+      previewContext.drawImage(originalCanvas,0,0);
 
-      var pdfObj = new Image();
+      validi.forEach(im => {
+        var imgObj = new Image();
+        // this is sign
+        imgObj.src = '/assets/logo.PNG';
+        imgObj.onload = function()
+        {
+          // test that the image was loaded
+          previewContext.drawImage(imgObj, im.posizioneX, im.posizioneY,
+            100,100);
+        }
+      });
 
-      pdfObj.onload = () => {
-        const loadedImage = event.currentTarget;
-        // test that the image was loaded
-        previewContext.drawImage(pdfObj, originalCanvas.width, originalCanvas.height,
-          loadedImage['width'], loadedImage['height']);
-      }
-      pdfObj.src = originalCanvas.toDataURL('png');
+        setTimeout(() => {
+        console.log(previewCanvas.toDataURL('png'));
+        this.previewPDFFile = previewCanvas.toDataURL('png');
 
+        if (this.previewPDFFile) {
+          this.showPreviewModal = true;
+        }
+      }, 2000);
 
-      // validi.forEach(im => {
-      //   var imgObj = new Image();
-
-      //   imgObj.src = '/assets/logo.PNG';
-      //   imgObj.onload = (event) => {
-      //     const loadedImage = event.currentTarget;
-      //     // test that the image was loaded
-      //     previewContext.drawImage(imgObj, im.posizioneX, im.posizioneY,
-      //       loadedImage['width'], loadedImage['height']);
-      //   }
-
-      //   // Or at whatever offset you like 
-      // });
-
-      console.log(previewCanvas.toDataURL('png'));
     }
     // }
 
