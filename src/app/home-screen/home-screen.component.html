@@ -1,33 +1,20 @@
-    <!-- <div class="w-full  rounded m-auto text-center my-32 max-w-md py-10">
-        <img alt="AuditProof Logo" class="m-auto mb-8" width="100" src="/assets/logo.PNG" />
-        <p class="text-2xl font-bold"> Welcome to AuditProof</p>
-
-        <p class=" mt-2 text-lg leading-tight font-light"> Connecting you to our decentralised web.</p>
-        <p class=" text-lg leading-tight font-light"> We are happy to see you.</p>
-
-        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold mt-8 items-center   
-            focus:outline-none py-2 px-4  uppercase rounded-full" (click)="navigateToLoginScreen()">
-            Get Started
-        </button>
-    </div> -->
-
 <nav class="container flex px-auto mx-auto pt-4 items-center justify-between">
     <img src="/assets/homepagelogo.png" class="w-48 py-2 px-4" />
-    
+
     <ul class="flex text-md mr-auto">
         <li class="mr-3">
-        <a class="inline-block py-2 px-4 " href="#">Why DD Identity?</a>
+            <a class="inline-block py-2 px-4 " href="#">Why DD Identity?</a>
         </li>
         <li class="mr-3">
-        <a class="inline-block py-2 px-4" href="#">Verification Providers</a>
+            <a class="inline-block py-2 px-4" href="#">Verification Providers</a>
         </li>
         <li class="mr-3">
-        <a class="inline-block py-2 px-4" href="#">Verified Documents</a>
+            <a class="inline-block py-2 px-4" href="#">Verified Documents</a>
         </li>
     </ul>
     <div class="flex items-center">
         <img src="/assets/search.png" class="py-2 w-16 h-12 px-4" />
-        <img src="/assets/loginbutton.png" class="w-40 py-2 px-4" />
+        <img src="/assets/loginbutton.png" (click)="navigateToLoginScreen()" class="w-40 py-2 px-4" />
     </div>
 </nav>
 <div class="container flex items-center justify-between mt-8">
@@ -44,20 +31,24 @@
         <span class="text-3xl font-bold p-6">How distributed diligence works?</span>
         <div class="flex flex-row justify-around mt-16">
             <div class="flex flex-col items-center">
-                <img src="/assets/folder.png" class="w-24"/>
-                <p class="p-6">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore</p>
+                <img src="/assets/folder.png" class="w-24" />
+                <p class="p-6">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                    incididunt ut labore et dolore</p>
             </div>
             <div class="flex flex-col items-center">
-                <img src="/assets/watchicon.png" class="w-24"/>
-                <p class="p-6">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore</p>
+                <img src="/assets/watchicon.png" class="w-24" />
+                <p class="p-6">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                    incididunt ut labore et dolore</p>
             </div>
             <div class="flex flex-col items-center">
-                <img src="/assets/searchicon.png" class="w-24"/>
-                <p class="p-6">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore</p>
+                <img src="/assets/searchicon.png" class="w-24" />
+                <p class="p-6">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                    incididunt ut labore et dolore</p>
             </div>
             <div class="flex flex-col items-center">
-                <img src="/assets/diary.png" class="w-24"/>
-                <p class="p-6">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore</p>
+                <img src="/assets/diary.png" class="w-24" />
+                <p class="p-6">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                    incididunt ut labore et dolore</p>
             </div>
         </div>
     </div>
@@ -77,11 +68,11 @@
 
 <div class="bg-gray-100">
     <div class="container flex flex-row p-16 items-center justify-between mt-8 text-center">
-        <div class="flex flex-col justify-end text-left mt-auto leading-10">   
+        <div class="flex flex-col justify-end text-left mt-auto leading-10">
             <a href="#" class="text-sm">Privacy Policy</a>
             <a href="#" class="text-sm">Term of Use</a>
         </div>
-        <div class="flex flex-col justify-start text-left leading-10">   
+        <div class="flex flex-col justify-start text-left leading-10">
             <a href="#" class="text-sm">Customer Support Policy</a>
             <a href="#" class="text-sm">Contact Sales</a>
             <a href="#" class="text-sm">hello@distributeddilligence.com</a>

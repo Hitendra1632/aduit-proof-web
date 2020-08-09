@@ -40,7 +40,9 @@
               "src/styles.scss",
               "src/tailwind.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "./node_modules/jquery/dist/jquery.min.js",
+            ]
           },
           "configurations": {
             "production": {

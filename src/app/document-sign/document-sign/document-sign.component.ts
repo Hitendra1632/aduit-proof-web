@@ -2,10 +2,25 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { DocumentService } from '../../common/service/document.service';
 import { DomSanitizer } from '@angular/platform-browser';
+import interact from 'interactjs';
+
+import {
+  PDFJSStatic,
+  PDFPageViewport,
+  PDFRenderTask,
+  PDFDocumentProxy,
+  PDFPageProxy
+} from 'pdfjs-dist';
 const { PDFDocument } = require('pdf-lib');
 
 const hash256 = require('crypto-js/sha256');
 const CryptoJS = require('crypto-js');
+
+const PDFJS: PDFJSStatic = require('pdfjs-dist');
+declare var jQuery: any;
+declare const window: any;
+import * as pdfjsLib from 'pdfjs-dist/build/pdf';
+pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://unpkg.com/pdfjs-dist@2.4.456/build/pdf.worker.min.js';
 
 @Component({
   selector: 'app-document-sign',
@@ -33,6 +48,20 @@ export class DocumentSignComponent implements OnInit {
   public isFinalSubmit = false;
   public uploadedFileSize = '';
 
+  public pdfSRC = 'assets/ASCII.pdf';
+  public previewPDFFile;
+  public showPreviewModal = false;
+  imgSrc: string;
+  imgWidth: number;
+  imgHeight: number;
+  errorMessage: string;
+
+  /*  *  costanti per i placaholder  */
+  public maxPDFx = 595;
+  public maxPDFy = 842;
+  public offsetY = 7;
+  public context: CanvasRenderingContext2D;
+
   constructor(
     private router: Router,
     private documentService: DocumentService,
@@ -40,8 +69,176 @@ export class DocumentSignComponent implements OnInit {
 
   ) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
   }
+
+  /********************************** PDF Side ***********************************************************/
+
+  async loadSignaturePlugin(): Promise<void> {
+    PDFJS.disableWorker = true;
+    try {
+      await this.showPDF(this.pdfBase64String);
+    } catch (error) {
+      this.errorMessage = error;
+      console.log(error);
+    }
+    interact('.draggable')
+      .draggable({
+        // enable inertial throwing
+        inertia: true,
+        // keep the element within the area of it's parent
+        modifiers: [
+          interact.modifiers.restrict({
+            restriction: "#pageContainer",
+            endOnly: true,
+            elementRect: { top: 0, left: 0, bottom: 1, right: 1 }
+          })
+        ],
+        // enable autoScroll
+        autoScroll: true,
+
+        // call this function on every dragmove event
+        onmove: function (event) {
+          var target = event.target,
+            // keep the dragged position in the data-x/data-y attributes
+            x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
+            y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+          // translate the element
+          target.style.webkitTransform =
+            target.style.transform =
+            'translate(' + x + 'px, ' + y + 'px)';
+
+          var mouse_position_x = target.getBoundingClientRect().left;
+          var mouse_position_y = target.getBoundingClientRect().top;
+
+          // update the posiion attributes
+          target.setAttribute('data-x', x);
+          target.setAttribute('data-y', y);
+          target.setAttribute('data-tx', event.clientX);
+          target.setAttribute('data-ty', event.clientY);
+          target.setAttribute('data-mx', mouse_position_x);
+          target.setAttribute('data-my', mouse_position_y);
+        },
+        // call this function on every dragend event
+        onend: function (event) {
+          var textEl = event.target.querySelector('p');
+
+          textEl && (textEl.textContent =
+            'moved a distance of '
+            + (Math.sqrt(event.dx * event.dx +
+              event.dy * event.dy) | 0) + 'px');
+        }
+      });
+
+    // enable draggables to be dropped into this
+    interact('.dropzone').dropzone({
+      // only accept elements matching this CSS selector
+      accept: '#yes-drop',
+      // Require a 75% element overlap for a drop to be possible
+      overlap: 0.75,
+
+      // listen for drop related events:
+
+      ondropactivate: function (event) {
+        // add active dropzone feedback
+        event.target.classList.add('drop-active');
+      },
+      ondragenter: function (event) {
+        var draggableElement = event.relatedTarget,
+          dropzoneElement = event.target;
+
+        // feedback the possibility of a drop
+        dropzoneElement.classList.add('drop-target');
+        draggableElement.classList.add('can-drop');
+        // draggableElement.textContent = 'Dragged in';
+      },
+      ondragleave: function (event) {
+        // remove the drop feedback style
+        event.target.classList.remove('drop-target');
+        event.relatedTarget.classList.remove('can-drop');
+        // event.relatedTarget.textContent = 'Dragged out';
+      },
+      ondrop: function (event) {
+        // event.relatedTarget.textContent = 'Dropped';
+      },
+      ondropdeactivate: function (event) {
+        // remove active dropzone feedback
+        event.target.classList.remove('drop-active');
+        event.target.classList.remove('drop-target');
+      }
+    });
+  }
+
+  private async showPDF(pdfFile): Promise<void> {
+    pdfjsLib.getDocument(pdfFile).promise.then((pdf: PDFDocumentProxy) => {
+      console.log('PDF loaded');
+      // Fetch the first page 
+      pdf.getPage(1).then(page => {
+        console.log('Page loaded');
+        const scale = 1;
+        const viewport = page.getViewport({ scale: 1 });
+        // Prepare canvas using PDF page dimensions        
+        const canvas: HTMLCanvasElement = this.getCanvas(viewport);
+        // Render PDF page into canvas context       
+        this.createRenderTask(page, canvas, viewport);
+        this.setDisplayValues(canvas);
+      });
+    }, (error) => {
+      // PDF loading error 
+      console.error(error);
+      this.errorMessage = error;
+    });
+  }
+
+  private async showPDFPreview(pdfFile): Promise<void> {
+    pdfjsLib.getDocument(pdfFile).promise.then((pdf: PDFDocumentProxy) => {
+      console.log('PDF loaded');
+      // Fetch the first page 
+      pdf.getPage(1).then(page => {
+        const scale = 1;
+        const viewport = page.getViewport({ scale: 1 });
+        // Prepare canvas using PDF page dimensions        
+        const canvas: HTMLCanvasElement = this.getCanvas(viewport);
+        // Render PDF page into canvas context       
+        this.createRenderTask(page, canvas, viewport);
+        this.setDisplayValues(canvas);
+      });
+    }, (error) => {
+      // PDF loading error 
+      console.error(error);
+      this.errorMessage = error;
+    });
+  }
+
+
+  private async getPage(): Promise<PDFPageProxy> {
+    const pdf: PDFDocumentProxy = await pdfjsLib.getDocument('');
+    return await pdf.getPage(1);
+  }
+
+  private getCanvas(viewport: PDFPageViewport): HTMLCanvasElement {
+    const canvas: HTMLCanvasElement = document.getElementById('the-canvas') as HTMLCanvasElement;
+    canvas.height = viewport.height;
+    canvas.width = viewport.width;
+    return canvas;
+  }
+
+  private createRenderTask(page: PDFPageProxy, canvas: HTMLCanvasElement, viewport: PDFPageViewport): PDFRenderTask {
+    const context: CanvasRenderingContext2D = canvas.getContext('2d');
+    const task: PDFRenderTask = page.render({
+      canvasContext: context,
+      viewport: viewport,
+    });
+    return task;
+  }
+
+  private setDisplayValues(canvas: HTMLCanvasElement): void {
+    this.imgWidth = canvas.width;
+    this.imgHeight = canvas.height;
+    this.imgSrc = canvas.toDataURL();
+  }
+
+  /*** Step 1 : Document Upload ******/
 
   onUploadDocChange(event) {
     const fileList: FileList = event.target.files;
@@ -64,12 +261,6 @@ export class DocumentSignComponent implements OnInit {
       return;
     }
 
-    // let hexhash = hash256(this.uploadDocFile).toString(CryptoJS.enc.hex).toUpperCase();
-    // hexhash = hexhash.replace(/(\S{2})/g, "$1-");
-    // hexhash = hexhash.replace(/-$/, "");
-    // console.log(hexhash);
-    // console.log(this.documentHash);
-
     this.signedDocumentHash = this.documentHash; // temporary assigned initial doc has
     if (this.uploadDocFile) {
       this.isInitiatedAPI = true;
@@ -84,12 +275,17 @@ export class DocumentSignComponent implements OnInit {
         this.isSigningInitialized = true;
         this.isInitiatedAPI = false;
         this.step = 2; // land user to plugin
+        if (this.pdfBase64String) {
+          this.loadSignaturePlugin();
+        }
       }, error => {
         this.isSigningInitialized = false;
         this.isInitiatedAPI = false;
       });
     }
   }
+
+  /***  Document Upload ******/
 
   public previousStep(stepNumber) {
     if (stepNumber > 1) {
@@ -111,7 +307,7 @@ export class DocumentSignComponent implements OnInit {
   // Final Submit
   public getFinalSubmitParams() {
     return {
-      documentHash: this.signedDocumentHash,
+      documentHash: this.previewPDFFile,
       documentID: this.docID,
       pubKeyHex: this.privateKeyHex,
       signatureHex: this.initiatedDocumentResponse['sigBase64Image']
@@ -175,33 +371,131 @@ export class DocumentSignComponent implements OnInit {
     downloadLink.parentNode.removeChild(downloadLink);
   }
 
+  hideModal() {
+    this.showPreviewModal = false;
+  }
+
+  public preview() {
+    var validi = [];
+    var nonValidi = [];
+
+
+    //  var maxHTMLx = jQuery('#the-canvas').width();
+    // var maxHTMLy = jQuery('#the-canvas').height();
+    var canvasOffset = jQuery("#the-canvas").offset();
+    var pageContainer = jQuery("#pageContainer").offset();
+    var offsetX = canvasOffset.left;
+    var offsetY = canvasOffset.top;
+
+    var maxHTMLx = jQuery('#the-canvas').width();
+    var maxHTMLy = jQuery('#the-canvas').height();
+    var paramContainerWidth = jQuery('#parametriContainer').width();
+
+    //recupera tutti i placholder validi
+    jQuery('.drag-drop.can-drop').each(function (index) {
+      var x = parseFloat(jQuery(this).data("mx"));
+      var y = parseFloat(jQuery(this).data("my"));
+      var valore = jQuery(this).data("valore");
+      var descrizione = jQuery(this).find(".descrizione").text();
+      var id = jQuery(this).data("id");
+
+      var x = parseFloat(jQuery(this).data("x"));
+      var y = parseFloat(jQuery(this).data("y"));
+
+      var data_set = this.dataset
+
+      // var pdfY = y * maxPDFy / maxHTMLy;
+      var posizioneY = data_set.y;
+      var posizioneX = data_set.x - paramContainerWidth;
+
+      // var posizioneY = maxPDFy - y;
+      // var posizioneX = maxPDFx - x;
+      var val = { "descrizione": descrizione, "posizioneX": posizioneX, "posizioneY": posizioneY, "valore": valore, "value": id };
+      validi.push(val);
+
+    });
+    if (validi.length == 0) {
+      alert('No placeholder dragged into document');
+    }
+    else {
+      const originalCanvas: HTMLCanvasElement = document.getElementById('the-canvas') as HTMLCanvasElement;
+
+      const previewCanvas: HTMLCanvasElement = document.createElement('canvas') as HTMLCanvasElement;
+      previewCanvas.width = originalCanvas.width;
+      previewCanvas.height = originalCanvas.height;
+      const previewContext: CanvasRenderingContext2D = previewCanvas.getContext('2d');
+      previewContext.drawImage(originalCanvas, 0, 0);
+
+      validi.forEach(im => {
+        var imgObj = new Image();
+        // this is sign
+        imgObj.src = 'data:image/png;base64,' + this.initiatedDocumentResponse['sigBase64Image'];
+        imgObj.onload = function () {
+          // test that the image was loaded
+          previewContext.drawImage(imgObj, im.posizioneX, im.posizioneY,
+            150, 150);
+        }
+      });
+
+      setTimeout(() => {
+        console.log(previewCanvas.toDataURL('png'));
+        this.previewPDFFile = previewCanvas.toDataURL('png');
+
+        if (this.previewPDFFile) {
+          this.showPreviewModal = true;
+        }
+      }, 1000);
+
+    }
+    // }
+
+  }
+
   /***************************************** Sets PDF Properties and downloads PDF containing metadata **************************************/
 
   async setDocumentMetadata() {
-    const arrayBuffer = await fetch(this.pdfBase64String).then(res => res.arrayBuffer())
-    const pdfDoc = await PDFDocument.load(arrayBuffer, { ignoreEncryption: true })
 
+    // Create a new PDFDocument
+    const pdfDoc = await PDFDocument.create()
+
+    // Embed the PNG image bytes
+    const pngImage = await pdfDoc.embedPng(this.previewPDFFile)
+    const user = JSON.parse(localStorage.getItem('currentUserDetails'));
     // Set all available metadata fields on the PDFDocument. Note that these fields
     // are visible in the "Document Properties" section of most PDF readers.
-    pdfDoc.setTitle('ASCII')
-    pdfDoc.setAuthor('Humpty Dumpty')
-    pdfDoc.setSubject('Jai Ho')
-    pdfDoc.setKeywords(['audit', 'wall', 'fall', 'king', 'horses', 'men'])
-    pdfDoc.setProducer('PDF App 9000 🤖')
-    pdfDoc.setCreator('pdf-lib')
-    pdfDoc.setCreationDate(new Date())
-    pdfDoc.setModificationDate(new Date())
+    pdfDoc.setTitle(this.docID);
+    pdfDoc.setAuthor(user.email);
+    pdfDoc.setSubject('AuditProof');
+    pdfDoc.setKeywords(['audit', 'AuditProof']);
+    pdfDoc.setProducer('AuditProof');
+    pdfDoc.setCreator('AuditProof');
+    pdfDoc.setCreationDate(new Date());
+    pdfDoc.setModificationDate(new Date());
 
+    // Get the width/height of the PNG image scaled original size
+    const pngDims = pngImage.scale(1);
+    // Add a blank page to the document
+    const page = pdfDoc.addPage()
+    // Draw the PNG image near the lower right corner of the JPG image
+    page.drawImage(pngImage, {
+      x: page.getWidth() / 2 - pngDims.width / 2,
+      y: page.getHeight() / 2 - pngDims.height / 2,
+      width: pngDims.width,
+      height: pngDims.height,
+    })
     // Serialize the PDFDocument to bytes (a Uint8Array)
-    const pdfBytes = await pdfDoc.save()
+    const pdfBytes = await pdfDoc.save();
 
     // Trigger the browser to download the PDF document
     var blob = new Blob([pdfBytes], { type: "application/pdf" });
-    var link = document.createElement('a');
-    link.href = window.URL.createObjectURL(blob);
-    var fileName = 'pdf-lib_creation_example.pdf';
-    link.download = fileName;
-    link.click();
+    const url = window.URL.createObjectURL(blob);
+    const downloadLink = document.createElement('a');
+    downloadLink.href = url;
+    downloadLink.download = this.uploadDocFile.name;
+    downloadLink.target = '_blank';
+    downloadLink.click();
+    document.body.appendChild(downloadLink);
+    downloadLink.parentNode.removeChild(downloadLink);
   }
 
 }

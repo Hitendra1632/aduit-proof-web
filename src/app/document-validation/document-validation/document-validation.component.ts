@@ -4,6 +4,7 @@ import { UserService } from '../../common/service/user.service';
 import { DocumentService } from '../../common/service/document.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import interact from 'interactjs';
+import { PDFDocument } from 'pdf-lib';
 
 @Component({
   selector: 'app-document-validation',
@@ -22,6 +23,12 @@ export class DocumentValidationComponent implements OnInit {
   public signerName = null;
 
   public uploadDocFile: File;
+  public pdfBase64String: any;
+  public pdfArrayBuffer: any;
+  public metaDataTitle = '';
+  public metaDataUser = '';
+  public metaDataDate: any;
+
 
   constructor(
     private router: Router,
@@ -68,6 +75,12 @@ export class DocumentValidationComponent implements OnInit {
     const fileList: FileList = event.target.files;
     this.uploadDocFile = fileList[0];
     // this.uploadedFileSize = (fileList[0].size / (1024 * 1024)).toFixed(2);
+
+    if (fileList.length) {
+      //Convert PDF to base64
+      this.convertPDFToBase64();
+    }
+
     if (fileList[0].size >= 20 * 1024 * 1024) {
       return;
     }
@@ -76,11 +89,76 @@ export class DocumentValidationComponent implements OnInit {
       return;
     }
 
-    if (this.uploadDocFile) {
-      this.step = 2;
+    // if (this.uploadDocFile) {
+    //   this.step = 2;
+    // }
+  }
+
+  /***************************************** Converts PDF to Base64 and Array Buffer **************************************/
+  convertPDFToBase64() {
+    // Select the very first file from list
+    const fileToLoad = this.uploadDocFile;
+    // FileReader function for read the file.
+    const fileReader = new FileReader();
+    let base64;
+    // Onload of file read the file content
+    fileReader.onload = (fileLoadedEvent) => {
+      base64 = fileLoadedEvent.target['result'];
+      this.convertPDFtoBytes(base64);
+    };
+    // Convert data to base64
+    fileReader.readAsDataURL(fileToLoad);
+  }
+
+  convertPDFtoBytes(pdfbase64) {
+    this.pdfBase64String = pdfbase64;
+    var len = pdfbase64.length;
+    var bytes = new Uint8Array(len);
+    for (var i = 0; i < len; i++) {
+      bytes[i] = pdfbase64.charCodeAt(i);
+    }
+    this.pdfArrayBuffer = bytes.buffer;
+
+    setTimeout(() => {
+      this.readFileMetaData();
+    }, 1000);
+  }
+
+  async readFileMetaData() {
+    const arrayBuffer = await fetch(this.pdfBase64String).then(res => res.arrayBuffer())
+    const pdfDoc = await PDFDocument.load(arrayBuffer, { ignoreEncryption: true, updateMetadata: false });
+
+    this.metaDataTitle = pdfDoc.getTitle();
+    this.metaDataUser = pdfDoc.getAuthor();
+    this.metaDataDate = pdfDoc.getModificationDate();
+    // Print all available metadata fields
+    console.log('Title:', pdfDoc.getTitle())
+    console.log('Author:', pdfDoc.getAuthor())
+    console.log('Subject:', pdfDoc.getSubject())
+    console.log('Creator:', pdfDoc.getCreator())
+    console.log('Keywords:', pdfDoc.getKeywords())
+    console.log('Producer:', pdfDoc.getProducer())
+    console.log('Creation Date:', pdfDoc.getCreationDate())
+    console.log('Modification Date:', pdfDoc.getModificationDate())
+  }
+  /***************************************** Converts PDF to Base64 and Array Buffer **************************************/
+
+  // Final Submit
+  public getParams() {
+    return {
+      documentHash: this.pdfBase64String,
+      documentID: this.metaDataTitle,
+      userID: this.metaDataUser,
     }
   }
 
+  public validateDocument() {
+    this.step = 2;
+    this.documentService.validateSignedDocument(this.getParams()).subscribe(response => {
+      console.log(response);
+    }, error => {
+    })
+  }
 
   // Navigate to DAshoard
   public navigateToDashboard() {

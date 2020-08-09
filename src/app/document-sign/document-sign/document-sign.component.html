@@ -20,7 +20,7 @@
                         </label>
 
                         <label class="flex flex-col w-full items-center px-2 py-2 bg-white text-blue rounded-lg
-                                         shadow-lg tracking-wide  border border-blue cursor-pointer 
+                                         shadow-lg tracking-wide  border border-blue cursor-pointer
                                          hover:bg-blue hover:text-blue-500"
                             (change)="onUploadDocChange($event)">
                             <div class="flex w-full text-blue-500">
@@ -52,15 +52,6 @@
                             [disabled]="!isSigningInitialized" (click)="nextStep(2)">
                             Next
                         </button>
-
-                        <!--Use at proper location after completeing flow -->
-                        <!-- Download button for setting Metadata to PDF file -->
-
-                        <button type="button" class="w-32 uppercase bg-blue-500 hover:bg-blue-700 text-white font-bold 
-                        uppercase py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                            (click)="setDocumentMetadata()" *ngIf="false">
-                            Download
-                        </button>
                     </div>
                 </div>
             </div>
@@ -75,8 +66,8 @@
             </div>
         </ng-container>
 
-        <ng-container *ngIf="step === 2" id="SignPlugin">
-            <div class="w-full  md:w-1/2 px-3 mt-4">
+        <ng-container *ngIf="step === 2" id="selectorContainer">
+            <div class="w-full  md:w-1/2 px-3 mt-4" id="parametriContainer">
                 <a class="text-blue-500 hover:text-blue-800" href="javascript:void(0);" title="Step {{step - 1 }}"
                     (click)="previousStep(step)">Back</a>
 
@@ -87,61 +78,37 @@
 
 
                 <div class="flex mt-2">
-                    <div class="w-full text-sm ">
+                    <div class="text-sm ">
                         <div class="block text-blue-500">Signature</div>
                         <div class="block border border-gray-200 ">
-                            <img alt="Signature Image" [src]="signImage" />
+                            <div id="yes-drop" class="draggable drag-drop" width="16" height="16">
+                                <img class="tool" [src]="signImage" alt="Signature">
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="flex flex-wrap -mx-3 mt-3 mb-3" *ngIf="false">
+                <div class="flex flex-wrap -mx-3 mt-3 mb-3">
                     <div class="w-full  px-3">
                         <label class="block tracking-wide text-blue-500 text-xs font-bold mb-2" for="privateKey">
                             PLACEHOLDER <span class="text-red-500 font-bold"> *</span>
                         </label>
-                        <!-- parameters showed on the left sidebar -->
-                        <input id="parameters" type="hidden" value='[
-                {
-                    "idParametro":480,
-                    "descrizione":"RAPINA",
-                    "valore":"X",
-                    "nota":null
-                },
-                {
-                    "idParametro":481,
-                    "descrizione":"CAUSAL_G00",
-                    "valore":"X",
-                    "nota":null
-                },
-                {
-                    "idParametro":482,
-                    "descrizione":"A",
-                    "valore":"A","nota":null
-                },
-                {
-                    "idParametro":483,
-                    "descrizione":"POSTA_REGISTRATA",
-                    "valore":"X",
-                    "nota":null
-                },
-                {
-                    "idParametro":520,
-                    "descrizione":"FURTO_EFFRAZIONE",
-                    "valore":"X",
-                    "nota":null
-                }]' />
                     </div>
                 </div>
 
 
 
                 <div class="flex mt-2">
-                    <div class="w-full md:w-1/2">
+                    <div class="w-full">
+                        <button type="button" class="w-32 uppercase bg-transparent rounded focus:outline-none border text-blue-500 border-blue-300 hover:bg-gray-100 hover:text-black hover:bg-gray-100  text-blue-500
+                        hover:text-black text-center text-white font-semibold py-2 px-4  "
+                            (click)="preview()">
+                            Preview
+                        </button>
                         <button type="button" class="w-32 uppercase bg-transparent rounded focus:outline-none border
-                                        border-blue-300 hover:bg-gray-100  text-blue-500 
+                                        border-blue-300 hover:bg-gray-100  text-blue-500 ml-2
                                         hover:text-black text-center text-white font-semibold py-2 px-4  "
-                            (click)="nextStep(3)">
+                            (click)="nextStep(3)" *ngIf="previewPDFFile">
                             Next
                         </button>
                     </div>
@@ -152,14 +119,68 @@
 
                 <div class="max-w-xl w-full lg:max-w-full lg:flex">
                     <div class="w-full border border-gray-400
-                     bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between 
+                     bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between
                      leading-normal">
-                        <ngx-extended-pdf-viewer [src]="uploadDocFile" [showSidebarButton]="false" [showSidebarOnLoad]="false"
-                            [useBrowserLocale]="true" [height]="'70vh'">
-                        </ngx-extended-pdf-viewer>
+                        <div id="pageContainer" class="pdfViewer singlePageView dropzone">
+                            <canvas id="the-canvas"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div *ngIf="showPreviewModal" class="modal  fixed w-full h-full top-0 left-0
+					flex items-center justify-center">
+                    <div class="modal-overlay absolute  w-full h-full bg-black opacity-50 cursor-pointer"></div>
+                    <!--Modal-->
+                    <div class="modal modal-active fixed w-full h-full top-0 left-0 flex items-center
+						 justify-center">
+                        <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+
+                        <div class="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
+                            <div (click)="hideModal()" class="modal-close absolute top-0 right-0 cursor-pointer flex flex-col items-center mt-4 mr-4 text-white text-sm z-50">
+                                <i class="fa fa-times fa-2x" aria-hidden="true"></i>
+                            </div>
+                            <!-- Add margin if you want to see some of the overlay behind the modal-->
+                            <div class="modal-content py-4 text-left px-6">
+                                <!--Title-->
+                                <div class="flex justify-between items-center pb-3">
+                                    <p class="text-2xl font-bold">Preview</p>
+                                    <div class="modal-close cursor-pointer z-50" (click)="hideModal()">
+                                        <i class="fa fa-times fa-2x" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+
+                                <!--Body-->
+                                <div class="w-full border border-gray-400
+                                bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between
+                                ">
+                                    <img alt="Preview PDF" [src]="previewPDFFile" />
+                                </div>
+                                <!--Footer-->
+                                <div class="flex justify-end pt-2">
+                                    <button (click)="hideModal()" class="modal-close px-4 bg-indigo-500 p-3 rounded-lg text-white hover:bg-indigo-400">Close</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+
+            <!-- <div class="w-full  md:w-full px-3 mt-4">
+                <p class="mt-2 text-sm leading-tight font-light">Document Preview</p>
+
+                <div class="max-w-xl w-full lg:max-w-full lg:flex">
+                    <div class="w-full border border-gray-400
+                     bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between
+                     leading-normal">
+                        <div id="previewContainer" class="">
+                            <canvas id="preview-canvas"></canvas>
+                        </div>
+                    </div>
+
+                </div>
+            </div> -->
         </ng-container>
 
         <ng-container *ngIf="step === 3" id="PrivateKey">
@@ -184,7 +205,7 @@
                 <div class="flex mt-2">
                     <div class="w-full md:w-1/2">
                         <button type="button" class="w-32 uppercase bg-transparent rounded focus:outline-none border
-                                             hover:bg-gray-100  text-blue-500 
+                                             hover:bg-gray-100  text-blue-500
                                             hover:text-black text-center text-white font-semibold py-2 px-4  "
                             (click)="nextStep(4)" [disabled]="!privateKeyHex" [ngClass]="{'text-gray-400 border-gray-300': !privateKeyHex,
                             'text-blue-500 border-blue-300 hover:bg-gray-100 hover:text-black':privateKeyHex}">
@@ -236,14 +257,14 @@
                 <i class="fa fa-check-circle fa-5x"></i>
             </div>
             <div class="w-full mt-3">
-                <button type="button" class="w-32 uppercase bg-blue-500 hover:bg-blue-700 text-white font-bold 
+                <button type="button" class="w-32 uppercase bg-blue-500 hover:bg-blue-700 text-white font-bold
                 uppercase py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                    (click)="downloadPDF()">
+                    (click)="setDocumentMetadata()">
                     Download
                 </button>
 
                 <button type="button" class="w-32 uppercase bg-transparent rounded focus:outline-none border
-                border-blue-300 hover:bg-gray-100  text-blue-500 
+                border-blue-300 hover:bg-gray-100  text-blue-500
                 hover:text-black text-center text-white font-semibold py-2 px-4 ml-2   "
                     (click)="navigateToDashboard()">
                     Dashboard
