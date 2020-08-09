@@ -454,8 +454,12 @@ export class DocumentSignComponent implements OnInit {
   /***************************************** Sets PDF Properties and downloads PDF containing metadata **************************************/
 
   async setDocumentMetadata() {
-    const arrayBuffer = await fetch(this.pdfBase64String).then(res => res.arrayBuffer())
-    const pdfDoc = await PDFDocument.load(arrayBuffer, { ignoreEncryption: true })
+
+    // Create a new PDFDocument
+    const pdfDoc = await PDFDocument.create()
+
+    // Embed the PNG image bytes
+    const pngImage = await pdfDoc.embedPng(this.previewPDFFile)
 
     // Set all available metadata fields on the PDFDocument. Note that these fields
     // are visible in the "Document Properties" section of most PDF readers.
@@ -468,6 +472,17 @@ export class DocumentSignComponent implements OnInit {
     pdfDoc.setCreationDate(new Date())
     pdfDoc.setModificationDate(new Date())
 
+    // Get the width/height of the PNG image scaled original size
+    const pngDims = pngImage.scale(1);
+    // Add a blank page to the document
+    const page = pdfDoc.addPage()
+    // Draw the PNG image near the lower right corner of the JPG image
+    page.drawImage(pngImage, {
+      x: page.getWidth() / 2 - pngDims.width / 2,
+      y: page.getHeight() / 2 - pngDims.height / 2,
+      width: pngDims.width,
+      height: pngDims.height,
+    })
     // Serialize the PDFDocument to bytes (a Uint8Array)
     const pdfBytes = await pdfDoc.save();
 
