@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { DocumentService } from '../../common/service/document.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import interact from 'interactjs';
-
 import {
   PDFJSStatic,
   PDFPageViewport,
@@ -11,6 +10,7 @@ import {
   PDFDocumentProxy,
   PDFPageProxy
 } from 'pdfjs-dist';
+const Web3 = require('web3');
 const { PDFDocument } = require('pdf-lib');
 
 const hash256 = require('crypto-js/sha256');
@@ -18,7 +18,8 @@ const CryptoJS = require('crypto-js');
 
 const PDFJS: PDFJSStatic = require('pdfjs-dist');
 declare var jQuery: any;
-declare const window: any;
+const wThree = new Web3();
+
 import * as pdfjsLib from 'pdfjs-dist/build/pdf';
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://unpkg.com/pdfjs-dist@2.4.456/build/pdf.worker.min.js';
 
@@ -62,6 +63,12 @@ export class DocumentSignComponent implements OnInit {
   public offsetY = 7;
   public context: CanvasRenderingContext2D;
 
+  public ethAccountObj: any;
+  public ethPrivateKey: any;
+  public ethDocumentHash: any;
+  public ethSign: any;
+  public ethResponseSignature: any;
+  public publicKeyHex: any;
   constructor(
     private router: Router,
     private documentService: DocumentService,
@@ -70,6 +77,19 @@ export class DocumentSignComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.web3Connection();
+  }
+
+  web3Connection() {
+    // Generate Account Object
+    this.ethAccountObj = wThree.eth.accounts.create();
+    console.log('Create', this.ethAccountObj);
+    this.ethPrivateKey = wThree.eth.accounts.privateKeyToAccount(this.ethAccountObj.privateKey);
+    console.log('PKey', this.ethAccountObj);
+
+    this.privateKeyHex = this.ethPrivateKey.privateKey;
+    this.publicKeyHex = this.ethPrivateKey.address;
+
   }
 
   /********************************** PDF Side ***********************************************************/
@@ -80,7 +100,7 @@ export class DocumentSignComponent implements OnInit {
       await this.showPDF(this.pdfBase64String);
     } catch (error) {
       this.errorMessage = error;
-      console.log(error);
+      // console.log(error);
     }
     interact('.draggable')
       .draggable({
@@ -171,10 +191,10 @@ export class DocumentSignComponent implements OnInit {
 
   private async showPDF(pdfFile): Promise<void> {
     pdfjsLib.getDocument(pdfFile).promise.then((pdf: PDFDocumentProxy) => {
-      console.log('PDF loaded');
+      // console.log('PDF loaded');
       // Fetch the first page 
       pdf.getPage(1).then(page => {
-        console.log('Page loaded');
+        // console.log('Page loaded');
         const scale = 1;
         const viewport = page.getViewport({ scale: 1 });
         // Prepare canvas using PDF page dimensions        
@@ -185,14 +205,14 @@ export class DocumentSignComponent implements OnInit {
       });
     }, (error) => {
       // PDF loading error 
-      console.error(error);
+      // console.error(error);
       this.errorMessage = error;
     });
   }
 
   private async showPDFPreview(pdfFile): Promise<void> {
     pdfjsLib.getDocument(pdfFile).promise.then((pdf: PDFDocumentProxy) => {
-      console.log('PDF loaded');
+      // console.log('PDF loaded');
       // Fetch the first page 
       pdf.getPage(1).then(page => {
         const scale = 1;
@@ -205,7 +225,7 @@ export class DocumentSignComponent implements OnInit {
       });
     }, (error) => {
       // PDF loading error 
-      console.error(error);
+      // console.error(error);
       this.errorMessage = error;
     });
   }
@@ -296,21 +316,32 @@ export class DocumentSignComponent implements OnInit {
   }
 
   public nextStep(stepNumber) {
-    if (stepNumber >= 1 && stepNumber < 5) {
-      this.step++;
-    } else {
-      this.step = 1;
-    }
-  }
+    if (stepNumber === 4) {
+      // Sign the data
+      this.ethSign = wThree.eth.accounts.sign(this.ethDocumentHash, this.ethPrivateKey.privateKey);
+      console.log('Create Sign', this.ethSign);
 
+      this.ethResponseSignature = this.ethSign.signature;
+      console.log('REsponse Sign', this.ethResponseSignature);
+      this.step++;
+
+    } else {
+      if (stepNumber >= 1 && stepNumber < 5) {
+        this.step++;
+      } else {
+        this.step = 1;
+      }
+    }
+
+  }
 
   // Final Submit
   public getFinalSubmitParams() {
     return {
-      documentHash: this.previewPDFFile,
+      documentHash: this.ethDocumentHash,
       documentID: this.docID,
-      pubKeyHex: this.privateKeyHex,
-      signatureHex: this.initiatedDocumentResponse['sigBase64Image']
+      pubKeyHex: this.publicKeyHex,
+      signatureHex: this.ethResponseSignature
     }
   }
 
@@ -438,17 +469,22 @@ export class DocumentSignComponent implements OnInit {
       });
 
       setTimeout(() => {
-        console.log(previewCanvas.toDataURL('png'));
+        // console.log(previewCanvas.toDataURL('png'));
         this.previewPDFFile = previewCanvas.toDataURL('png');
 
         if (this.previewPDFFile) {
           this.showPreviewModal = true;
+          this.createPDFDocHash();
         }
       }, 1000);
 
     }
-    // }
+  }
 
+  public createPDFDocHash() {
+    const docHash = wThree.utils.keccak256(this.previewPDFFile);
+    this.ethDocumentHash = docHash.substring(2);
+    console.log(this.ethDocumentHash);
   }
 
   /***************************************** Sets PDF Properties and downloads PDF containing metadata **************************************/
