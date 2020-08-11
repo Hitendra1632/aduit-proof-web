@@ -7,7 +7,7 @@ import { Event, ActivatedRoute, Router, NavigationEnd } from '@angular/router';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'tailwind-app';
+  title = 'DD Identity';
   public isWelcomeScreen = false;
 
   constructor(private router: Router, private route: ActivatedRoute) {
