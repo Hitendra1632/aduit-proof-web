@@ -183,14 +183,14 @@ export class SignUpComponent implements OnInit {
     const ethPrivateKey = wThree.eth.accounts.privateKeyToAccount(ethAccountObj.privateKey);
 
     this.privateKey = ethPrivateKey.privateKey;
-    console.log(this.privateKey);
-    this.registerForm.controls.pubKeyHex.setValue(ethPrivateKey.address);
+    this.registerForm.controls.pubKeyHex.patchValue(ethPrivateKey.address);
     this.registerForm.controls.pubKeyHex.disable({ onlySelf: true });
     this.showPrivateKeyModal = true;
   }
 
   /* To copy Text from Textbox */
-  copyPrivateKey(inputElement) {
+  copyPrivateKey(e, inputElement) {
+    e.preventDefault();
     inputElement.select();
     document.execCommand('copy');
     inputElement.setSelectionRange(0, 0);

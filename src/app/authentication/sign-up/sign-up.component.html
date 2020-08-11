@@ -1,9 +1,7 @@
 <div class="py-5">
 	<div class="w-full m-auto my-2 max-w-xl">
 		<form class="px-8 pt-6 pb-8 mb-4" (ngSubmit)="onRegistration()" [formGroup]="registerForm">
-			<img alt="AuditProof Logo" class="mb-2 text-left  cursor-pointer" title="Home" (click)="navigateToHomeScreen()"
-           src="/assets/logo.png"  />
-
+			<img alt="AuditProof Logo" class="mb-2 text-left  cursor-pointer" title="Home" (click)="navigateToHomeScreen()" src="/assets/logo.png" />
 			<ng-container id="BASIC_INFO" *ngIf="step === 1">
 				<p class="mt-1 text-lg leading-tight font-light">Become a smart document verifier</p>
 				<p class="text-lg leading-tight font-light">Sign Up today.</p>
@@ -255,7 +253,7 @@
 									<!--Footer-->
 									<div class="flex justify-end pt-2">
 										<button class="px-4 bg-green-200 p-3 rounded-lg text-indigo-500 hover:bg-green-500 hover:text-white-900 mr-2"
-										 (click)="copyPrivateKey(PrivateKey)">Copy to Clipboard</button>
+										 (click)="copyPrivateKey($event,PrivateKey)">Copy to Clipboard</button>
 										<button (click)="hideModal()" class="modal-close px-4 bg-indigo-500 p-3 rounded-lg text-white hover:bg-indigo-400">Close</button>
 									</div>
 								</div>
