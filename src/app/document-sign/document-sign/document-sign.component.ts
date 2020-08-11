@@ -293,6 +293,14 @@ export class DocumentSignComponent implements OnInit {
   /***  Document Upload ******/
 
   public previousStep(stepNumber) {
+
+    if (stepNumber === 3) {
+      // Going back to Plugin Screen on step2
+      if (this.pdfBase64String) {
+        this.loadSignaturePlugin();
+      }
+    }
+
     if (stepNumber > 1) {
       this.step--;
     } else {
@@ -308,8 +316,8 @@ export class DocumentSignComponent implements OnInit {
       // Sign the data
       this.ethSign = wThree.eth.accounts.sign(this.ethDocumentHash, this.privateKeyHex);
       console.log('Create Sign', this.ethSign);
-
-      this.ethResponseSignature = this.ethSign.signature;
+      const eSignature = this.ethSign.signature;
+      this.ethResponseSignature = eSignature.substring(2);
       console.log('REsponse Sign', this.ethResponseSignature);
       this.step++;
 
@@ -469,10 +477,12 @@ export class DocumentSignComponent implements OnInit {
     }
   }
 
+  //0x4ad35a6bf5b857d69a877dd820af2062040322d665be695045d6da8daadbfb28 == priv
+  // 0x131EE29Ca685105a6038D35190F1786f7Eef2718 == pub
+  // 4edf3fbfbeef74f0eb14e7fd2c5eff94fe885b310fc1e18e97ae758b001e7e1e ==doc
   public createPDFDocHash() {
     const docHash = wThree.utils.keccak256(this.previewPDFFile);
-    // this.ethDocumentHash = docHash.substring(2);
-    this.ethDocumentHash = docHash;
+    this.ethDocumentHash = docHash.substring(2);
     console.log(this.ethDocumentHash);
   }
 

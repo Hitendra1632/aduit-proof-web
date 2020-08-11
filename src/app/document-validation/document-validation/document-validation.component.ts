@@ -5,6 +5,8 @@ import { DocumentService } from '../../common/service/document.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import interact from 'interactjs';
 import { PDFDocument } from 'pdf-lib';
+const Web3 = require('web3');
+const wThree = new Web3();
 
 @Component({
   selector: 'app-document-validation',
@@ -29,7 +31,7 @@ export class DocumentValidationComponent implements OnInit {
   public metaDataUser = '';
   public metaDataDate: any;
 
-
+  public pdfDocHash: any;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -112,6 +114,8 @@ export class DocumentValidationComponent implements OnInit {
 
   convertPDFtoBytes(pdfbase64) {
     this.pdfBase64String = pdfbase64;
+    const dHAsh = wThree.utils.keccak256(pdfbase64);
+    this.pdfDocHash = dHAsh.substring(2);
     var len = pdfbase64.length;
     var bytes = new Uint8Array(len);
     for (var i = 0; i < len; i++) {
@@ -146,7 +150,7 @@ export class DocumentValidationComponent implements OnInit {
   // Final Submit
   public getParams() {
     return {
-      documentHash: this.pdfBase64String,
+      documentHash: this.pdfDocHash,
       documentID: this.metaDataTitle,
       userID: this.metaDataUser,
     }
