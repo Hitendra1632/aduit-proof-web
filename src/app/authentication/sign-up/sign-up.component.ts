@@ -4,6 +4,8 @@ import { MustMatch } from '../must-match.validator';
 import { Router } from '@angular/router';
 import { requiredFileType } from '../upload-file.validator';
 import { AuthService } from 'src/app/common/service/auth.service';
+const Web3 = require('web3');
+const wThree = new Web3();
 
 const localWallet = require('ethereumjs-wallet/dist/index');
 const EthUtil = require('ethereumjs-util');
@@ -170,12 +172,19 @@ export class SignUpComponent implements OnInit {
 
   // GeneratePublic Key using Ethereum
   generatePublicKey() {
-    const privateKey = localWallet.hdkey.fromMasterSeed('random')._hdkey._privateKey;
-    this.privateKey = privateKey.toString('hex')
-    const walletStr = localWallet.default.fromPrivateKey(privateKey);
-    const publicKeyString = walletStr.getPublicKeyString();
-    const wPubliKey = walletStr.getPublicKey()
-    this.registerForm.controls.pubKeyHex.setValue(publicKeyString);
+    // const privateKey = localWallet.hdkey.fromMasterSeed('random')._hdkey._privateKey;
+    // this.privateKey = privateKey.toString('hex')
+    // const walletStr = localWallet.default.fromPrivateKey(privateKey);
+    // const publicKeyString = walletStr.getPublicKeyString();
+    // const wPubliKey = walletStr.getPublicKey();
+
+    // Generate Account Object
+    const ethAccountObj = wThree.eth.accounts.create();
+    const ethPrivateKey = wThree.eth.accounts.privateKeyToAccount(ethAccountObj.privateKey);
+
+    this.privateKey = ethPrivateKey.privateKey;
+    console.log(this.privateKey);
+    this.registerForm.controls.pubKeyHex.setValue(ethPrivateKey.address);
     this.registerForm.controls.pubKeyHex.disable({ onlySelf: true });
     this.showPrivateKeyModal = true;
   }

@@ -63,12 +63,11 @@ export class DocumentSignComponent implements OnInit {
   public offsetY = 7;
   public context: CanvasRenderingContext2D;
 
-  public ethAccountObj: any;
-  public ethPrivateKey: any;
   public ethDocumentHash: any;
   public ethSign: any;
   public ethResponseSignature: any;
   public publicKeyHex: any;
+
   constructor(
     private router: Router,
     private documentService: DocumentService,
@@ -76,21 +75,7 @@ export class DocumentSignComponent implements OnInit {
 
   ) { }
 
-  ngOnInit() {
-    this.web3Connection();
-  }
-
-  web3Connection() {
-    // Generate Account Object
-    this.ethAccountObj = wThree.eth.accounts.create();
-    console.log('Create', this.ethAccountObj);
-    this.ethPrivateKey = wThree.eth.accounts.privateKeyToAccount(this.ethAccountObj.privateKey);
-    console.log('PKey', this.ethAccountObj);
-
-    this.privateKeyHex = this.ethPrivateKey.privateKey;
-    this.publicKeyHex = this.ethPrivateKey.address;
-
-  }
+  ngOnInit() { }
 
   /********************************** PDF Side ***********************************************************/
 
@@ -317,8 +302,11 @@ export class DocumentSignComponent implements OnInit {
 
   public nextStep(stepNumber) {
     if (stepNumber === 4) {
+      // Get Public Key
+      const pKey = wThree.eth.accounts.privateKeyToAccount(this.privateKeyHex);
+      this.publicKeyHex = pKey.address;
       // Sign the data
-      this.ethSign = wThree.eth.accounts.sign(this.ethDocumentHash, this.ethPrivateKey.privateKey);
+      this.ethSign = wThree.eth.accounts.sign(this.ethDocumentHash, this.privateKeyHex);
       console.log('Create Sign', this.ethSign);
 
       this.ethResponseSignature = this.ethSign.signature;
@@ -483,7 +471,8 @@ export class DocumentSignComponent implements OnInit {
 
   public createPDFDocHash() {
     const docHash = wThree.utils.keccak256(this.previewPDFFile);
-    this.ethDocumentHash = docHash.substring(2);
+    // this.ethDocumentHash = docHash.substring(2);
+    this.ethDocumentHash = docHash;
     console.log(this.ethDocumentHash);
   }
 
