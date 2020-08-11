@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
 
   // Login Action
   onLogin(form: NgForm) {
-    const bypassAPI = true;
+    const bypassAPI = false;
     this.loginStatus = {
       message: null,
       hasError: false,
