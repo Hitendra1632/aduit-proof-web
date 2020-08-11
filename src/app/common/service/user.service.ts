@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { ApiEndPointService } from './api-end-point.service';
 import { tap, map } from 'rxjs/operators';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { UserDetails } from '../models/user.model';
 
 @Injectable({
@@ -20,6 +21,18 @@ export class UserService {
     this.currentUserDetails = this.currentUserDetailsSubject.asObservable();
   }
 
+  // this works fine... not active now
+  handleError(error: HttpErrorResponse) {
+    let errorMessage = 'Unknown error!';
+    if (error.error instanceof ErrorEvent) {
+      // Client-side errors
+      errorMessage = `Error: ${error.error.message}`;
+    } else {
+      // Server-side errors
+      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+    }
+    return throwError(errorMessage);
+  }
 
   public get currentUserValue(): UserDetails {
     return this.currentUserDetailsSubject.value;
@@ -41,6 +54,7 @@ export class UserService {
         this.currentUserDetailsSubject.next(user.body);
         return user.body;
       }));
+    // catchError(this.handleError));
   }
 
 }

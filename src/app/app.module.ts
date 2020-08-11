@@ -16,9 +16,18 @@ import { HTTP_INTERCEPTORS, HttpClientXsrfModule } from '@angular/common/http';
 import { AuthInterceptor } from './common/helpers/auth.interceptor';
 import { AuthGuard } from './common/helpers/auth.guard';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
+import { HttpErrorInterceptor } from './common/helpers/http-error.interceptor';
 /** Http interceptor providers  */
 export const httpInterceptorProviders = [
   { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+];
+
+export const httpErrorProvider = [
+  {
+    provide: HTTP_INTERCEPTORS,
+    useClass: HttpErrorInterceptor,
+    multi: true
+  }
 ];
 
 @NgModule({
@@ -48,7 +57,8 @@ export const httpInterceptorProviders = [
   ],
   providers: [
     AuthGuard,
-    httpInterceptorProviders
+    httpInterceptorProviders,
+    httpErrorProvider
   ],
   bootstrap: [AppComponent]
 })

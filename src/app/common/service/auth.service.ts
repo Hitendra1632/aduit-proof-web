@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { ApiEndPointService } from './api-end-point.service';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { tap, map } from 'rxjs/operators';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject, throwError } from 'rxjs';
 import { LoginForm } from 'src/app/authentication/login-form.model';
 import { User } from '../models/user.model';
+import { catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +21,19 @@ export class AuthService {
 
     this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
     this.currentUser = this.currentUserSubject.asObservable();
+  }
+
+  handleError(error: HttpErrorResponse) {
+    let errorMessage = 'Unknown error!';
+    if (error.error instanceof ErrorEvent) {
+      // Client-side errors
+      errorMessage = `Error: ${error.error.message}`;
+    } else {
+      // Server-side errors
+      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+    }
+    window.alert(errorMessage);
+    return throwError(errorMessage);
   }
 
   public get currentUserValue(): User {
@@ -44,6 +58,7 @@ export class AuthService {
         this.currentUserSubject.next(user.body);
         return user;
       }));
+    // catchError(this.handleError));
   }
 
   // Authenticate User Login

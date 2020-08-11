@@ -13,7 +13,7 @@ import { UserService } from '../../common/service/user.service';
 })
 export class LoginComponent implements OnInit {
   returnUrl: string;
-  public signInForm = new LoginForm('test@example.com', '12345678');
+  public signInForm = new LoginForm('hitendra1632+1@gmail.com', '12345678');
   public loginStatus = {
     message: null,
     hasError: false,
@@ -64,11 +64,13 @@ export class LoginComponent implements OnInit {
       this.authService.authenticateUserLogin(this.signInForm)
         .subscribe((response: HttpResponse<any>) => {
           this.loginStatus = {
-            message: 'Login Successfull.',
+            message: 'Login Successful.',
             hasError: false,
           };
           this.userService.getUserDetails().subscribe(userResult => {
             console.log(userResult);
+          }, error => {
+            console.log(error);
           });
           this.router.navigate(['/plans/']);
         },
