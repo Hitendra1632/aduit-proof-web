@@ -334,7 +334,7 @@ export class DocumentSignComponent implements OnInit {
   // Final Submit
   public getFinalSubmitParams() {
     return {
-      documentHash: this.ethDocumentHash,
+      documentHash: this.ethDocumentHash.substring(2),
       documentID: this.docID,
       pubKeyHex: this.publicKeyHex,
       signatureHex: this.ethResponseSignature
@@ -482,7 +482,7 @@ export class DocumentSignComponent implements OnInit {
   // 4edf3fbfbeef74f0eb14e7fd2c5eff94fe885b310fc1e18e97ae758b001e7e1e ==doc
   public createPDFDocHash() {
     const docHash = wThree.utils.keccak256(this.previewPDFFile);
-    this.ethDocumentHash = docHash.substring(2);
+    this.ethDocumentHash = docHash;
     console.log(this.ethDocumentHash);
   }
 
