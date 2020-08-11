@@ -13,7 +13,7 @@ import { UserService } from '../../common/service/user.service';
 })
 export class LoginComponent implements OnInit {
   returnUrl: string;
-  public signInForm = new LoginForm('hitendra1632+1@gmail.com', '12345678');
+  public signInForm = new LoginForm('', '');
   public loginStatus = {
     message: null,
     hasError: false,
@@ -89,7 +89,7 @@ export class LoginComponent implements OnInit {
       message: null,
       hasError: false,
     };
-    this.signInForm = new LoginForm('test@example.com', '12345678');
+    this.signInForm = new LoginForm('', '');
   }
 
   public navigateToHomeScreen() {
