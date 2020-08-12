@@ -26,6 +26,12 @@
 							<p class="text-red-500 text-xs italic" *ngIf="getFormControls.firstName.errors?.required">
 								First Name is required
 							</p>
+							<p class="text-red-500 text-xs italic" *ngIf="getFormControls.firstName.errors?.minlength">
+								First Name must be at least 1 characters
+							</p>
+							<p class="text-red-500 text-xs italic" *ngIf="getFormControls.firstName.errors?.maxlength">
+								First Name should not exceed 30 characters
+							</p>
 						</div>
 					</div>
 
@@ -40,6 +46,12 @@
 							<p class="text-red-500 text-xs italic" *ngIf="getFormControls.lastName.errors?.required">
 								Last Name is required
 							</p>
+							<p class="text-red-500 text-xs italic" *ngIf="getFormControls.lastName.errors?.minlength">
+								Last Name must be at least 1 characters
+							</p>
+							<p class="text-red-500 text-xs italic" *ngIf="getFormControls.lastName.errors?.maxlength">
+								Last Name should not exceed 30 characters
+							</p>
 						</div>
 					</div>
 				</div>
@@ -53,12 +65,18 @@
 						<input class="appearance-none shadow w-full   text-gray-700 border border-gray-200 rounded py-3 px-4  leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
 						 email="true" id="email" formControlName="email" [ngClass]="{ 'border-red-500':  getFormControls.email.touched  && getFormControls.email.errors }"
 						 name="email" required type="text" placeholder="Enter Email Address ">
-						<div *ngIf=" getFormControls.email.touched  && getFormControls.lastName.errors">
+						<div *ngIf=" getFormControls.email.touched  && getFormControls.email.errors">
 							<p class="text-red-500 text-xs italic" *ngIf="getFormControls.email.errors?.required">
 								Email is required
 							</p>
 							<p class="text-red-500 text-xs italic" *ngIf="getFormControls.email.errors?.email">
 								Incorrect Email.
+							</p>
+							<p class="text-red-500 text-xs italic" *ngIf="getFormControls.email.errors?.minlength">
+								Email must be at least 3 characters
+							</p>
+							<p class="text-red-500 text-xs italic" *ngIf="getFormControls.email.errors?.maxlength">
+								Email should not exceed 30 characters
 							</p>
 						</div>
 					</div>
@@ -68,7 +86,7 @@
 							Password <span class="text-red-500 font-bold"> *</span>
 						</label>
 						<input class="appearance-none shadow w-full   text-gray-700 border  rounded py-3 px-4  leading-tight focus:outline-none focus:bg-white"
-						 formControlName="password" required minlength="8" [ngClass]="{ 'border-red-500':    getFormControls.password.touched && getFormControls.password.errors }"
+						 formControlName="password" required [ngClass]="{ 'border-red-500':    getFormControls.password.touched && getFormControls.password.errors }"
 						 id="password" name="password" type="password" placeholder="Enter Password">
 						<div *ngIf="getFormControls.password.touched && getFormControls.password.errors">
 							<p class="text-red-500 text-xs italic" *ngIf="getFormControls.password.errors?.required">
@@ -76,6 +94,9 @@
 							</p>
 							<p class="text-red-500 text-xs italic" *ngIf="getFormControls.password.errors?.minlength">
 								Password must be at least 8 characters
+							</p>
+							<p class="text-red-500 text-xs italic" *ngIf="getFormControls.password.errors?.maxlength">
+								Password should not exceed 32 characters
 							</p>
 						</div>
 					</div>
@@ -110,6 +131,12 @@
 							<p class="text-red-500 text-xs italic" *ngIf="getFormControls.phone.errors?.required">
 								Phone Number is required
 							</p>
+							<p class="text-red-500 text-xs italic" *ngIf="getFormControls.phone.errors?.minlength">
+								Phone Number must be at least 3 characters
+							</p>
+							<p class="text-red-500 text-xs italic" *ngIf="getFormControls.phone.errors?.maxlength">
+								Phone Number should not exceed 15 characters
+							</p>
 						</div>
 					</div>
 				</div>
@@ -120,7 +147,7 @@
 						<label class="block tracking-wide text-gray-700 text-xs font-bold mb-2" for="fullAddress">
 							Address <span class="text-red-500 font-bold"> *</span>
 						</label>
-						<textarea formControlName="fullAddress" required maxlength="40" rows="4" [ngClass]="{ 'border-red-500':    getFormControls.fullAddress.touched && getFormControls.fullAddress.errors }"
+						<textarea formControlName="fullAddress" required rows="4" [ngClass]="{ 'border-red-500': getFormControls.fullAddress.touched && getFormControls.fullAddress.errors }"
 						 id="fullAddress" name="fullAddress" placeholder="Enter Address " class="appearance-none shadow w-full   text-gray-700 resize-none
 						 border rounded focus:outline-none focus:bg-white  py-3 px-4  leading-tight"></textarea>
 
@@ -128,8 +155,11 @@
 							<p class="text-red-500 text-xs italic" *ngIf="getFormControls.fullAddress.errors?.required">
 								Address is required
 							</p>
+							<p class="text-red-500 text-xs italic" *ngIf="getFormControls.fullAddress.errors?.minlength">
+								Address must be at least 10 characters
+							</p>
 							<p class="text-red-500 text-xs italic" *ngIf="getFormControls.fullAddress.errors?.maxlength">
-								Address must not exceed 40 characters
+								Address should not exceed 100 characters
 							</p>
 						</div>
 					</div>

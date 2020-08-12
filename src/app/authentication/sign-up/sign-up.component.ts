@@ -51,13 +51,13 @@ export class SignUpComponent implements OnInit {
 
   ngOnInit(): void {
     this.registerForm = this.formBuilder.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(8)]],
+      firstName: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(30)]],
+      lastName: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(30)]],
+      email: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(30), Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(32)]],
       confirmPassword: ['', Validators.required],
-      fullAddress: ['', [Validators.required, Validators.maxLength(40)]],
-      phone: ['', Validators.required],
+      fullAddress: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(100)]],
+      phone: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(15)]],
       pubKeyHex: ['', Validators.required],
       acceptTerms: [true, Validators.requiredTrue],
       // sigImage: [null, [Validators.required, requiredFileType('pdf')]],
