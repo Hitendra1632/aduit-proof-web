@@ -17,6 +17,7 @@ import { AuthInterceptor } from './common/helpers/auth.interceptor';
 import { AuthGuard } from './common/helpers/auth.guard';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { HttpErrorInterceptor } from './common/helpers/http-error.interceptor';
+import { SharedModule } from './common/shared/shared.module';
 /** Http interceptor providers  */
 export const httpInterceptorProviders = [
   { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
@@ -35,7 +36,6 @@ export const httpErrorProvider = [
     AppComponent,
     HomeScreenComponent,
     PageNotFoundComponent,
-    HeaderComponent,
     PaidPlansComponent
   ],
   imports: [
@@ -45,6 +45,7 @@ export const httpErrorProvider = [
     HttpClientModule,
     HttpClientXsrfModule, // Adds xsrf support
     AppRoutingModule,
+    SharedModule,
     NgxExtendedPdfViewerModule,
     StoreModule.forRoot(reducers, {
       metaReducers,
