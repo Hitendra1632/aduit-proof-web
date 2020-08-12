@@ -176,17 +176,17 @@
 								<i class="fa fa-upload  m-auto fa-4x"></i>
 							</div>
 							<span class="text-base leading-normal">Select a file</span>
-							<input type='file' class="hidden" #signatureImageEle required accept="image/*" id="sigImage" name="sigImage" />
+							<input type='file' class="hidden" #signatureImageEle required accept="image/png" id="sigImage" name="sigImage" />
 						</label>
 
 						<ng-container class="block mt-1" *ngIf="sigImgFile">
-							<p class="text-xs inline leading-normal font-light text-blue-500 cursor-pointer" title="Click to preview"
-							 (click)="showSignPreview()">
-								Name: {{sigImgFile.name}}
+							<p class="text-sm inline float-right text-blue-500 cursor-pointer" title="Click to preview" (click)="showSignPreview()">
+								<!-- Name: {{sigImgFile.name}} -->
+								Preview
 							</p>
-							<p class="text-xs inline leading-normal font-light text-blue-500 px-3">
+							<!-- <p class="text-xs inline leading-normal font-light text-blue-500 px-3">
 								Size: {{sigImgFile.size}}
-							</p>
+							</p> -->
 						</ng-container>
 
 						<!-- Preview Sign Image -->
@@ -214,7 +214,7 @@
 
 										<!--Body-->
 										<div class="w-full">
-											<img [src]="signImageUrl" />
+											<img [src]="signImageUrl" style="width:300px;height:100px;" />
 										</div>
 										<!--Footer-->
 										<div class="flex justify-end pt-2">
@@ -316,9 +316,9 @@
 
 							<ng-container class="block mt-1" *ngIf="uploadDocFile.length">
 								<ng-container *ngFor="let file of uploadDocFile;let index = index">
-									<p class="text-xs inline leading-normal text-blue-500 font-light cursor-pointer " title="Click to preview"
-									 (click)="showKYCPreview(index)">
-										Name: {{file.name}}
+									<p class="text-sm float-right inline  text-blue-500  cursor-pointer " title="Click to preview" (click)="showKYCPreview(index)">
+										<!-- Name: {{file.name}} -->
+										Preview
 									</p>
 									<p class="text-xs inline leading-normal font-light px-3 text-blue-500">
 										Size: {{file.size}}
