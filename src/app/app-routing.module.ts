@@ -4,6 +4,7 @@ import { HomeScreenComponent } from './home-screen/home-screen.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { AuthGuard } from './common/helpers/auth.guard';
 import { PaidPlansComponent } from './paid-plans/paid-plans.component';
+import { NewDashboardComponent } from './new-dashboard/new-dashboard.component';
 
 const routes: Routes = [
   {
@@ -22,6 +23,10 @@ const routes: Routes = [
     loadChildren: () => import('./authentication/authentication.module').then(m => m.AuthenticationModule),
     // canActivate:[AuthGuard]
 
+  },
+  {
+    path: 'new-dashboard',
+    component: NewDashboardComponent
   },
   // Dashboard Module
   {

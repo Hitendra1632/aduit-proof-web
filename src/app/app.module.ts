@@ -18,6 +18,7 @@ import { AuthGuard } from './common/helpers/auth.guard';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { HttpErrorInterceptor } from './common/helpers/http-error.interceptor';
 import { SharedModule } from './common/shared/shared.module';
+import { NewDashboardComponent } from './new-dashboard/new-dashboard.component';
 /** Http interceptor providers  */
 export const httpInterceptorProviders = [
   { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
@@ -36,7 +37,8 @@ export const httpErrorProvider = [
     AppComponent,
     HomeScreenComponent,
     PageNotFoundComponent,
-    PaidPlansComponent
+    PaidPlansComponent,
+    NewDashboardComponent
   ],
   imports: [
     BrowserModule,
