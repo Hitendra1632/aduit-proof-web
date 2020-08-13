@@ -1,84 +1,235 @@
-<div class="w-full   md:w-2/3 m-auto bg-white py-3 px-2">
-    <!--max-w-xl-->
-    <div class="flex flex-wrap -mx-3 mt-3 mb-3">
-        <div class="w-full px-3">
-            <div class="flex  px-3">
-                <img alt="AuditProof Logo" class="mb-2 px-2"  src="/assets/logo.png" />
-                <a class="py-1 text-blue-500 w-full text-right" href="javascript:void(0);" title="Home" routerLink="/welcome">
-                    <i class="fa fa-home fa-lg"></i>
-                </a>
-            </div>
-            <p class="mt-2 text-lg   font-semibold px-3">Dashboard</p>
-
-            <div class="flex mt-2  px-3">
-                <button type="button" class="w-48 uppercase bg-transparent rounded focus:outline-none
-                            border border-blue-300  hover:bg-gray-100  text-blue-500
-                            hover:text-black text-center text-white font-semibold py-2 px-4  "
-                    (click)="navigateToValidateDoc()">
-                    Validate a Doc
-                </button>
-                <button type="button" class="w-48 uppercase bg-transparent rounded focus:outline-none border
-                            border-blue-300 hover:bg-gray-100  text-blue-500
-                            hover:text-black text-center text-white font-semibold py-2 px-4 ml-2  "
-                    (click)="navigateToSignDoc()">
-                    Sign a Doc
-                </button>
-            </div>
-
+<div class="w-full">
+    <nav class="w-16 h-full bg-yellow-400 flex flex-col-reverse items-center absolute border-r-4 border-gray-800">
+        <div class="mb-6 flex flex-col items-center">
+            <span class="material-icons text-4xl">notification_important</span>    
+            <span style="font-size:9px;">Notifications</span>
         </div>
-
-        <div class="w-full px-3">
-            <p class="mt-2 text-lg   px-3">Your Documents</p>
-
-            <div class="flex px-3 mt-2" *ngIf="!isDocumentLoading">
-                <table class="table-auto ">
-                    <thead>
-                        <tr class="bg-blue-700">
-                            <th class="px-4 py-2">DOC ID</th>
-                            <th class="px-4 py-2">DOC NAME</th>
-                            <th class="px-4 py-2">SIGNED BY</th>
-                            <th class="px-4 py-2">STATUS</th>
-                            <th class="px-4 py-2"></th>
-                        </tr>
-                    </thead>
-                    <tbody class="bg-blue-200">
-                        <tr *ngFor="let doc of documentList;">
-                            <td class="px-4 py-2">
-                                {{doc.documentID}}
-                            </td>
-                            <td class="px-4 py-2">
-                                {{doc.documentName}}
-                            </td>
-                            <td class="px-4 py-2">
-                                {{doc.signerName}}
-                            </td>
-                            <td class="text-green-500 font-semibold px-4 py-2">
-                                {{doc.status}}
-                            </td>
-                            <td class="px-4 py-2">
-                                <button type="button" (click)="navigateToDocDetails(doc)" class="w-13 uppercase bg-blue-600 rounded focus:outline-none border
-                                           border-blue-300 hover:bg-gray-100  text-white-500
-                                        hover:text-black text-center text-white font-semibold py-2 px-4 ml-2">
-                                    Details
-                                </button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            
+        <div class="flex flex-col h-full justify-center mb-6 items-center">
+            <div class="mb-6 flex flex-col items-center">
+                <span class="material-icons text-4xl">view_quilt</span>    
+                <span style="font-size:9px;">Dashboard</span>
             </div>
 
-            <div *ngIf="isDocumentLoading">
-                <!-- https://tailwindcomponents.com/component/full-page-overlay-loading-screen -->
-                <div class="w-full h-full fixed block top-0 left-0 bg-white opacity-75 z-50">
-                    <span class="text-green-500 opacity-75 top-1/2 my-0 mx-auto block relative w-0 h-0" style="
-                              top: 50%;
-                          ">
-                        <i class="fa fa-spinner fa-5x"></i>
-                    </span>
+            <div class="mb-6 flex flex-col items-center">
+                <span class="material-icons text-4xl">account_circle</span>    
+                <span style="font-size:9px;">Profile</span>
+            </div>
+
+            <div class="mb-6 flex flex-col items-center">
+                <span class="material-icons text-4xl">payments</span>    
+                <span style="font-size:9px;">Payment</span>
+            </div>
+        </div>
+        
+    </nav>
+    <div class="ml-24 mr-4">
+        <nav class="flex px-auto mx-auto pt-2 items-center justify-between">
+            <img src="/assets/logo.png" class="w-48" />
+            <div class="flex items-center">
+                <img src="/assets/search.png" class="py-2 w-16 h-12 px-4" />
+                <button class="w-40 py-2 px-4 bg-yellow-400 rounded outline-none">Log Out</button>
+            </div>
+        </nav>
+        <div class="flex justify-between mt-2">
+            <div class="flex flex-col">
+                <div class="flex justify-between">
+                    <span class="text-2xl text-gray-400 font-bold">My documents</span>
+                    <div class="p-2 flex items-end ml-4">
+                        <span class="text-xs">view</span>
+                        <span class="material-icons ml-2 text-blue-400">
+                            view_sidebar
+                        </span>
+                        <span class="material-icons ml-2 text-gray-400">
+                            view_list
+                        </span>
+                    </div>
+                </div>
+                <div class="flex justify-between">
+                    <div class="flex flex-col items-center">
+                        <button class="bg-yellow-400 w-full rounded h-2"></button>
+                        <div class="flex mt-1 items-center">
+                            <span class="text-xs">Ongoing</span>
+                            <span class="text-xs bg-yellow-400 p-1 font-bold ml-2 rounded">10</span>
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <button class="bg-gray-200 w-full rounded h-2"></button>
+                        <div class="flex mt-1 items-center">
+                            <span class="text-xs text-gray-400">Published</span>
+                            <span class="text-xs bg-gray-200 p-1 font-bold ml-2 rounded text-gray-400">10</span>
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <button class="bg-gray-200 w-full rounded h-2"></button>
+                        <div class="flex mt-1 items-center">
+                            <span class="text-xs text-gray-400">All</span>
+                            <span class="text-xs bg-gray-200 p-1 font-bold ml-8 rounded text-gray-400">10</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-2">
+                    <div class="items-start w-full bg-blue-400 p-3 rounded flex flex-col">
+                        <span class="text-md text-gray-800 font-bold">Document Name</span>
+                        <span class="text-xs font-bold rounded text-red-600"><span class="material-icons text-xs">fiber_manual_record</span>private key needed</span>
+                    </div>
+                    <div class="items-start w-full bg-gray-200 p-3 rounded flex flex-col mt-2">
+                        <span class="text-md text-gray-800 font-bold">Document Name</span>
+                        <span class="text-xs font-bold rounded text-green-600"><span class="material-icons text-xs">fiber_manual_record</span> Signed</span>
+                    </div>
+                    <div class="items-start w-full bg-gray-200 p-3 rounded flex flex-col mt-2">
+                        <span class="text-md text-gray-800 font-bold">Document Name</span>
+                        <span class="text-xs font-bold rounded text-red-600"><span class="material-icons text-xs">fiber_manual_record</span>Signature Needed</span>
+                    </div>
+                    <div class="items-start w-full bg-gray-200 p-3 rounded flex flex-col mt-2">
+                        <span class="text-md text-gray-800 font-bold">Document Name</span>
+                        <span class="text-xs font-bold rounded text-red-600"><span class="material-icons text-xs">fiber_manual_record</span>Signature Needed</span>
+                    </div>
+                    <div class="items-start w-full bg-gray-200 p-3 rounded flex flex-col mt-2">
+                        <span class="text-md text-gray-800 font-bold">Document Name</span>
+                        <span class="text-xs font-bold rounded text-red-600"><span class="material-icons text-xs">fiber_manual_record</span>Signature Needed</span>
+                    </div>
+                    <div class="items-start w-full bg-gray-200 p-3 rounded flex flex-col mt-2">
+                        <span class="text-md text-gray-800 font-bold">Document Name</span>
+                        <span class="text-xs font-bold rounded text-red-600"><span class="material-icons text-xs">fiber_manual_record</span>Signature Needed</span>
+                    </div>
+                    <div class="items-start w-full bg-gray-200 p-3 rounded flex flex-col mt-2">
+                        <span class="text-md text-gray-800 font-bold">Document Name</span>
+                        <span class="text-xs font-bold rounded text-red-600"><span class="material-icons text-xs">fiber_manual_record</span>Signature Needed</span>
+                    </div>
+                </div>
+                <div class="items-start w-full rounded mt-2 flex items-center">
+                    <button class="bg-yellow-500 text-3xl font-bold rounded-full h-10 w-10 flex items-center justify-center material-icons">add</button>
+                    <span class="text-md font-bold rounded ml-2">Upload New Document</span>
+                </div>
+                <span class="text-sm text-gray-400 mt-4">Balance Amount in account $200</span>
+            </div>
+            <div class="bg-gray-200 pl-6 pr-6 pt-4 flex flex-col rounded">
+                <div class="flex">
+                    <div class="flex justify-center">
+                        <button class="bg-yellow-400 w-32 rounded h-2 mt-4"></button>
+                        <div class="absolute w-24 flex flex-col items-center text-center top-10">
+                            <img src="/assets/watchicon.png" class="w-8 text-center"/>
+                            <span class="text-xs mt-4 font-bold">Service request submitted</span>
+                        </div>
+                    </div>
+                    <div class="flex justify-center">
+                        <button class="bg-yellow-400 w-48 rounded h-2 mt-4"></button>
+                        <div class="absolute w-24 flex flex-col items-center text-center top-10">
+                            <img src="/assets/searchicon.png" class="w-8 text-center"/>
+                            <span class="text-xs mt-4 font-bold">Verified by service provider</span>
+                        </div>
+                    </div>
+                    <div class="flex justify-center">
+                        <button class="bg-yellow-400 w-56 rounded h-2 mt-4"></button>
+                        <div class="absolute w-16 flex flex-col items-center text-center top-10">
+                            <img src="/assets/diary.png" class="w-8 text-center"/>
+                            <span class="text-xs mt-4 font-bold">Owner Signature</span>
+                        </div>
+                    </div>
+                    <div class="flex justify-center">
+                        <button class="bg-yellow-400 w-32 rounded h-2 mt-4"></button>
+                        <div class="absolute w-16 flex flex-col items-center text-center top-10">
+                            <div class="bg-blue-400 rounded-full w-12 p-2">
+                                <img src="/assets/diary.png" class="w-8 text-center"/>
+                            </div>
+                            <span class="text-xs mt-1 font-bold">Verifier Signature</span>
+                        </div>
+                    </div>
+                    <div class="flex justify-center opacity-25">
+                        <button class="bg-gray-400 w-56 rounded h-2 mt-4"></button>
+                        <div class="absolute w-32 flex flex-col items-center text-center top-10">
+                            <img src="/assets/folder.png" class="w-8 text-center"/>
+                            <span class="text-xs mt-4 font-bold flex">Uploaded Document on blockchain</span>
+                        </div>
+                    </div>
+                    <div class="flex justify-center opacity-25">
+                        <button class="bg-gray-400 w-40 rounded h-2 mt-4"></button>
+                        <div class="absolute w-24 flex flex-col items-center text-center top-10">
+                            <img src="/assets/folder.png" class="w-8 text-center"/>
+                            <span class="text-xs mt-4 font-bold">Published on blockchain</span>
+                        </div>
+                    </div>
+                </div>
+                <hr class="w-full border-2 mt-16 border-gray-500 rounded"/>
+                <div class="flex w-full h-full pt-4 pb-2 justify-between">
+                    <div class="flex flex-col  w-3/5 h-full items-center">
+                        <div class="w-full h-full overflow-y-auto">
+                            <div class="bg-white full h-full">
+                            </div>
+                        </div>
+                        <button class="bg-yellow-500 mt-4 w-32 rounded pr-8 pl-8 pt-3 pb-3 mb-2">Submit</button>
+                    </div>
+                    <hr class="h-full border-2 ml-4 border-gray-500 rounded mb-2">
+                    <div class="flex flex-col w-2/6">
+                        <ul class="flex border-b w-full">
+                            <li class="-mb-px flex flex-col bg-blue-100 inline-block border-l border-t border-r rounded-t pl-10 pr-10 pt-1">
+                                <span class="material-icons text-blue-400">info</span>
+                              <a class="text-xs font-semibold" href="#">Info</a>
+                            </li>
+                            <li class="-mb-px flex flex-col bg-gray-200 inline-block border-l border-t border-r rounded-t pl-10 pr-10 pt-1 text-center">
+                                <span class="material-icons">chat_bubble
+                                </span>
+                              <a class="text-xs font-semibold" href="#">Message</a>
+                            </li>
+                            <li class="-mb-px flex flex-col bg-gray-200 inline-block border-l border-t border-r rounded-t pl-6 pr-8 pb-1 pt-1 text-center">
+                                <span class="material-icons">more_vert</span>
+                              <a class="text-xs font-semibold" href="#">Audit Trail</a>
+                            </li>
+                        
+                        </ul>
+                        <div class="pl-6 pr-6 bg-blue-100 flex flex-col w-full">
+                            <div class="mt-4 flex flex-col bg-gray-200 p-2">
+                                <span class="text-xs">Document Name</span>
+                                <span class="text-xs">Status</span>
+                                <span class="text-xs">Date Created</span>
+                                <span class="text-xs">Document Kind</span>
+                                <span class="text-xs">File size</span>
+                                <span class="text-xs">Verification service provider</span>
+                            </div>
+                            <div class="mt-1 flex flex-col bg-gray-200">
+                                <span class="text-xs w-full bg-gray-400 text-center"> Document Name</span>
+                                <div class="text-xs pl-2 mt-2 justify-center">
+                                    <input type="checkbox" value="Verified_document" checked />
+                                    Verified Document + Signature
+                                </div>
+                                <div class="text-xs pl-2 mt-1 mb-2">
+                                    <input type="checkbox" value="Signature_Only" />
+                                    Signature Only
+                                </div>
+                            </div>
+                            <div class="mt-1 flex flex-col bg-gray-200">
+                                <span class="text-xs w-full bg-gray-400 text-center">Privacy Settings</span>
+                                <div class="text-xs pl-2 mt-2 justify-center">
+                                    <input type="checkbox" value="public" checked />
+                                    Public
+                                </div>
+                                <div class="text-xs pl-2 mt-1 mb-2">
+                                    <input type="checkbox" value="Public and Unlisted" />
+                                    Public and Unlisted
+                                </div>
+                            </div>
+                            <div class="mt-1 flex flex-col bg-gray-200">
+                                <span class="text-xs w-full bg-gray-400 text-center">Share</span>
+                                <div class="text-xs pl-2 mt-2 flex justify-around mb-2">
+                                    <span class="bg-gray-400 p-2 rounded flex justify-center text-white font-bold">Copy Link <span class="material-icons ml-2">link</span></span>
+                                    <span class="bg-gray-400 p-2 rounded text-white flex justify-center font-bold">Email Asset <span class="material-icons ml-2"> mail</span></span>
+                                </div>
+                            </div>
+
+                            <div class="mt-1 flex flex-col bg-gray-200 mb-2">
+                                <span class="text-xs w-full bg-gray-400 text-center">Cancel Transaction</span>
+                                <div class="text-xs pl-2 mt-2 flex justify-around mb-2">
+                                    <span class="bg-gray-400 p-2 rounded">Delete File</span>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="bg-blue-400 px-2 py-3 mt-2 rounded flex justify-center">Download Document <span class="material-icons font-black "> vertical_align_bottom </span></button>
+                    </div>
                 </div>
             </div>
         </div>
+        
 
     </div>
-
 </div>
