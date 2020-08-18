@@ -176,7 +176,7 @@
 								<i class="fa fa-upload  m-auto fa-4x"></i>
 							</div>
 							<span class="text-base leading-normal">Select a file</span>
-							<input type='file' class="hidden" #signatureImageEle required accept="image/png" id="sigImage" name="sigImage" />
+							<input type='file' class="hidden" #signatureImageEle required accept="image/jpeg" id="sigImage" name="sigImage" />
 						</label>
 
 						<ng-container class="block mt-1" *ngIf="sigImgFile">
@@ -190,7 +190,7 @@
 						</ng-container>
 
 						<!-- Preview Sign Image -->
-						<div *ngIf="showSignPreviewModal" class="modal  fixed w-full h-full top-0 left-0 
+						<div *ngIf="showSignPreviewModal" class="modal  fixed w-full h-full top-0 left-0
 					flex items-center justify-center">
 							<div class="modal-overlay absolute  w-full h-full bg-black opacity-50 cursor-pointer"></div>
 							<!--Modal-->
@@ -326,7 +326,7 @@
 								</ng-container>
 
 								<!-- Preview Sign Image -->
-								<div *ngIf="showKYCPreviewModal" class="modal  fixed w-full h-full top-0 left-0 
+								<div *ngIf="showKYCPreviewModal" class="modal  fixed w-full h-full top-0 left-0
 								flex items-center justify-center">
 									<div class="modal-overlay absolute  w-full h-full bg-black opacity-50 cursor-pointer"></div>
 									<!--Modal-->
