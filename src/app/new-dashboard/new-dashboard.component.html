@@ -1,24 +1,24 @@
 <div class="w-screen h-screen flex">
-    <nav class="w-16 h-full bg-yellow-400 flex flex-col-reverse items-center border-r-4 border-gray-800">
+    <nav class="w-24 h-full bg-yellow-400 flex flex-col-reverse items-center border-r-4 border-gray-800">
         <div class="mb-6 flex flex-col items-center">
             <span class="material-icons text-4xl">notification_important</span>
-            <span style="font-size:9px;">Notifications</span>
+            <span class="text-xs">Notifications</span>
         </div>
 
         <div class="flex flex-col h-full justify-center mb-6 items-center">
-            <div class="mb-6 flex flex-col items-center">
+            <div class="mb-12 flex flex-col items-center">
                 <span class="material-icons text-4xl">view_quilt</span>
-                <span style="font-size:9px;">Dashboard</span>
+                <span class="text-xs">Dashboard</span>
             </div>
 
-            <div class="mb-6 flex flex-col items-center">
+            <div class="mb-12 flex flex-col items-center">
                 <span class="material-icons text-4xl">account_circle</span>
-                <span style="font-size:9px;">Profile</span>
+                <span class="text-xs">Profile</span>
             </div>
 
-            <div class="mb-6 flex flex-col items-center">
+            <div class="mb-12 flex flex-col items-center">
                 <span class="material-icons text-4xl">payments</span>
-                <span style="font-size:9px;">Payment</span>
+                <span class="text-xs">Payment</span>
             </div>
         </div>
 
@@ -163,25 +163,26 @@
                         <button class="bg-yellow-500 mt-4 w-32 rounded pr-8 pl-8 pt-3 pb-3 mb-2">Submit</button>
                     </div>
                     <hr class="h-full border-2 ml-6 mr-6 border-gray-500 rounded mb-2">
-                    <div class="flex flex-col w-1/3 relative">
+                    <div class="flex flex-col w-1/3 relative h-full relative">
                         <ul class="flex border-b w-full">
-                            <li class="-mb-px px-10 py-3 flex flex-col bg-blue-100 inline-block border-l border-t border-r rounded-t text-center w-full">
-                                <span class="material-icons text-blue-400">info</span>
+                            <li class="-mb-px px-10 py-3 flex flex-col bg-gray-200  inline-block border-l border-t border-r rounded-t text-center w-1/3">
+                                <span class="material-icons ">info</span>
                               <a class="text-xs font-semibold" href="#">Info</a>
                             </li>
-                            <li class="-mb-px px-10 py-3 flex flex-col bg-gray-200 inline-block border-l border-t border-r rounded-t text-center w-full">
-                                <span class="material-icons">chat_bubble
+                            <li class="-mb-px px-10 py-3 flex flex-col bg-blue-100 inline-block border-l border-t border-r rounded-t text-center w-1/3">
+                                <span class="material-icons text-blue-400">chat_bubble
                                 </span>
                               <a class="text-xs font-semibold" href="#">Message</a>
                             </li>
-                            <li class="-mb-px px-10 py-3 flex flex-col bg-gray-200 inline-block border-l border-t border-r rounded-t text-center w-full">
+                            <li class="-mb-px px-10 py-3 flex flex-col bg-gray-200 inline-block border-l border-t border-r rounded-t text-center w-1/3">
                                 <span class="material-icons">more_vert</span>
                               <a class="text-xs font-semibold" href="#">Audit Trail</a>
                             </li>
 
                         </ul>
-                        <div class="p-6 bg-blue-100 flex flex-col w-full">
-                            <div class="flex flex-col bg-gray-200 p-4">
+                        <div class="p-6 bg-blue-100 flex flex-col w-full h-full mb-20 items-center">
+                            <!-- info block start here  -->
+                            <!-- <div class="flex flex-col bg-gray-200 p-4">
                                 <span class="text-xs">Document Name</span>
                                 <span class="text-xs">Status</span>
                                 <span class="text-xs">Date Created</span>
@@ -222,13 +223,81 @@
                                     <span class="bg-gray-400 py-2 px-3 rounded text-white flex items-center font-bold">Email Asset <span class="material-icons ml-2"> mail</span></span>
                                 </div>
                             </div>
-
                             <div class="m-1 flex flex-col bg-gray-200">
                                 <span class="text-xs w-full bg-gray-400 text-center">Cancel Transaction</span>
-                                <div class="text-xs py-3 px-20  flex justify-around">
-                                    <span class="bg-gray-400 p-2 rounded w-full text-center">Delete File</span>
+                                <div class="text-xs py-3  flex justify-around">
+                                    <span class="bg-gray-400 px-20 py-3 rounded text-center">Delete File</span>
                                 </div>
-                            </div>
+                            </div> -->
+                            <!-- Info block end here  -->
+                             <!-- Message block start here -->
+                             <div class="relative w-full h-full">
+                                <div class="flex flex-col overflow-y-auto max-h-full p-6 absolute inset-x-0 bottom-0">
+                                    <p class="bg-blue-200 p-6">
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut.
+                                    </p>
+                                    <p class="bg-yellow-100 p-4 mt-12">
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut.
+                                    </p>
+                                    
+                                    <p class="bg-blue-200 p-4 mt-12">
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut.
+                                    </p>
+                                    <p class="bg-yellow-100 p-4 mt-12">
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut.
+                                    </p>
+                                    
+                                    <p class="bg-blue-200 p-4 mt-12">
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut.
+                                    </p>
+                                    <p class="bg-yellow-100 p-4 mt-12">
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut.
+                                    </p>
+                                    
+                                    <p class="bg-blue-200 p-4 mt-12">
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut.
+                                    </p>
+                                </div>
+                               
+                            </div> 
+                            <button class="bg-yellow-500 mt-4 w-32 rounded pr-8 pl-8 pt-3 pb-3 mb-2">Submit</button>
+                            <!-- Message Block end here -->
+                            <!-- Audit trail block start here -->
+                            <!-- <div class="relative w-full h-full">
+                               <div class="flex flex-col overflow-y-auto w-full h-full absolute justify-around p-6">
+                                    <hr class="h-full border-2 ml-3 border-blue-400 absolute rounded mt-12">
+                                    <div class="bg-transparent relative flex items-center mt-12">
+                                        <span class="material-icons text-3xl text-blue-400">fiber_manual_record</span>
+                                        <span class="text-2xl">Document downloaded</span>
+                                    </div>
+                                    
+                                    <div class="bg-transparent relative flex items-center mt-10">
+                                        <span class="material-icons text-3xl text-blue-400">fiber_manual_record</span>
+                                        <span class="text-2xl">Signed Document</span>
+                                    </div>
+                                    <div class="bg-transparent relative flex items-center mt-20">
+                                        <span class="material-icons text-3xl text-blue-400">fiber_manual_record</span>
+                                        <span class="text-2xl">Document downloaded</span>
+                                    </div>
+                                    <div class="bg-transparent relative flex items-center mt-10">
+                                        <span class="material-icons text-3xl text-blue-400">fiber_manual_record</span>
+                                        <span class="text-2xl">Uploaded Id image</span>
+                                    </div>
+                                    <div class="bg-transparent relative flex items-center mt-20">
+                                        <span class="material-icons text-3xl text-blue-400">fiber_manual_record</span>
+                                        <span class="text-2xl">Document downloaded</span>
+                                    </div>
+                                    <div class="bg-transparent relative flex items-center mt-10">
+                                        <span class="material-icons text-3xl text-blue-400">fiber_manual_record</span>
+                                        <span class="text-2xl">Signed Doument</span>
+                                    </div>
+                                    <div class="bg-transparent relative flex items-center mt-10">
+                                        <span class="material-icons text-3xl text-blue-400">fiber_manual_record</span>
+                                        <span class="text-2xl">Signed Document</span>
+                                    </div>  
+                                </div>
+                            </div>  -->
+                            <!-- Audit trail block end here  -->
                         </div>
                         <button class="bg-blue-400 px-2 py-3 rounded text-md absolute inset-x-0 bottom-0 w-full">Download Document <span class="material-icons font-black "> vertical_align_bottom </span></button>
                     </div>
