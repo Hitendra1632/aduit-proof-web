@@ -5,6 +5,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { AuthGuard } from './common/helpers/auth.guard';
 import { PaidPlansComponent } from './paid-plans/paid-plans.component';
 import { NewDashboardComponent } from './new-dashboard/new-dashboard.component';
+import { ListViewComponent } from './list-view/list-view.component';
 
 const routes: Routes = [
   {
@@ -27,6 +28,10 @@ const routes: Routes = [
   {
     path: 'new-dashboard',
     component: NewDashboardComponent
+  },
+  {
+    path: 'list-view',
+    component: ListViewComponent
   },
   // Dashboard Module
   {

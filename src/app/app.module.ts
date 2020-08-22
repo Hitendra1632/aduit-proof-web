@@ -19,6 +19,7 @@ import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { HttpErrorInterceptor } from './common/helpers/http-error.interceptor';
 import { SharedModule } from './common/shared/shared.module';
 import { NewDashboardComponent } from './new-dashboard/new-dashboard.component';
+import { ListViewComponent } from './list-view/list-view.component';
 /** Http interceptor providers  */
 export const httpInterceptorProviders = [
   { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
@@ -38,7 +39,8 @@ export const httpErrorProvider = [
     HomeScreenComponent,
     PageNotFoundComponent,
     PaidPlansComponent,
-    NewDashboardComponent
+    NewDashboardComponent,
+    ListViewComponent
   ],
   imports: [
     BrowserModule,
