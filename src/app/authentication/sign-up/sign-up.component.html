@@ -64,12 +64,12 @@
 						</label>
 						<input class="appearance-none shadow w-full   text-gray-700 border border-gray-200 rounded py-3 px-4  leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
 						 email="true" id="email" formControlName="email" [ngClass]="{ 'border-red-500':  getFormControls.email.touched  && getFormControls.email.errors }"
-						 name="email" required type="text" placeholder="Enter Email Address ">
+						 name="email" required type="email" placeholder="Enter Email Address">
 						<div *ngIf=" getFormControls.email.touched  && getFormControls.email.errors">
 							<p class="text-red-500 text-xs italic" *ngIf="getFormControls.email.errors?.required">
 								Email is required
 							</p>
-							<p class="text-red-500 text-xs italic" *ngIf="getFormControls.email.errors?.email">
+							<p class="text-red-500 text-xs italic" *ngIf="getFormControls.email.errors?.email || getFormControls.email.errors?.pattern">
 								Incorrect Email.
 							</p>
 							<p class="text-red-500 text-xs italic" *ngIf="getFormControls.email.errors?.minlength">

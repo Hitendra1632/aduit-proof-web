@@ -406,7 +406,7 @@ export class DocumentSignComponent implements OnInit {
     var validi = [];
     var nonValidi = [];
 
-
+    debugger;
     //  var maxHTMLx = jQuery('#the-canvas').width();
     // var maxHTMLy = jQuery('#the-canvas').height();
     var canvasOffset = jQuery("#the-canvas").offset();
@@ -483,7 +483,6 @@ export class DocumentSignComponent implements OnInit {
   public createPDFDocHash() {
     const docHash = wThree.utils.keccak256(this.previewPDFFile);
     this.ethDocumentHash = docHash;
-    console.log(this.ethDocumentHash);
   }
 
   /***************************************** Sets PDF Properties and downloads PDF containing metadata **************************************/

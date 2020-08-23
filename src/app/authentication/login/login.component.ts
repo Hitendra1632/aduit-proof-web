@@ -68,9 +68,8 @@ export class LoginComponent implements OnInit {
             hasError: false,
           };
           this.userService.getUserDetails().subscribe(userResult => {
-            console.log(userResult);
+
           }, error => {
-            console.log(error);
           });
           this.router.navigate(['/plans/']);
         },

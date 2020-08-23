@@ -14,10 +14,7 @@ export class AuthInterceptor implements HttpInterceptor {
         if (requestMethod && (requestMethod === 'post' || requestMethod === 'delete' || requestMethod === 'put' )) {
             const headerName = 'XSRF-TOKEN';
             let token = this.tokenExtractor.getToken() as string;
-        console.log('Interceptor Token >>> ', token)
-
             if (token !== null && !request.headers.has(headerName)) {
-                console.log('in');
                 request = request.clone({ headers: request.headers.set(headerName, token) });
             }
          }
