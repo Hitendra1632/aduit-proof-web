@@ -181,7 +181,7 @@ export class DocumentSignComponent implements OnInit {
       pdf.getPage(1).then(page => {
         // console.log('Page loaded');
         const scale = 1;
-        const viewport = page.getViewport({ scale: 1 });
+        const viewport = page.getViewport({ scale: 2 });
         // Prepare canvas using PDF page dimensions        
         const canvas: HTMLCanvasElement = this.getCanvas(viewport);
         // Render PDF page into canvas context       
@@ -318,7 +318,7 @@ export class DocumentSignComponent implements OnInit {
       console.log('Create Sign', this.ethSign);
       const eSignature = this.ethSign.signature;
       this.ethResponseSignature = eSignature.substring(2);
-      console.log('REsponse Sign', this.ethResponseSignature);
+      console.log('Response Sign', this.ethResponseSignature);
       this.step++;
 
     } else {

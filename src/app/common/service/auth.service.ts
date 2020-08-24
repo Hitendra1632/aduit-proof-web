@@ -54,8 +54,6 @@ export class AuthService {
     return this.http.post<any>(this.apiEndPointService.userLogin(), userCredentials, httpOptions)
       .pipe(map((user) => {
         // store user details and jwt token in local storage to keep user logged in between page refreshes
-        localStorage.setItem('currentUser', JSON.stringify(user.body));
-        this.currentUserSubject.next(user.body);
         return user;
       }));
     // catchError(this.handleError));

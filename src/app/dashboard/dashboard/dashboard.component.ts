@@ -39,7 +39,7 @@ export class DashboardComponent implements OnInit {
       // New Document
       this.router.navigate(['/validate-document/']);
     } else {
-      // Existing document 
+      // Existing document
       this.router.navigate(['/validate-document/', document['documentID']]);
     }
   }
@@ -57,7 +57,7 @@ export class DashboardComponent implements OnInit {
       // User is already logged in .. send to dashboard
       this.router.navigate(['/dashboard/']);
     } else {
-      // User is not logged in .. send to WElcome Screen
+      // User is not logged in .. send to Welcome Screen
       this.router.navigate(['welcome']);
     }
   }

@@ -38,14 +38,15 @@ export class UserService {
     return this.currentUserDetailsSubject.value;
   }
 
-  public getUserDetails() {
-
-    const httpHeaders = new HttpHeaders();
+  public getUserDetails(token) {
+    debugger;
+    const httpHeaders = new HttpHeaders()
+      .set('X-Xsrf-Token', token);
 
     const httpOptions = {
       headers: httpHeaders,
       withCredentials: true,
-      observe: 'response' as 'response',
+      observe: 'response' as 'response'
     };
 
     return this.http.get<UserDetails>(this.apiEndPointService.getUserDetails(), httpOptions)
