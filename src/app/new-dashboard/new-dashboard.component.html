@@ -13,7 +13,7 @@
 
             <div class="mb-12 flex flex-col items-center">
                 <span class="material-icons text-4xl">account_circle</span>
-                <span class="text-xs">Profile</span>
+                <span class="text-xs">Account</span>
             </div>
 
             <div class="mb-12 flex flex-col items-center">
@@ -34,7 +34,7 @@
         <div class="flex w-full absolute inset-x-0 bottom-0 mb-4 h-full mt-32">
             <div class="relative flex flex-col w-1/4 mt-32">
                 <div class="flex w-auto justify-between">
-                    <span class="text-3xl text-gray-400 font-bold w-auto">My documents</span>
+                    <span class="text-3xl text-gray-400 font-bold w-auto">My Documents</span>
                     <div class="p-2 flex items-end ml-4">
                         <span class="text-xs">view</span>
                         <span class="material-icons ml-2 text-blue-400">
@@ -68,10 +68,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="mt-8 flex flex-col w-full justify-between">
+                <div class="mt-8 flex flex-col w-full h-full overflow-y-auto inset-y-0 mb-20">
                     <div class="items-start w-full bg-blue-400 rounded flex flex-col px-6 py-6">
                         <span class="text-md text-gray-800 font-bold">Document Name</span>
-                        <span class="text-xs font-bold rounded text-red-600 mt-1 flex items-center"><span class="material-icons text-xs mr-1">fiber_manual_record</span>private key needed</span>
+                        <span class="text-xs font-bold rounded text-red-600 mt-1 flex items-center"><span class="material-icons text-xs mr-1">fiber_manual_record</span>Private key needed</span>
                     </div>
                     <div class="items-start w-full bg-gray-200 rounded flex flex-col mt-2 px-6 py-6">
                         <span class="text-md text-gray-800 font-bold">Document Name</span>
@@ -97,8 +97,32 @@
                         <span class="text-md text-gray-800 font-bold">Document Name</span>
                         <span class="text-xs font-bold rounded text-red-600 mt-1 flex items-center"><span class="material-icons text-xs mr-1">fiber_manual_record</span>Signature Needed</span>
                     </div>
+                    <div class="items-start w-full bg-gray-200 rounded flex flex-col mt-2 px-6 py-6">
+                        <span class="text-md text-gray-800 font-bold">Document Name</span>
+                        <span class="text-xs font-bold rounded text-red-600 mt-1 flex items-center"><span class="material-icons text-xs mr-1">fiber_manual_record</span>Signature Needed</span>
+                    </div>
+                    <div class="items-start w-full bg-gray-200 rounded flex flex-col mt-2 px-6 py-6">
+                        <span class="text-md text-gray-800 font-bold">Document Name</span>
+                        <span class="text-xs font-bold rounded text-red-600 mt-1 flex items-center"><span class="material-icons text-xs mr-1">fiber_manual_record</span>Signature Needed</span>
+                    </div>
+                    <div class="items-start w-full bg-gray-200 rounded flex flex-col mt-2 px-6 py-6">
+                        <span class="text-md text-gray-800 font-bold">Document Name</span>
+                        <span class="text-xs font-bold rounded text-red-600 mt-1 flex items-center"><span class="material-icons text-xs mr-1">fiber_manual_record</span>Signature Needed</span>
+                    </div>
+                    <div class="items-start w-full bg-gray-200 rounded flex flex-col mt-2 px-6 py-6">
+                        <span class="text-md text-gray-800 font-bold">Document Name</span>
+                        <span class="text-xs font-bold rounded text-red-600 mt-1 flex items-center"><span class="material-icons text-xs mr-1">fiber_manual_record</span>Signature Needed</span>
+                    </div>
+                    <div class="items-start w-full bg-gray-200 rounded flex flex-col mt-2 px-6 py-6">
+                        <span class="text-md text-gray-800 font-bold">Document Name</span>
+                        <span class="text-xs font-bold rounded text-red-600 mt-1 flex items-center"><span class="material-icons text-xs mr-1">fiber_manual_record</span>Signature Needed</span>
+                    </div>
+                    <div class="items-start w-full bg-gray-200 rounded flex flex-col mt-2 px-6 py-6">
+                        <span class="text-md text-gray-800 font-bold">Document Name</span>
+                        <span class="text-xs font-bold rounded text-red-600 mt-1 flex items-center"><span class="material-icons text-xs mr-1">fiber_manual_record</span>Signature Needed</span>
+                    </div>
                 </div>
-                <div class="absolute inset-x-0 bottom-0 bg-white">
+                <div class="absolute inset-x-0 bottom-0 bg-white pt-6">
                 <div class="items-start w-full rounded flex items-center">
                     <button class="bg-yellow-500 text-3xl font-bold rounded-full h-10 w-10 flex items-center justify-center material-icons">add</button>
                     <span class="text-md font-bold rounded ml-2">Upload New Document</span>
@@ -180,59 +204,60 @@
                             </li>
 
                         </ul>
-<!--                        <div class="p-6 flex flex-col w-full h-full mb-20 items-center">-->
-<!--                            &lt;!&ndash; info block start here  &ndash;&gt;-->
-<!--                            <div class="flex flex-col bg-gray-200 p-4">-->
-<!--                                <span class="text-xs">Document Name</span>-->
-<!--                                <span class="text-xs">Status</span>-->
-<!--                                <span class="text-xs">Date Created</span>-->
-<!--                                <span class="text-xs">Document Kind</span>-->
-<!--                                <span class="text-xs">File size</span>-->
-<!--                                <span class="text-xs">Verification service provider</span>-->
-<!--                            </div>-->
-<!--                            <div class="mt-1 flex flex-col bg-gray-200">-->
-<!--                                <span class="text-xs w-full bg-gray-400 text-center"> Document Name</span>-->
-<!--                                <div class="py-3 px-5">-->
-<!--                                    <div class="text-xs flex items-center">-->
-<!--                                        <input type="checkbox" value="Verified_document" checked />-->
-<!--                                        <span class="ml-2">Document + Signature</span>-->
-<!--                                    </div>-->
-<!--                                    <div class="text-xs  flex items-center">-->
-<!--                                        <input type="checkbox" value="Signature_Only" />-->
-<!--                                        <span class="ml-2">Signature Only</span>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <div class="mt-1 flex flex-col bg-gray-200">-->
-<!--                                <span class="text-xs w-full bg-gray-400 text-center">Privacy Settings</span>-->
-<!--                                <div class="py-3 px-5">-->
-<!--                                    <div class="text-xs flex items-center">-->
-<!--                                        <input type="checkbox" value="public" checked />-->
-<!--                                        <span class="ml-2">Public</span>-->
-<!--                                    </div>-->
-<!--                                    <div class="text-xs flex items-center">-->
-<!--                                        <input type="checkbox" value="Public and Unlisted" />-->
-<!--                                       <span class="ml-2">Public and Unlisted</span>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <div class="mt-1 flex flex-col bg-gray-200">-->
-<!--                                <span class="text-xs w-full bg-gray-400 text-center">Share</span>-->
-<!--                                <div class="text-xs py-3 px-5 flex justify-around w-full">-->
-<!--                                    <span class="bg-gray-400 py-2 px-3 rounded flex items-center text-white font-bold">Copy Link <span class="material-icons ml-2">link</span></span>-->
-<!--                                    <span class="bg-gray-400 py-2 px-3 rounded text-white flex items-center font-bold">Email Asset <span class="material-icons ml-2"> mail</span></span>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <div class="m-1 flex flex-col bg-gray-200">-->
-<!--                                <span class="text-xs w-full bg-gray-400 text-center">Cancel Transaction</span>-->
-<!--                                <div class="text-xs py-3  flex justify-around">-->
-<!--                                    <span class="bg-gray-400 px-20 py-3 rounded text-center">Delete File</span>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            &lt;!&ndash; Info block end here  &ndash;&gt;-->
-<!--                        </div>-->
-<!--                             &lt;!&ndash; Message block start here &ndash;&gt;-->
                        <div class="p-6 bg-white flex flex-col w-full h-full mb-20 items-center bg-gray-100">
+                           <!-- &lt;!&ndash; info block start here  &ndash;&gt; -->
+                           <div class="flex flex-col bg-gray-200 p-4 w-full">
+                               <span class="text-xs">Document Name:</span>
+                               <span class="text-xs">Status:</span>
+                               <span class="text-xs">Date Created:</span>
+                               <span class="text-xs">Document Kind:</span>
+                               <span class="text-xs">File size:</span>
+                               <span class="text-xs">Verification service provider:</span>
+                           </div>
+                           <div class="mt-1 flex flex-col bg-gray-200  w-full">
+                               <span class="text-xs w-full bg-gray-400 text-center"> Document Name</span>
+                               <div class="py-3 px-5">
+                                   <div class="text-xs flex items-center">
+                                       <input type="checkbox" value="Verified_document" checked />
+                                       <span class="ml-2">Verified Document + Signature</span>
+                                   </div>
+                                   <div class="text-xs  flex items-center">
+                                       <input type="checkbox" value="Signature_Only" />
+                                       <span class="ml-2">Signature only</span>
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="mt-1 flex flex-col bg-gray-200  w-full">
+                               <span class="text-xs w-full bg-gray-400 text-center">Privacy Settings</span>
+                               <div class="py-3 px-5">
+                                   <div class="text-xs flex items-center">
+                                       <input type="checkbox" value="public" checked />
+                                       <span class="ml-2">Public</span>
+                                   </div>
+                                   <div class="text-xs flex items-center">
+                                       <input type="checkbox" value="Public and Unlisted" />
+                                      <span class="ml-2">Public and Unlisted</span>
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="mt-1 flex flex-col bg-gray-200  w-full">
+                               <span class="text-xs w-full bg-gray-400 text-center">Share</span>
+                               <div class="text-xs py-3 px-5 flex justify-around w-full">
+                                   <span class="bg-gray-400 py-2 px-3 rounded flex items-center text-white font-bold">Copy Link <span class="material-icons ml-2">link</span></span>
+                                   <span class="bg-gray-400 py-2 px-3 rounded text-white flex items-center font-bold">Email Asset <span class="material-icons ml-2"> mail</span></span>
+                               </div>
+                           </div>
+                           <div class="m-1 flex flex-col bg-gray-200  w-full">
+                               <span class="text-xs w-full bg-gray-400 text-center">Cancel Transaction</span>
+                               <div class="text-xs py-3  flex justify-around">
+                                   <span class="bg-gray-400 px-20 py-3 rounded text-center">Delete File</span>
+                               </div>
+                           </div>
+                           
+                       </div>
+                       <!-- Info block end here -->
+                            <!-- Message block start here -->
+                       <!-- <div class="p-6 flex flex-col w-full h-full mb-20 items-center bg-gray-100">
                             <div class="relative w-full h-full">
                                <div class="flex flex-col overflow-y-auto max-h-full p-6 absolute inset-x-0 bottom-0">
                                    <div class="flex flex-col">
@@ -281,7 +306,7 @@
 
                            </div>
                            <button class="bg-yellow-500 mt-4 w-32 rounded pr-8 pl-8 pt-3 pb-3 mb-2">Submit</button>
-                        </div>
+                        </div> -->
                             <!-- Message Block end here -->
                             <!-- Audit trail block start here -->
                         <!-- <div class="p-6 w-full h-full mb-20 items-center bg-blue-100">
